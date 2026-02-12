@@ -10,49 +10,61 @@ body {
 /* ===== Header ===== */
 
 .siteHeader {
-  background: #0f172a;
-  color: #fff;
-  border-bottom: 4px solid #3b82f6;
+  background: #ffffff;
+  padding-top: 20px;
+  padding-bottom: 30px;
+  border-bottom: 4px solid #1e40af;
+  text-align: center;
 }
 
-.siteInner {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 18px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.logo {
-  font-size: 20px;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-}
-
-/* ===== Navigation ===== */
+/* Navigation */
 
 .nav {
   display: flex;
-  gap: 24px;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 25px;
 }
 
 .nav a {
   text-decoration: none;
-  color: #cbd5e1;
+  color: #475569;
   font-weight: 600;
   font-size: 14px;
-  padding-bottom: 4px;
-  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+  transition: color 0.2s ease;
 }
 
 .nav a:hover {
-  color: #ffffff;
+  color: #1e40af;
 }
 
 .nav a.active {
-  color: #ffffff;
-  border-bottom: 2px solid #3b82f6;
+  color: #1e40af;
+  border-bottom: 2px solid #1e40af;
+  padding-bottom: 4px;
+}
+
+/* Logo + Title */
+
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logoImage {
+  width: 220px;
+  max-width: 90%;
+  margin-bottom: 18px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 36px;
+  color: #1e40af; /* Royal Blue */
+  font-weight: 800;
+  letter-spacing: 1px;
 }
 
 /* ===== Content ===== */
@@ -60,15 +72,11 @@ body {
 .wrap {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 30px 24px;
-}
-
-h1 {
-  margin-top: 0;
+  padding: 40px 24px;
 }
 
 h2 {
-  margin-top: 32px;
+  margin-top: 40px;
   margin-bottom: 12px;
 }
 
@@ -95,7 +103,7 @@ th, td {
 }
 
 th {
-  background: #1e293b;
+  background: #1e40af;
   color: #ffffff;
 }
 
@@ -160,7 +168,8 @@ th {
   font-size: 11px;
   padding: 2px 8px;
   border-radius: 999px;
-  background: #3b82f6;
+  background: #1e40af;
   color: white;
   margin-left: 8px;
 }
+

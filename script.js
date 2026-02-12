@@ -1,7 +1,30 @@
 (async function () {
+  const dbgEl = document.getElementById("debug");
+  function dbg(msg) {
+    if (dbgEl) dbgEl.textContent += msg + "\n";
+  }
+
+  dbg("Starting…");
+
+  if (!window.SHEET) {
+    dbg("ERROR: window.SHEET is undefined. data.js did not load or has a syntax error.");
+    return;
+  }
+
+  dbg("SHEET loaded.");
+  dbg("Teams URL: " + window.SHEET.TEAMS_CSV_URL);
+  dbg("Games URL: " + window.SHEET.GAMES_CSV_URL);
+
   async function fetchCsv(url) {
+    if (!url) throw new Error("Missing CSV URL");
     const bust = (url.includes("?") ? "&" : "?") + "t=" + Date.now();
-    const res = await fetch(url + bust, { cache: "no-store" });
+    const full = url + bust;
+
+    dbg("Fetching: " + full);
+
+    const res = await fetch(full, { cache: "no-store" });
+    dbg("HTTP " + res.status + " " + res.statusText);
+
     if (!res.ok) throw new Error(`Failed to fetch CSV (${res.status})`);
     return await res.text();
   }
@@ -30,8 +53,6 @@
   function resolveTeam(ref, teams, games) {
     if (!ref) return "TBD";
     ref = String(ref).trim().toUpperCase();
-    if (!ref) return "TBD";
-
     const type = ref[0];
     const num = Number(ref.slice(1));
     if (!Number.isFinite(num)) return "TBD";
@@ -40,58 +61,65 @@
 
     const g = games.get(num);
     if (!g) return "TBD";
-
     const wl = winnerLoser(g);
     if (!wl) return "TBD";
 
     return resolveTeam(type === "W" ? wl.W : wl.L, teams, games);
   }
 
-  const teamsCsv = await fetchCsv(window.SHEET.TEAMS_CSV_URL);
-  const gamesCsv = await fetchCsv(window.SHEET.GAMES_CSV_URL);
+  try {
+    const teamsCsv = await fetchCsv(window.SHEET.TEAMS_CSV_URL);
+    dbg("Teams CSV first line: " + teamsCsv.split(/\r?\n/)[0]);
 
-  const teamRows = parseCsv(teamsCsv);
-  const gameRows = parseCsv(gamesCsv);
+    const gamesCsv = await fetchCsv(window.SHEET.GAMES_CSV_URL);
+    dbg("Games CSV first line: " + gamesCsv.split(/\r?\n/)[0]);
 
-  const teams = new Map(teamRows.map(r => [Number(r.Seed), r.TeamName]));
-  const games = new Map(gameRows.map(r => [Number(r.Game), r]));
+    const teamRows = parseCsv(teamsCsv);
+    const gameRows = parseCsv(gamesCsv);
 
-  const tbody = document.querySelector("#scheduleTable tbody");
-  if (!tbody) return;
-  tbody.innerHTML = "";
+    dbg("Parsed teams rows: " + teamRows.length);
+    dbg("Parsed games rows: " + gameRows.length);
 
-  gameRows.sort((a, b) => Number(a.Game) - Number(b.Game));
+    const teams = new Map(teamRows.map(r => [Number(r.Seed), r.TeamName]));
+    const games = new Map(gameRows.map(r => [Number(r.Game), r]));
 
-  for (const g of gameRows) {
-    const teamA = resolveTeam(g.TeamA, teams, games);
-    const teamB = resolveTeam(g.TeamB, teams, games);
+    const tbody = document.querySelector("#scheduleTable tbody");
+    tbody.innerHTML = "";
 
-    const final = isFinal(g.Status);
-    const sA = String(g.ScoreA ?? "").trim();
-    const sB = String(g.ScoreB ?? "").trim();
+    gameRows.sort((a, b) => Number(a.Game) - Number(b.Game));
 
-    const score = (final && sA !== "" && sB !== "") ? `${sA}-${sB}` : "";
+    for (const g of gameRows) {
+      const teamA = resolveTeam(g.TeamA, teams, games);
+      const teamB = resolveTeam(g.TeamB, teams, games);
 
-    const tr = document.createElement("tr");
-    const cells = [
-      g.Time || "",
-      g.Field || "",
-      `Game ${g.Game || ""}`,
-      `${teamA} vs ${teamB}`,
-      score,
-      final ? "Final" : (String(g.Status || "Scheduled").trim() || "Scheduled"),
-    ];
+      const final = isFinal(g.Status);
+      const sA = String(g.ScoreA ?? "").trim();
+      const sB = String(g.ScoreB ?? "").trim();
+      const score = (final && sA !== "" && sB !== "") ? `${sA}-${sB}` : "";
 
-    for (const text of cells) {
-      const td = document.createElement("td");
-      td.textContent = text;
-      tr.appendChild(td);
+      const tr = document.createElement("tr");
+      const cells = [
+        g.Time || "",
+        g.Field || "",
+        `Game ${g.Game || ""}`,
+        `${teamA} vs ${teamB}`,
+        score,
+        final ? "Final" : (String(g.Status || "Scheduled").trim() || "Scheduled"),
+      ];
+
+      for (const text of cells) {
+        const td = document.createElement("td");
+        td.textContent = text;
+        tr.appendChild(td);
+      }
+      tbody.appendChild(tr);
     }
-    tbody.appendChild(tr);
+
+    dbg("Rendered table OK.");
+  } catch (err) {
+    dbg("ERROR: " + (err && err.message ? err.message : String(err)));
   }
-})().catch(err => {
-  console.error(err);
-  alert("Error loading tournament data. Open Console for details.");
-});
+})();
+
 
 

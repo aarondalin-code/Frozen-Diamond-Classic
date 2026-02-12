@@ -1,4 +1,3 @@
-<pre id="debug" style="background:#111;color:#0f0;padding:12px;white-space:pre-wrap;border-radius:8px;"></pre>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,23 +7,29 @@
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <h1>Frozen Diamond Classic</h1>
+  <div class="wrap">
+    <h1>Frozen Diamond Classic</h1>
+    <p class="muted">Schedule updates after games are marked Final in the Google Sheet.</p>
 
-  <table id="scheduleTable">
-    <thead>
-      <tr>
-        <th>Time</th>
-        <th>Field</th>
-        <th>Game</th>
-        <th>Matchup</th>
-        <th>Score</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+    <table id="scheduleTable">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Field</th>
+          <th>Game</th>
+          <th>Matchup</th>
+          <th>Score</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <p class="muted small" id="lastUpdated"></p>
+  </div>
 
   <script src="./data.js"></script>
   <script src="./script.js"></script>
 </body>
 </html>
+

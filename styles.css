@@ -46,13 +46,13 @@ body {
 }
 
 /* =========================
-   Header (Compact Version)
+   Header (Compact)
 ========================= */
 
 .siteHeader {
   background: linear-gradient(180deg, var(--navBg), #0a1020);
   border-bottom: 3px solid var(--royal);
-  padding: 10px 0 14px;  /* reduced height */
+  padding: 10px 0 14px;
   position: relative;
 }
 
@@ -98,7 +98,7 @@ body {
 }
 
 .logoImage {
-  width: 80px;           /* smaller logo */
+  width: 80px;
   height: auto;
   margin-bottom: 6px;
   filter: drop-shadow(0 3px 8px rgba(0,0,0,0.5));
@@ -106,7 +106,7 @@ body {
 
 .brandCenter h1 {
   margin: 0;
-  font-size: 21px;       /* tighter */
+  font-size: 21px;
   font-weight: 800;
   color: white;
   letter-spacing: 0.6px;
@@ -136,6 +136,33 @@ h2 {
 
 .muted { color: var(--muted); }
 .small { font-size: 12px; }
+
+/* =========================
+   Countdown Styling
+========================= */
+
+.countdownCard {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+}
+
+.countdownLabel {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 800;
+  color: #334155;
+}
+
+.countdownValue {
+  font-size: 20px;
+  font-weight: 900;
+  margin: 6px 0;
+  color: var(--royal);
+}
 
 /* =========================
    Document / Card Styling
@@ -189,6 +216,33 @@ h2 {
 
 .link:hover {
   text-decoration: underline;
+}
+
+/* =========================
+   Lighter Off-Site Food Section
+========================= */
+
+.foodNote {
+  margin-top: 14px;
+  padding: 12px;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.foodTitle {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 6px;
+  color: #475569;
+}
+
+.foodList {
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.5;
 }
 
 /* =========================
@@ -323,3 +377,4 @@ th {
 @media (max-width: 980px) {
   .nav { right: 14px; }
 }
+

@@ -106,14 +106,15 @@ body {
 
 .brandCenter h1 {
   margin: 0;
-  font-size: 17px;  /* unchanged */
-  font-weight: 800;
+  font-size: 26px;  /* much bigger */
+  line-height: 1;
+  font-weight: 900;
   color: white;
   letter-spacing: 0.5px;
 }
 
 .brandCenter .tagline {
-  margin-top: 0px;
+  margin-top: -2px;
   font-size: 9px;
   color: #cbd5e1;
   letter-spacing: 0.3px;

@@ -8,7 +8,7 @@
 
   function parseCsv(text) {
     const rows = text.trim().split("\n").map(r => r.split(","));
-    const headers = rows.shift();
+    const headers = rows.shift().map(h => h.trim().replace(/\s+/g, ""));
     return rows.map(row =>
       Object.fromEntries(headers.map((h, i) => [h.trim(), (row[i] || "").trim()]))
     );

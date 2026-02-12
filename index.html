@@ -25,30 +25,139 @@
   </header>
 
   <main class="wrap">
-    <p class="muted">Schedule updates after games are marked Final.</p>
-    <p class="muted small" id="lastUpdated"></p>
 
-    <h2>Bracket</h2>
-    <div id="bracket" class="bracket"></div>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="heroTop">
+        <div>
+          <h2 class="heroTitle">Tournament Day: Saturday, March 21, 2026</h2>
+          <p class="heroSub">
+            8-team invite-only bracket tournament (Town A / strong B). Each team plays 3 games.
+          </p>
+        </div>
 
-    <h2>Schedule</h2>
-    <table id="scheduleTable">
-      <thead>
-        <tr>
-          <th>Time</th>
-          <th>Field</th>
-          <th>Game</th>
-          <th>Matchup</th>
-          <th>Score</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+        <div class="heroActions">
+          <a class="btnPrimary" href="./schedule.html">View Schedule & Scores</a>
+          <a class="btnGhost" href="./rules.html">View Rules</a>
+        </div>
+      </div>
+
+      <div class="heroGrid">
+        <div class="pill">
+          <div class="pillLabel">Location</div>
+          <div class="pillValue">
+            <a href="https://centercourtacademy.com/locations/lawrence/" target="_blank">CenterCourt – Lawrence</a>
+          </div>
+          <div class="pillSmall">1080 Spruce Street, Lawrence</div>
+        </div>
+
+        <div class="pill">
+          <div class="pillLabel">Teams</div>
+          <div class="pillValue">8 Invite-Only</div>
+          <div class="pillSmall">Town level A / strong B</div>
+        </div>
+
+        <div class="pill">
+          <div class="pillLabel">Games</div>
+          <div class="pillValue">12 Total</div>
+          <div class="pillSmall">2 games per time slot</div>
+        </div>
+
+        <div class="pill">
+          <div class="pillLabel">Tournament Fee</div>
+          <div class="pillValue">$700</div>
+          <div class="pillSmall">Payable to CenterCourt</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main two-column layout -->
+    <section class="grid2">
+
+      <!-- Left column -->
+      <div class="stack">
+
+        <div class="card">
+          <h3 class="cardTitle">Tournament Overview</h3>
+          <ul class="list">
+            <li>Standard 9U rules (see full rules page)</li>
+            <li>Each team plays 3 games (guaranteed)</li>
+            <li>Includes umpires, batting cages</li>
+            <li>Championship + consolation/placement games</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3 class="cardTitle">Game Schedule (Time Slots)</h3>
+          <div class="scheduleGrid">
+            <div class="scheduleRow"><span>8:00 AM</span><span>2 games</span></div>
+            <div class="scheduleRow"><span>10:00 AM</span><span>2 games</span></div>
+            <div class="scheduleRow"><span>12:00 PM</span><span>2 games</span></div>
+            <div class="scheduleRow"><span>2:00 PM</span><span>2 games</span></div>
+            <div class="scheduleRow"><span>4:00 PM</span><span>2 games</span></div>
+            <div class="scheduleRow"><span>6:00 PM</span><span>2 games</span></div>
+          </div>
+          <p class="muted small" style="margin-top:10px;">
+            For live updates throughout the day, use the Schedule/Scores page.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Right column -->
+      <div class="stack">
+
+        <div class="card">
+          <h3 class="cardTitle">Scoring & Results</h3>
+          <p>
+            Results will be posted in <strong>GameChanger</strong>:
+            <br><strong>GameChanger Tournament – “Frozen Diamond Classic 2026”</strong>
+          </p>
+          <div class="cardActions">
+            <a class="btnPrimary" href="./schedule.html">Schedule & Scores</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="cardTitle">Contacts</h3>
+
+          <div class="contact">
+            <div class="contactLabel">Tournament Organizer</div>
+            <div class="contactValue">Aaron Dalin</div>
+            <div class="contactSmall">
+              <a href="mailto:aarondalin@gmail.com">aarondalin@gmail.com</a> • 917-922-9487
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="contact">
+            <div class="contactLabel">CenterCourt Director</div>
+            <div class="contactValue">Jim Maher</div>
+            <div class="contactSmall">
+              <a href="mailto:jmaher@centercourtclub.com">jmaher@centercourtclub.com</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="cardTitle">Tournament Extras</h3>
+          <ul class="list">
+            <li>Food trucks scheduled on-site</li>
+            <li>Tournament T-Shirt Order Form (link coming soon)</li>
+            <li>Champions receive tournament T-shirts</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <footer class="footer muted small">
+      © Frozen Diamond Classic • Tournament Central
+    </footer>
+
   </main>
 
-  <script src="./data.js"></script>
-  <script src="./script.js"></script>
 </body>
 </html>
 

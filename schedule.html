@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Schedule & Scores • Frozen Diamond Classic</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+
+  <header class="siteHeader">
+
+    <nav class="nav">
+      <a href="./" >Home</a>
+      <a href="./schedule.html" class="active">Schedule/Scores</a>
+      <a href="./rules.html">Rules</a>
+    </nav>
+
+    <div class="brandCenter">
+      <img src="./logo.png" alt="Frozen Diamond Classic Logo" class="logoImage">
+      <h1>Frozen Diamond Classic</h1>
+      <div class="tagline">Tournament Central</div>
+    </div>
+
+  </header>
+
+  <main class="wrap">
+    <p class="muted">Schedule updates after games are marked Final.</p>
+    <p class="muted small" id="lastUpdated"></p>
+
+    <h2>Bracket</h2>
+    <div id="bracket" class="bracket"></div>
+
+    <h2>Schedule & Scores</h2>
+    <table id="scheduleTable">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Field</th>
+          <th>Game</th>
+          <th>Matchup</th>
+          <th>Score</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </main>
+
+  <script src="./data.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

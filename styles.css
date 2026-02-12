@@ -23,7 +23,6 @@ body {
 
 /* =========================
    Shared Logo Watermark
-   (Home, Rules, Contacts)
 ========================= */
 
 .watermarkPage {
@@ -35,8 +34,8 @@ body {
   position: fixed;
   inset: 0;
   background: url("./logo.png") center 55% no-repeat;
-  background-size: 1050px;     /* slightly larger */
-  opacity: 0.075;             /* stronger but still tasteful */
+  background-size: 1050px;
+  opacity: 0.075;
   pointer-events: none;
   z-index: 0;
 }
@@ -47,23 +46,23 @@ body {
 }
 
 /* =========================
-   Header
+   Header (Compact Version)
 ========================= */
 
 .siteHeader {
   background: linear-gradient(180deg, var(--navBg), #0a1020);
   border-bottom: 3px solid var(--royal);
-  padding: 18px 0 24px;
+  padding: 10px 0 14px;  /* reduced height */
   position: relative;
 }
 
 /* Nav (top-right) */
 .nav {
   position: absolute;
-  top: 16px;
-  right: 30px;
+  top: 10px;
+  right: 24px;
   display: flex;
-  gap: 18px;
+  gap: 14px;
   flex-wrap: wrap;
 }
 
@@ -71,8 +70,8 @@ body {
   text-decoration: none;
   color: #cbd5e1;
   font-weight: 700;
-  font-size: 13px;
-  padding: 6px 10px;
+  font-size: 12px;
+  padding: 5px 9px;
   border-radius: 999px;
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.12);
@@ -89,7 +88,7 @@ body {
   color: white;
 }
 
-/* Centered Brand */
+/* Brand Block */
 .brandCenter {
   display: flex;
   flex-direction: column;
@@ -99,23 +98,23 @@ body {
 }
 
 .logoImage {
-  width: 110px;
+  width: 80px;           /* smaller logo */
   height: auto;
-  margin-bottom: 10px;
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+  margin-bottom: 6px;
+  filter: drop-shadow(0 3px 8px rgba(0,0,0,0.5));
 }
 
 .brandCenter h1 {
   margin: 0;
-  font-size: 28px;
+  font-size: 21px;       /* tighter */
   font-weight: 800;
   color: white;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.6px;
 }
 
 .brandCenter .tagline {
-  margin-top: 4px;
-  font-size: 13px;
+  margin-top: 2px;
+  font-size: 11px;
   color: #cbd5e1;
   letter-spacing: 0.4px;
 }
@@ -127,12 +126,12 @@ body {
 .wrap {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 24px 18px 40px;
+  padding: 22px 18px 36px;
 }
 
 h2 {
-  margin-top: 28px;
-  margin-bottom: 10px;
+  margin-top: 24px;
+  margin-bottom: 8px;
 }
 
 .muted { color: var(--muted); }
@@ -142,7 +141,7 @@ h2 {
    Document / Card Styling
 ========================= */
 
-.docSection { margin-top: 14px; }
+.docSection { margin-top: 12px; }
 
 .docSection p {
   margin: 0;
@@ -153,12 +152,12 @@ h2 {
 .card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 10px;
   overflow: hidden;
 }
 
 .cardBody {
-  padding: 14px;
+  padding: 12px;
 }
 
 .bullets {
@@ -170,12 +169,12 @@ h2 {
 
 .cols2 {
   columns: 2;
-  column-gap: 28px;
+  column-gap: 24px;
 }
 
 .subhead {
-  margin: 14px 0 8px;
-  font-size: 14px;
+  margin: 12px 0 6px;
+  font-size: 13px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.4px;
@@ -193,7 +192,7 @@ h2 {
 }
 
 /* =========================
-   Tables (Contacts + Schedule)
+   Tables
 ========================= */
 
 .tableWrap {
@@ -213,7 +212,7 @@ h2 {
 .simpleTable th,
 .simpleTable td {
   border-bottom: 1px solid var(--border);
-  padding: 10px;
+  padding: 9px;
   text-align: left;
   vertical-align: top;
 }
@@ -222,6 +221,7 @@ h2 {
   background: #0f172a;
   color: white;
   font-weight: 800;
+  font-size: 12px;
 }
 
 /* Schedule table */
@@ -236,63 +236,64 @@ table {
 
 th, td {
   border-bottom: 1px solid var(--border);
-  padding: 10px;
+  padding: 9px;
   text-align: left;
 }
 
 th {
   background: #0f172a;
   color: white;
+  font-size: 12px;
 }
 
 /* =========================
-   Bracket Styling
+   Bracket
 ========================= */
 
 .bracket {
   display: grid;
-  gap: 16px;
-  margin-bottom: 20px;
+  gap: 14px;
+  margin-bottom: 18px;
 }
 
 .bracketSection {
   background: white;
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px;
+  border-radius: 10px;
+  padding: 14px;
 }
 
 .bracketSection h3 {
-  margin: 0 0 12px;
-  font-size: 14px;
+  margin: 0 0 10px;
+  font-size: 13px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
 }
 
 .bracketGrid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 16px;
+  gap: 14px;
 }
 
-.slot { margin-bottom: 14px; }
+.slot { margin-bottom: 12px; }
 
 .gameCard {
   border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 10px;
+  border-radius: 8px;
+  padding: 9px;
   background: #f8fafc;
 }
 
 .gameMeta {
   font-size: 11px;
   color: var(--muted);
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
 .gameTeams {
   font-weight: 900;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
 .gameStatus {
@@ -303,11 +304,11 @@ th {
 .finalBadge {
   display: inline-block;
   font-size: 10px;
-  padding: 2px 8px;
+  padding: 2px 7px;
   border-radius: 999px;
   background: var(--royal);
   color: white;
-  margin-left: 8px;
+  margin-left: 6px;
   font-weight: 800;
 }
 
@@ -322,5 +323,3 @@ th {
 @media (max-width: 980px) {
   .nav { right: 14px; }
 }
-
-

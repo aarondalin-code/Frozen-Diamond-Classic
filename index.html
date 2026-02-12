@@ -7,15 +7,20 @@
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
- <div class="wrap">
 
-  <nav class="nav">
-    <a href="./">Home</a>
-    <a href="./rules.html">Rules</a>
-  </nav>
+  <header class="siteHeader">
+    <div class="siteInner">
+      <div class="logo">Frozen Diamond Classic</div>
 
-  <h1>Frozen Diamond Classic</h1>    
-    <p class="muted">Schedule updates after games are marked Final in the Google Sheet.</p>
+      <nav class="nav">
+        <a href="./" class="active">Home</a>
+        <a href="./rules.html">Rules</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <p class="muted">Schedule updates after games are marked Final.</p>
     <p class="muted small" id="lastUpdated"></p>
 
     <h2>Bracket</h2>
@@ -35,7 +40,7 @@
       </thead>
       <tbody></tbody>
     </table>
-  </div>
+  </main>
 
   <script src="./data.js"></script>
   <script src="./script.js"></script>

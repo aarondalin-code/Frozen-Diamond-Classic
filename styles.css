@@ -1,124 +1,92 @@
-/* ===== Premium / ESPN-ish Theme ===== */
-
 :root{
-  --bg: #f4f6fa;
-  --card: #ffffff;
+  --navBg: #0b1220;
+  --royal: #2563eb;
   --text: #0f172a;
   --muted: #64748b;
   --border: #e2e8f0;
-
-  --navBg: #0b1220;     /* deep navy */
-  --navText: #cbd5e1;
-  --navTextActive: #ffffff;
-
-  --royal: #1e40af;     /* royal blue */
-  --royal2: #2563eb;    /* slightly brighter */
 }
 
-* { box-sizing: border-box; }
+/* ===== Base ===== */
 
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: var(--bg);
+  background: #f4f6fa;
   color: var(--text);
 }
 
-/* ===== Compact Top Bar ===== */
+/* ===== Header ===== */
 
 .siteHeader {
   background: linear-gradient(180deg, var(--navBg), #0a1020);
-  border-bottom: 3px solid var(--royal2);
+  border-bottom: 3px solid var(--royal);
+  padding: 18px 0 24px;
+  position: relative;
 }
 
-/* Top row: logo + title (left) and nav (right) */
-.headerInner {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 10px 16px;               /* compact */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-}
-
-/* Brand area */
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;                        /* tight */
-  min-width: 0;
-}
-
-.logoImage {
-  width: 54px;                      /* compact logo */
-  height: 54px;
-  object-fit: contain;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 10px;
-  padding: 6px;
-}
-
-.brandTitle {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.05;
-  min-width: 0;
-}
-
-.brandTitle h1 {
-  margin: 0;
-  font-size: 18px;                  /* compact */
-  font-weight: 800;
-  letter-spacing: 0.6px;
-  color: #ffffff;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.brandTitle .tagline {
-  margin-top: 3px;
-  font-size: 11px;
-  color: rgba(203,213,225,0.85);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Nav */
+/* Nav stays top-right */
 .nav {
+  position: absolute;
+  top: 16px;
+  right: 30px;
   display: flex;
-  align-items: center;
   gap: 18px;
-  flex-wrap: wrap;
 }
 
 .nav a {
   text-decoration: none;
-  color: var(--navText);
+  color: #cbd5e1;
   font-weight: 700;
   font-size: 13px;
-  letter-spacing: 0.3px;
-  padding: 7px 10px;
-  border-radius: 999px;             /* pill */
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.04);
-  transition: transform 0.12s ease, background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  transition: all 0.2s ease;
 }
 
 .nav a:hover {
-  transform: translateY(-1px);
-  background: rgba(37,99,235,0.18);
-  border-color: rgba(37,99,235,0.45);
-  color: var(--navTextActive);
+  background: rgba(37,99,235,0.25);
+  color: white;
 }
 
 .nav a.active {
-  background: rgba(37,99,235,0.28);
-  border-color: rgba(37,99,235,0.65);
-  color: var(--navTextActive);
+  background: rgba(37,99,235,0.35);
+  color: white;
+}
+
+/* Centered Brand Block */
+.brandCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Larger, clearer logo */
+.logoImage {
+  width: 110px;               /* increased size */
+  height: auto;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+}
+
+/* Title */
+.brandCenter h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: 0.8px;
+}
+
+/* Subtitle */
+.brandCenter .tagline {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #cbd5e1;
+  letter-spacing: 0.4px;
 }
 
 /* ===== Content ===== */
@@ -126,97 +94,74 @@ body {
 .wrap {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 18px 16px 32px;          /* more compact */
+  padding: 24px 18px 40px;
+}
+
+h2 {
+  margin-top: 28px;
+  margin-bottom: 10px;
 }
 
 .muted { color: var(--muted); }
 .small { font-size: 12px; }
-
-h2 {
-  margin: 22px 0 10px;              /* tighter */
-  font-size: 18px;
-}
-
-h3 {
-  margin: 18px 0 8px;
-}
 
 /* ===== Table ===== */
 
 table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--card);
+  background: white;
   border: 1px solid var(--border);
   border-radius: 10px;
-  overflow: hidden; /* keeps rounded corners */
+  overflow: hidden;
 }
 
 th, td {
   border-bottom: 1px solid var(--border);
-  padding: 10px 10px;
+  padding: 10px;
   text-align: left;
 }
 
 th {
   background: #0f172a;
-  color: #ffffff;
-  font-weight: 800;
-  font-size: 13px;
-  letter-spacing: 0.3px;
-}
-
-tbody tr:hover td {
-  background: #f8fafc;
+  color: white;
 }
 
 /* ===== Bracket ===== */
 
 .bracket {
   display: grid;
-  gap: 14px;
-  margin-bottom: 18px;
+  gap: 16px;
+  margin-bottom: 20px;
 }
 
 .bracketSection {
-  background: var(--card);
+  background: white;
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 14px;
+  padding: 16px;
 }
 
 .bracketSection h3 {
   margin: 0 0 12px;
   font-size: 14px;
-  letter-spacing: 0.3px;
   text-transform: uppercase;
-  color: #0f172a;
+  letter-spacing: 0.5px;
 }
 
 .bracketGrid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 14px;
+  gap: 16px;
 }
 
-.colTitle {
-  font-weight: 800;
-  margin-bottom: 8px;
-  font-size: 12px;
-  color: #0f172a;
-  opacity: 0.8;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-}
+.slot { margin-bottom: 14px; }
 
-.slot { margin-bottom: 12px; }
-
-/* Game card */
 .gameCard {
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 10px 10px;
-  background: #fbfdff;
+  border-radius: 10px;
+  padding: 10px;
+  background: #f8fafc;
 }
 
 .gameMeta {
@@ -228,7 +173,6 @@ tbody tr:hover td {
 .gameTeams {
   font-weight: 900;
   margin-bottom: 6px;
-  color: #0f172a;
 }
 
 .gameStatus {
@@ -241,16 +185,8 @@ tbody tr:hover td {
   font-size: 10px;
   padding: 2px 8px;
   border-radius: 999px;
-  background: var(--royal2);
-  color: #fff;
+  background: var(--royal);
+  color: white;
   margin-left: 8px;
   font-weight: 800;
-  letter-spacing: 0.3px;
-}
-
-/* ===== Responsive tweak ===== */
-@media (max-width: 900px) {
-  .bracketGrid { grid-template-columns: 1fr; }
-  .nav { gap: 10px; }
-  .nav a { padding: 6px 9px; }
 }

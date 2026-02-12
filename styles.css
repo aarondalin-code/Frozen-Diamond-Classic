@@ -8,7 +8,9 @@
   --card: #ffffff;
 }
 
-/* ===== Base ===== */
+/* =========================
+   Base
+========================= */
 
 * { box-sizing: border-box; }
 
@@ -19,29 +21,34 @@ body {
   color: var(--text);
 }
 
-/* ===== Home Background Logo Watermark (Home page only) ===== */
+/* =========================
+   Shared Logo Watermark
+   (Home, Rules, Contacts)
+========================= */
 
-.homePage {
+.watermarkPage {
   position: relative;
 }
 
-.homePage::before {
+.watermarkPage::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: url("./logo.png") center 52% no-repeat;
-  background-size: 900px;     /* size of watermark */
-  opacity: 0.05;              /* faintness */
+  background: url("./logo.png") center 55% no-repeat;
+  background-size: 900px;     /* adjust size here */
+  opacity: 0.045;             /* adjust visibility here */
   pointer-events: none;
   z-index: 0;
 }
 
-.homePage .wrap {
+.watermarkPage .wrap {
   position: relative;
   z-index: 1;
 }
 
-/* ===== Header ===== */
+/* =========================
+   Header
+========================= */
 
 .siteHeader {
   background: linear-gradient(180deg, var(--navBg), #0a1020);
@@ -50,7 +57,7 @@ body {
   position: relative;
 }
 
-/* Nav stays top-right */
+/* Nav (top-right) */
 .nav {
   position: absolute;
   top: 16px;
@@ -82,7 +89,7 @@ body {
   color: white;
 }
 
-/* Centered Brand Block */
+/* Centered Brand */
 .brandCenter {
   display: flex;
   flex-direction: column;
@@ -91,7 +98,6 @@ body {
   text-align: center;
 }
 
-/* Larger, clearer logo */
 .logoImage {
   width: 110px;
   height: auto;
@@ -99,7 +105,6 @@ body {
   filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
 }
 
-/* Title */
 .brandCenter h1 {
   margin: 0;
   font-size: 28px;
@@ -108,7 +113,6 @@ body {
   letter-spacing: 0.8px;
 }
 
-/* Subtitle */
 .brandCenter .tagline {
   margin-top: 4px;
   font-size: 13px;
@@ -116,7 +120,9 @@ body {
   letter-spacing: 0.4px;
 }
 
-/* ===== Content ===== */
+/* =========================
+   Content Wrapper
+========================= */
 
 .wrap {
   max-width: 1100px;
@@ -132,7 +138,9 @@ h2 {
 .muted { color: var(--muted); }
 .small { font-size: 12px; }
 
-/* ===== Home Page “Doc” Styling (cards + lists + table) ===== */
+/* =========================
+   Document / Card Styling
+========================= */
 
 .docSection { margin-top: 14px; }
 
@@ -165,7 +173,6 @@ h2 {
   column-gap: 28px;
 }
 
-/* Subhead inside card (e.g. Off-Site Food) */
 .subhead {
   margin: 14px 0 8px;
   font-size: 14px;
@@ -180,9 +187,15 @@ h2 {
   font-weight: 800;
   text-decoration: none;
 }
-.link:hover { text-decoration: underline; }
 
-/* Table wrapper for horizontal scrolling on mobile */
+.link:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   Tables (Contacts + Schedule)
+========================= */
+
 .tableWrap {
   width: 100%;
   overflow: auto;
@@ -190,12 +203,11 @@ h2 {
   border-radius: 10px;
 }
 
-/* Home contact table */
 .simpleTable {
   width: 100%;
   border-collapse: collapse;
   background: white;
-  min-width: 860px; /* allows horizontal scroll on phones */
+  min-width: 860px;
 }
 
 .simpleTable th,
@@ -212,8 +224,7 @@ h2 {
   font-weight: 800;
 }
 
-/* ===== Table (Schedule page) ===== */
-
+/* Schedule table */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -234,7 +245,9 @@ th {
   color: white;
 }
 
-/* ===== Bracket ===== */
+/* =========================
+   Bracket Styling
+========================= */
 
 .bracket {
   display: grid;
@@ -298,7 +311,9 @@ th {
   font-weight: 800;
 }
 
-/* ===== Responsive ===== */
+/* =========================
+   Responsive
+========================= */
 
 @media (max-width: 760px) {
   .cols2 { columns: 1; }
@@ -307,4 +322,5 @@ th {
 @media (max-width: 980px) {
   .nav { right: 14px; }
 }
+
 

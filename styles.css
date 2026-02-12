@@ -52,7 +52,7 @@ body {
 .siteHeader {
   background: linear-gradient(180deg, var(--navBg), #0a1020);
   border-bottom: 3px solid var(--royal);
-  padding: 10px 0 14px;
+  padding: 6px 0 10px;
   position: relative;
 }
 
@@ -98,7 +98,7 @@ body {
 }
 
 .logoImage {
-  width: 120px;
+  width: 90px;
   height: auto;
   margin-bottom: 6px;
   filter: drop-shadow(0 3px 8px rgba(0,0,0,0.5));

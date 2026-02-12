@@ -59,8 +59,8 @@
   for (const g of gameRows) {
     const tr = document.createElement("tr");
 
-    const teamA = resolveTeam(g.TeamH, teams, games);
-    const teamB = resolveTeam(g.TeamA, teams, games);
+    const teamA = resolveTeam(g.TeamA, teams, games);
+    const teamB = resolveTeam(g.TeamB, teams, games);
 
     const score = g.Status === "Final"
       ? `${g.ScoreA}-${g.ScoreB}`

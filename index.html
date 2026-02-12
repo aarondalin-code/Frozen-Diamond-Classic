@@ -8,7 +8,6 @@
 </head>
 <body class="watermarkPage">
 
-
   <header class="siteHeader">
     <nav class="nav">
       <a href="./" class="active">Home</a>
@@ -26,6 +25,15 @@
 
   <main class="wrap">
 
+    <!-- Countdown -->
+    <section class="docSection">
+      <div class="countdownCard">
+        <div class="countdownLabel">Tournament Day</div>
+        <div id="countdown" class="countdownValue"></div>
+        <div class="muted small">Saturday, March 21, 2026</div>
+      </div>
+    </section>
+
     <section class="docSection">
       <h2>Tournament Overview</h2>
       <p>
@@ -39,28 +47,42 @@
       <div class="card">
         <div class="cardBody">
           <ul class="bullets">
+
             <li><strong>Date:</strong> Saturday, March 21, 2026</li>
+
+            <li><strong>Location:</strong> CenterCourt – 1080 Spruce Street, Lawrence</li>
+
             <li>
-              <strong>Location:</strong> CenterCourt – 1080 Spruce Street, Lawrence
-              <div class="small muted">
-                <a class="link" href="https://centercourtacademy.com/locations/lawrence/" target="_blank">CenterCourt Lawrence venue page</a>
-              </div>
+              <a class="link" href="https://centercourtacademy.com/locations/lawrence/" target="_blank">
+                CenterCourt Lawrence Venue Page
+              </a>
             </li>
+
             <li>
               <strong>Tournament Organizer:</strong> Aaron Dalin —
               <a class="link" href="mailto:aarondalin@gmail.com">aarondalin@gmail.com</a> —
               <a class="link" href="tel:+19179229487">917-922-9487</a>
             </li>
+
             <li>
               <strong>CenterCourt Director:</strong> Jim Maher —
               <a class="link" href="mailto:jmaher@centercourtclub.com">jmaher@centercourtclub.com</a>
             </li>
-            <li><strong>Tournament T-Shirt Order Form:</strong> (link coming soon)</li>
-            <li><strong>Food Trucks:</strong> Food trucks will be scheduled at the location for the tourney</li>
+
+            <li>
+              <a class="link" href="PASTE_TSHIRT_ORDER_FORM_URL_HERE" target="_blank">
+                Tournament T-Shirt Order Form
+              </a>
+            </li>
+
+            <li><strong>Food Trucks:</strong> Food trucks will be scheduled at the location</li>
+
             <li><strong>Teams:</strong> 8 teams, invite only — Town level A or strong B</li>
+
             <li><strong>Rules:</strong> Standard 9U (see Rules page)</li>
+
             <li><strong>Scoring:</strong> GameChanger Tournament — “Frozen Diamond Classic 2026”</li>
-            <li><strong>Tournament Fee:</strong> $700 payable to CenterCourt (includes umpires, batting cages, and T-shirts for Champions)</li>
+
           </ul>
         </div>
       </div>
@@ -89,21 +111,24 @@
       <div class="card">
         <div class="cardBody">
           <ul class="bullets">
-            <li><strong>Climate:</strong> It can get cool, so please dress appropriately (players + spectators). Long sleeve under jersey is recommended for players.</li>
-            <li><strong>Chairs/Spectators:</strong> No bleachers/chairs — please bring your own chairs/blankets. Space beyond outfield fence is available for spectators.</li>
-            <li><strong>Food:</strong> Food trucks will be present. The dome also has vending machines and a water bottle filling station. Teams may bring coolers with snacks/drinks.</li>
-            <li>There is space/area for teams to gather between games.</li>
-            <li><strong>CenterCourt seating/tables:</strong> Picnic-style tables available for eating between games.</li>
+            <li><strong>Climate:</strong> It can get cool — dress appropriately (long sleeve under jersey recommended).</li>
+            <li><strong>Chairs:</strong> No bleachers available — bring your own chairs or blankets.</li>
+            <li><strong>Food:</strong> Food trucks + vending machines + water refill station available.</li>
+            <li>Teams may bring coolers with snacks and drinks.</li>
+            <li>Picnic-style tables available between games.</li>
           </ul>
 
-          <h3 class="subhead">Off-Site Food</h3>
-          <ul class="bullets">
-            <li><strong>Ruben’s Pizza</strong> — 2191 Spruce Street — (609) 883-6637 — they deliver</li>
-            <li>Wendy’s / Burger King / McDonald’s / WingStop / QuickChek — ~5 minutes away</li>
-          </ul>
+          <div class="foodNote">
+            <div class="foodTitle">Nearby Food Options</div>
+            <div class="foodList">
+              Ruben’s Pizza — 2191 Spruce Street — (609) 883-6637 (delivery available)<br>
+              Wendy’s • Burger King • McDonald’s • WingStop • QuickChek (≈ 5 minutes away)
+            </div>
+          </div>
 
-          <p class="muted small" style="margin-top:10px;">
-            Team/coach contacts have moved to the <a class="link" href="./contacts.html">Contacts</a> page.
+          <p class="muted small" style="margin-top:12px;">
+            Team/coach contacts are available on the 
+            <a class="link" href="./contacts.html">Contacts</a> page.
           </p>
         </div>
       </div>
@@ -111,7 +136,31 @@
 
   </main>
 
+  <!-- Countdown Script -->
+  <script>
+    const targetDate = new Date("March 21, 2026 08:00:00").getTime();
+    const countdownEl = document.getElementById("countdown");
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance <= 0) {
+        countdownEl.innerHTML = "Tournament Day Is Here!";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((distance / (1000 * 60)) % 60);
+
+      countdownEl.innerHTML = `${days} Days • ${hours} Hours • ${minutes} Minutes`;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 60000);
+  </script>
+
 </body>
 </html>
-
 

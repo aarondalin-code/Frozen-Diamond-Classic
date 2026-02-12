@@ -1,29 +1,16 @@
 (async function () {
-  const dbgEl = document.getElementById("debug");
-  function dbg(msg) {
-    if (dbgEl) dbgEl.textContent += msg + "\n";
+  const lastUpdated = document.getElementById("lastUpdated");
+
+  function isFinal(status) {
+    return String(status || "").trim().toLowerCase() === "final";
   }
-
-  dbg("Starting…");
-
-  if (!window.SHEET) {
-    dbg("ERROR: window.SHEET is undefined. data.js did not load or has a syntax error.");
-    return;
-  }
-
-  dbg("SHEET loaded.");
-  dbg("Teams URL: " + window.SHEET.TEAMS_CSV_URL);
-  dbg("Games URL: " + window.SHEET.GAMES_CSV_URL);
 
   async function fetchCsv(url) {
-    if (!url) throw new Error("Missing CSV URL");
+    if (!url) throw new Error("Missing CSV URL in data.js");
+
+    // Cache-bust (helps with proxies + browser caching)
     const bust = (url.includes("?") ? "&" : "?") + "t=" + Date.now();
-    const full = url + bust;
-
-    dbg("Fetching: " + full);
-
-    const res = await fetch(full, { cache: "no-store" });
-    dbg("HTTP " + res.status + " " + res.statusText);
+    const res = await fetch(url + bust, { cache: "no-store" });
 
     if (!res.ok) throw new Error(`Failed to fetch CSV (${res.status})`);
     return await res.text();
@@ -32,27 +19,34 @@
   function parseCsv(text) {
     const lines = text.trim().split(/\r?\n/);
     const rows = lines.map(line => line.split(","));
+
+    // normalize headers by removing spaces: "Score B" -> "ScoreB"
     const headers = (rows.shift() || []).map(h => String(h).trim().replace(/\s+/g, ""));
+
     return rows
       .filter(r => r.some(x => String(x).trim() !== ""))
       .map(r => Object.fromEntries(headers.map((h, i) => [h, String(r[i] ?? "").trim()])));
   }
 
-  function isFinal(status) {
-    return String(status || "").trim().toLowerCase() === "final";
-  }
-
   function winnerLoser(game) {
     if (!isFinal(game.Status)) return null;
+
     const a = Number(String(game.ScoreA ?? "").trim());
     const b = Number(String(game.ScoreB ?? "").trim());
-    if (Number.isNaN(a) || Number.isNaN(b) || a === b) return null;
-    return a > b ? { W: game.TeamA, L: game.TeamB } : { W: game.TeamB, L: game.TeamA };
+    if (Number.isNaN(a) || Number.isNaN(b)) return null;
+    if (a === b) return null;
+
+    return a > b
+      ? { W: game.TeamA, L: game.TeamB }
+      : { W: game.TeamB, L: game.TeamA };
   }
 
   function resolveTeam(ref, teams, games) {
     if (!ref) return "TBD";
+
     ref = String(ref).trim().toUpperCase();
+    if (!ref) return "TBD";
+
     const type = ref[0];
     const num = Number(ref.slice(1));
     if (!Number.isFinite(num)) return "TBD";
@@ -61,6 +55,7 @@
 
     const g = games.get(num);
     if (!g) return "TBD";
+
     const wl = winnerLoser(g);
     if (!wl) return "TBD";
 
@@ -68,17 +63,11 @@
   }
 
   try {
-    const teamsCsv = await fetchCsv(window.SHEET.TEAMS_CSV_URL);
-    dbg("Teams CSV first line: " + teamsCsv.split(/\r?\n/)[0]);
-
-    const gamesCsv = await fetchCsv(window.SHEET.GAMES_CSV_URL);
-    dbg("Games CSV first line: " + gamesCsv.split(/\r?\n/)[0]);
+    const teamsCsv = await fetchCsv(window.SHEET?.TEAMS_CSV_URL);
+    const gamesCsv = await fetchCsv(window.SHEET?.GAMES_CSV_URL);
 
     const teamRows = parseCsv(teamsCsv);
     const gameRows = parseCsv(gamesCsv);
-
-    dbg("Parsed teams rows: " + teamRows.length);
-    dbg("Parsed games rows: " + gameRows.length);
 
     const teams = new Map(teamRows.map(r => [Number(r.Seed), r.TeamName]));
     const games = new Map(gameRows.map(r => [Number(r.Game), r]));
@@ -112,14 +101,17 @@
         td.textContent = text;
         tr.appendChild(td);
       }
+
       tbody.appendChild(tr);
     }
 
-    dbg("Rendered table OK.");
+    if (lastUpdated) lastUpdated.textContent = `Last loaded: ${new Date().toLocaleString()}`;
   } catch (err) {
-    dbg("ERROR: " + (err && err.message ? err.message : String(err)));
+    alert("Error loading tournament data. Double-check data.js URLs and that your sheet is published as CSV.");
+    console.error(err);
   }
 })();
+
 
 
 

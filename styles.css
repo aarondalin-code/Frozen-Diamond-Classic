@@ -35,8 +35,8 @@ body {
   position: fixed;
   inset: 0;
   background: url("./logo.png") center 55% no-repeat;
-  background-size: 900px;     /* adjust size here */
-  opacity: 0.045;             /* adjust visibility here */
+  background-size: 1050px;     /* slightly larger */
+  opacity: 0.075;             /* stronger but still tasteful */
   pointer-events: none;
   z-index: 0;
 }

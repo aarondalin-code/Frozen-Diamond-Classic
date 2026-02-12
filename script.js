@@ -74,10 +74,19 @@
     const sB = String(g.ScoreB ?? "").trim();
     const score = (final && sA !== "" && sB !== "") ? `${sA}-${sB}` : "";
 
+    const isChampGame = Number(g.Game) === 12;
+    const isChampionComplete = isChampGame && final;
+
+    const cardClass = `gameCard${isChampionComplete ? " championCard" : ""}`;
+
+    const championTag = isChampionComplete
+      ? ` <span class="championBadge">🏆 CHAMPION</span>`
+      : "";
+
     return `
-      <div class="gameCard">
+      <div class="${cardClass}">
         <div class="gameMeta">Game ${g.Game} • ${g.Time} • ${g.Field}</div>
-        <div class="gameTeams">${teamA} vs ${teamB}${final ? `<span class="finalBadge">FINAL</span>` : ""}</div>
+        <div class="gameTeams">${teamA} vs ${teamB}${final ? `<span class="finalBadge">FINAL</span>` : ""}${championTag}</div>
         <div class="gameStatus">${final ? (score ? `Final: ${score}` : "Final") : `Status: ${String(g.Status || "Scheduled").trim() || "Scheduled"}`}</div>
       </div>
     `;
@@ -86,7 +95,6 @@
   function renderBracket(gamesById, teamsBySeed) {
     if (!bracketEl) return;
 
-    // Games in your 12-game / 3-games-guaranteed format
     const g1 = gamesById.get(1),  g2 = gamesById.get(2),  g3 = gamesById.get(3),  g4 = gamesById.get(4);
     const g5 = gamesById.get(5),  g6 = gamesById.get(6),  g7 = gamesById.get(7),  g8 = gamesById.get(8);
     const g9 = gamesById.get(9),  g10 = gamesById.get(10), g11 = gamesById.get(11), g12 = gamesById.get(12);
@@ -132,7 +140,7 @@
           </div>
 
           <div class="col">
-            <div class="colTitle">Round 3 (7th Place)</div>
+            <div class="colTitle">Round 3</div>
             <div class="slot connectorMid">${gameCardHTML(g11, teamsBySeed, gamesById)}</div>
           </div>
         </div>
@@ -194,7 +202,6 @@
     setLastUpdated();
   }
 
-  // Initial load
   try {
     await loadAndRender();
   } catch (err) {
@@ -203,17 +210,14 @@
     return;
   }
 
-  // Auto-refresh every 60s (no page reload)
   setInterval(async () => {
     try {
       await loadAndRender();
     } catch (err) {
       console.error(err);
-      // don't alert repeatedly on spectators
     }
   }, 60000);
 })();
-
 
 
 

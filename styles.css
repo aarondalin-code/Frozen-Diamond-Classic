@@ -52,17 +52,17 @@ body {
 .siteHeader {
   background: linear-gradient(180deg, var(--navBg), #0a1020);
   border-bottom: 3px solid var(--royal);
-  padding: 6px 0 10px;  /* tighter header height */
+  padding: 4px 0 8px;  /* tighter header height */
   position: relative;
 }
 
 /* Nav (top-right) */
 .nav {
   position: absolute;
-  top: 8px;
-  right: 22px;
+  top: 6px;
+  right: 20px;
   display: flex;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
@@ -70,8 +70,8 @@ body {
   text-decoration: none;
   color: #cbd5e1;
   font-weight: 700;
-  font-size: 12px;
-  padding: 5px 9px;
+  font-size: 11px;
+  padding: 4px 8px;
   border-radius: 999px;
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.12);
@@ -98,25 +98,25 @@ body {
 }
 
 .logoImage {
-  width: 90px;   /* slightly smaller so header can shrink */
+  width: 90px;   /* larger logo */
   height: auto;
-  margin-bottom: 4px;
-  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
+  margin-bottom: 2px;
+  filter: drop-shadow(0 3px 8px rgba(0,0,0,0.6));
 }
 
 .brandCenter h1 {
   margin: 0;
-  font-size: 19px;  /* slightly smaller */
+  font-size: 17px;  /* unchanged */
   font-weight: 800;
   color: white;
-  letter-spacing: 0.6px;
+  letter-spacing: 0.5px;
 }
 
 .brandCenter .tagline {
-  margin-top: 1px;
-  font-size: 10px;
+  margin-top: 0px;
+  font-size: 9px;
   color: #cbd5e1;
-  letter-spacing: 0.35px;
+  letter-spacing: 0.3px;
 }
 
 /* =========================

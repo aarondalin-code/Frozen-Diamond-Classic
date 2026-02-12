@@ -98,7 +98,7 @@ body {
 }
 
 .logoImage {
-  width: 80px;
+  width: 100px;
   height: auto;
   margin-bottom: 6px;
   filter: drop-shadow(0 3px 8px rgba(0,0,0,0.5));

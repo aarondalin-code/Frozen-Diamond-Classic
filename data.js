@@ -1,5 +1,4 @@
 window.SHEET = {
-  TEAMS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUAMNn59O8EtC8ti5EwfRQlwRo4OPrgqt_0GfmVAZA1GcbavFtXD8HQrCxSW04IGSQ_aOvcMl7Pi4Q/pub?gid=0&output=csv",
-  GAMES_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUAMNn59O8EtC8ti5EwfRQlwRo4OPrgqt_0GfmVAZA1GcbavFtXD8HQrCxSW04IGSQ_aOvcMl7Pi4Q/pub?gid=1840682925&output=csv"
+  TEAMS_CSV_URL: "https://api.allorigins.win/raw?url=https://docs.google.com/spreadsheets/d/e/2PACX-1vSUAMNn59O8EtC8ti5EwfRQlwRo4OPrgqt_0GfmVAZA1GcbavFtXD8HQrCxSW04IGSQ_aOvcMl7Pi4Q/pub?gid=0&output=csv",
+  GAMES_CSV_URL: "https://api.allorigins.win/raw?url=https://docs.google.com/spreadsheets/d/e/2PACX-1vSUAMNn59O8EtC8ti5EwfRQlwRo4OPrgqt_0GfmVAZA1GcbavFtXD8HQrCxSW04IGSQ_aOvcMl7Pi4Q/pub?gid=1840682925&output=csv"
 };
-

@@ -6,35 +6,18 @@
   }
 
   function parseCsv(text) {
-    const rows = [];
-    let row = [], cell = "", inQuotes = false;
+    // split lines safely for Windows/mac/linux endings
+    const lines = text.trim().split(/\r?\n/);
 
-    for (let i = 0; i < text.length; i++) {
-      const c = text[i], n = text[i + 1];
+    // split by comma (works for your sheet structure)
+    const rows = lines.map(line => line.split(","));
 
-      if (c === '"' && inQuotes && n === '"') { cell += '"'; i++; continue; }
-      if (c === '"') { inQuotes = !inQuotes; continue; }
-
-      if (c === ',' && !inQuotes) { row.push(cell); cell = ""; continue; }
-
-      if ((c === '\n' || c === '\r') && !inQuotes) {
-        // skip empty line fragments caused by \r\n handling
-        if (c === '\r' && n === '\n') continue;
-        if (cell.length || row.length) { row.push(cell); rows.push(row); }
-        row = []; cell = "";
-        continue;
-      }
-
-      cell += c;
-    }
-    if (cell.length || row.length) { row.push(cell); rows.push(row); }
-
-    const rawHeaders = rows.shift() || [];
-    const headers = rawHeaders.map(h => String(h).trim().replace(/\s+/g, ""));
+    // normalize headers: trim and remove spaces so "Score B" becomes "ScoreB"
+    const headers = (rows.shift() || []).map(h => String(h).trim().replace(/\s+/g, ""));
 
     return rows
       .filter(r => r.some(x => String(x).trim() !== ""))
-      .map(r => Object.fromEntries(headers.map((h, i) => [h, String(r[i] ?? "").trim()])));
+      .map(row => Object.fromEntries(headers.map((h, i) => [h, String(row[i] ?? "").trim()])));
   }
 
   function isFinal(status) {
@@ -42,17 +25,22 @@
   }
 
   function winnerLoser(game) {
-    const a = Number(game.ScoreA);
-    const b = Number(game.ScoreB);
     if (!isFinal(game.Status)) return null;
+
+    const a = Number(String(game.ScoreA ?? "").trim());
+    const b = Number(String(game.ScoreB ?? "").trim());
     if (Number.isNaN(a) || Number.isNaN(b)) return null;
     if (a === b) return null;
-    return a > b ? { W: game.TeamA, L: game.TeamB } : { W: game.TeamB, L: game.TeamA };
+
+    return a > b
+      ? { W: game.TeamA, L: game.TeamB }
+      : { W: game.TeamB, L: game.TeamA };
   }
 
   function resolveTeam(ref, teams, games) {
     if (!ref) return "TBD";
-    ref = String(ref).trim().toUpperCase();
+
+    ref = String(ref).trim().toUpperCase(); // <-- this fixes spaces/lowercase
     if (!ref) return "TBD";
 
     const type = ref[0];
@@ -67,8 +55,7 @@
     const result = winnerLoser(g);
     if (!result) return "TBD";
 
-    const nextRef = type === "W" ? result.W : result.L;
-    return resolveTeam(nextRef, teams, games);
+    return resolveTeam(type === "W" ? result.W : result.L, teams, games);
   }
 
   const teamsCsv = await fetchCsv(window.SHEET.TEAMS_CSV_URL);
@@ -77,20 +64,10 @@
   const teamRows = parseCsv(teamsCsv);
   const gameRows = parseCsv(gamesCsv);
 
-  const teams = new Map(
-    teamRows
-      .map(r => [Number(r.Seed), r.TeamName])
-      .filter(([s, n]) => Number.isFinite(s) && n)
-  );
-
-  const games = new Map(
-    gameRows
-      .map(r => [Number(r.Game), r])
-      .filter(([id]) => Number.isFinite(id))
-  );
+  const teams = new Map(teamRows.map(r => [Number(r.Seed), r.TeamName]));
+  const games = new Map(gameRows.map(r => [Number(r.Game), r]));
 
   const tbody = document.querySelector("#scheduleTable tbody");
-  if (!tbody) return;
   tbody.innerHTML = "";
 
   gameRows.sort((a, b) => Number(a.Game) - Number(b.Game));
@@ -102,9 +79,10 @@
     const teamB = resolveTeam(g.TeamB, teams, games);
 
     const final = isFinal(g.Status);
-    const score = (final && g.ScoreA !== "" && g.ScoreB !== "")
-      ? `${g.ScoreA}-${g.ScoreB}`
-      : "";
+    const sA = String(g.ScoreA ?? "").trim();
+    const sB = String(g.ScoreB ?? "").trim();
+
+    const score = (final && sA !== "" && sB !== "") ? `${sA}-${sB}` : "";
 
     const cells = [
       g.Time || "",
@@ -112,7 +90,7 @@
       `Game ${g.Game || ""}`,
       `${teamA} vs ${teamB}`,
       score,
-      final ? "Final" : (g.Status || "Scheduled")
+      final ? "Final" : (String(g.Status || "Scheduled").trim() || "Scheduled"),
     ];
 
     for (const text of cells) {
@@ -125,6 +103,7 @@
   }
 })().catch(err => {
   console.error(err);
-  alert("Error loading tournament data. Check Console for details.");
+  alert("Error loading tournament data. Open Console for details.");
 });
+
 

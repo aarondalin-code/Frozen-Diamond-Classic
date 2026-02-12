@@ -11,8 +11,8 @@ body {
 
 .siteHeader {
   background: #ffffff;
-  padding-top: 20px;
-  padding-bottom: 30px;
+  padding-top: 12px;      /* reduced */
+  padding-bottom: 18px;   /* reduced */
   border-bottom: 4px solid #1e40af;
   text-align: center;
 }
@@ -22,8 +22,8 @@ body {
 .nav {
   display: flex;
   justify-content: center;
-  gap: 40px;
-  margin-bottom: 25px;
+  gap: 36px;
+  margin-bottom: 14px;    /* tighter spacing */
 }
 
 .nav a {
@@ -54,15 +54,15 @@ body {
 }
 
 .logoImage {
-  width: 220px;
+  width: 180px;            /* slightly smaller */
   max-width: 90%;
-  margin-bottom: 18px;
+  margin-bottom: 8px;      /* reduced space */
 }
 
 h1 {
-  margin: 0;
-  font-size: 36px;
-  color: #1e40af; /* Royal Blue */
+  margin: 0;               /* remove extra default margin */
+  font-size: 30px;         /* slightly tighter */
+  color: #1e40af;          /* Royal Blue */
   font-weight: 800;
   letter-spacing: 1px;
 }
@@ -72,12 +72,12 @@ h1 {
 .wrap {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 40px 24px;
+  padding: 30px 24px;
 }
 
 h2 {
-  margin-top: 40px;
-  margin-bottom: 12px;
+  margin-top: 36px;
+  margin-bottom: 10px;
 }
 
 .muted {
@@ -172,4 +172,3 @@ th {
   color: white;
   margin-left: 8px;
 }
-

@@ -951,3 +951,54 @@ th {
 .playerCardText{
   min-width: 0;
 }
+
+/* =========================
+   Gallery
+========================= */
+
+.galleryGrid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.galleryCard{
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+
+.galleryMedia img{
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.galleryMedia iframe{
+  width: 100%;
+  height: 220px;
+}
+
+.galleryContent{
+  padding: 12px;
+}
+
+.galleryTitle{
+  font-weight: 900;
+  margin-bottom: 4px;
+}
+
+.galleryMeta{
+  font-size: 12px;
+  color: #475569;
+}
+
+.galleryCredit{
+  font-size: 11px;
+  margin-top: 6px;
+  color: #64748b;
+}

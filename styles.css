@@ -927,3 +927,27 @@ th {
 @media (max-width: 760px){
   .teamHeaderCard{ grid-template-columns: 1fr; }
 }
+
+/* =========================
+   Player card thumbnails
+========================= */
+
+.playerCardWithThumb{
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+.playerThumb{
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  background: white;
+}
+
+.playerCardText{
+  min-width: 0;
+}

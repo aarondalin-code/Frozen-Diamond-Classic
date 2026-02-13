@@ -742,3 +742,60 @@ th {
   .rosterGrid{ grid-template-columns: 1fr; }
 }
 
+/* =========================
+   Teams Directory Page
+========================= */
+
+.teamsGrid{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.teamTile{
+  display: block;
+  text-decoration: none;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  color: var(--text);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.teamTile:hover{
+  transform: translateY(-2px);
+  border-color: rgba(37,99,235,0.45);
+}
+
+.teamTileTop{
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.teamTileName{
+  font-weight: 900;
+}
+
+.teamTileSeed{
+  font-size: 12px;
+  font-weight: 900;
+  color: #334155;
+}
+
+.teamTileMeta{
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--royal);
+}
+
+@media (max-width: 760px){
+  .teamsGrid{ grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 520px){
+  .teamsGrid{ grid-template-columns: 1fr; }
+}

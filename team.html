@@ -39,7 +39,6 @@
             <h2 class="teamTitle" id="teamName">Team</h2>
             <div class="teamMetaRow">
               <span class="teamPill" id="teamSeedPill" style="display:none;"></span>
-              <a class="teamPill linkPill" href="./contacts.html">Contacts</a>
             </div>
           </div>
         </div>
@@ -47,10 +46,9 @@
         <div class="teamHeaderRight">
           <div class="coachCard">
             <div class="coachLabel">Head Coach</div>
-            <div class="coachName" id="coachName">TBD</div>
+            <div class="coachName" id="coachName">See Contacts page</div>
             <div class="coachLinks">
-              <a id="coachEmail" class="coachLink" href="#" style="display:none;">Email</a>
-              <a id="coachPhone" class="coachLink" href="#" style="display:none;">Call/Text</a>
+              <a class="coachLink" href="./contacts.html">View Contacts →</a>
             </div>
           </div>
         </div>
@@ -82,6 +80,8 @@
   <script src="./data.js"></script>
 
   <script>
+    const FALLBACK_PLAYER_IMG = "./logo.png";
+
     function safe(v){ return String(v || "").trim(); }
 
     function teamSlug(name) {
@@ -125,12 +125,12 @@
       const bats = safe(player.Bats);
       const throws = safe(player.Throws);
       const fact = safe(player.FunFact);
-      const photo = safe(player.PhotoURL);
+      const photo = safe(player.PhotoURL) || FALLBACK_PLAYER_IMG;
 
       body.innerHTML = `
         <div class="profileHeader">
           <div class="profilePhoto">
-            ${photo ? `<img src="${photo}" alt="${name}">` : `<div class="profilePhotoPlaceholder">No Photo</div>`}
+            <img src="${photo}" alt="${name}" onerror="this.src='${FALLBACK_PLAYER_IMG}'">
           </div>
           <div class="profileInfo">
             <h2 class="profileName" id="modalTitle">${name}</h2>
@@ -177,17 +177,14 @@
       });
     }
 
-    function setTeamHeader({ slug, displayName, seed, coach }) {
+    function setTeamHeader({ slug, displayName, seed }) {
       const nameEl = document.getElementById("teamName");
-      const subEl = document.getElementById("teamSub");
       const seedPill = document.getElementById("teamSeedPill");
       const seedKicker = document.getElementById("teamSeedKicker");
       const logoEl = document.getElementById("teamLogo");
 
       nameEl.textContent = displayName || slug;
-      subEl.textContent = "Roster";
 
-      // Seed
       if (Number.isFinite(seed)) {
         seedPill.style.display = "inline-flex";
         seedPill.textContent = `Seed ${seed}`;
@@ -197,36 +194,10 @@
         seedKicker.textContent = "Frozen Diamond Classic";
       }
 
-      // Logo with fallback
-      const logoSrc = coach?.logo || (window.TEAM_INFO?.[slug]?.logo) || window.DEFAULT_TEAM_LOGO || "./logo.png";
-      logoEl.src = logoSrc;
-      logoEl.alt = `${displayName || slug} logo`;
-      logoEl.onerror = () => { logoEl.src = window.DEFAULT_TEAM_LOGO || "./logo.png"; };
-
-      // Coach
-      const coachName = document.getElementById("coachName");
-      const coachEmail = document.getElementById("coachEmail");
-      const coachPhone = document.getElementById("coachPhone");
-
-      coachName.textContent = coach?.coachName || "TBD";
-
-      const emailVal = safe(coach?.coachEmail);
-      if (emailVal && emailVal !== "TBD") {
-        coachEmail.style.display = "inline-flex";
-        coachEmail.textContent = emailVal;
-        coachEmail.href = `mailto:${emailVal}`;
-      } else {
-        coachEmail.style.display = "none";
-      }
-
-      const phoneVal = safe(coach?.coachPhone);
-      if (phoneVal) {
-        coachPhone.style.display = "inline-flex";
-        coachPhone.textContent = phoneVal;
-        coachPhone.href = `tel:${phoneVal.replace(/[^\d+]/g, "")}`;
-      } else {
-        coachPhone.style.display = "none";
-      }
+      // Optional team logos via TEAM_INFO (fallback to tournament logo)
+      const teamLogo = window.TEAM_INFO?.[slug]?.logo || "./logo.png";
+      logoEl.src = teamLogo;
+      logoEl.onerror = () => { logoEl.src = "./logo.png"; };
     }
 
     function renderRoster(roster) {
@@ -238,17 +209,27 @@
         const num = safe(p.Number);
         const pos = safe(p.Position);
 
+        const photo = safe(p.PhotoURL) || FALLBACK_PLAYER_IMG;
+
         const card = document.createElement("button");
         card.type = "button";
-        card.className = "playerCardBtn";
+        card.className = "playerCardBtn playerCardWithThumb";
         card.innerHTML = `
-          <div class="playerTop">
-            <div class="playerName">${name}</div>
-            <div class="playerNum">${num ? "#" + num : ""}</div>
+          <img class="playerThumb" src="${photo}" alt="${name}" />
+          <div class="playerCardText">
+            <div class="playerTop">
+              <div class="playerName">${name}</div>
+              <div class="playerNum">${num ? "#" + num : ""}</div>
+            </div>
+            <div class="playerMeta">${pos || "—"}</div>
+            <div class="playerLink">Tap for profile →</div>
           </div>
-          <div class="playerMeta">${pos || "—"}</div>
-          <div class="playerLink">Tap for profile →</div>
         `;
+
+        // Fallback if image is missing/broken
+        const img = card.querySelector("img");
+        img.onerror = () => { img.src = FALLBACK_PLAYER_IMG; };
+
         card.addEventListener("click", () => openModal(p));
         grid.appendChild(card);
       }
@@ -259,7 +240,6 @@
         const slug = safe(getParam("team"));
         if (!slug) throw new Error("Missing ?team= in URL");
 
-        // Load roster + teams (seed)
         const [rosterCsv, teamsCsv] = await Promise.all([
           fetchCsv(window.SHEET?.ROSTER_CSV_URL),
           fetchCsv(window.SHEET?.TEAMS_CSV_URL)
@@ -268,14 +248,11 @@
         const rosterRows = parseCsv(rosterCsv);
         const teamRows = parseCsv(teamsCsv);
 
-        // Find displayName from TEAM_INFO first; else from roster/slug
-        const info = window.TEAM_INFO?.[slug] || {};
         const allRosterTeams = Array.from(new Set(rosterRows.map(r => safe(r.Team)).filter(Boolean)));
         const rosterDisplay = allRosterTeams.find(t => teamSlug(t) === slug) || "";
+        const displayName = window.TEAM_INFO?.[slug]?.name || rosterDisplay || slug;
 
-        const displayName = info.name || rosterDisplay || slug;
-
-        // Seed (from Teams tab TeamName/Seed)
+        // Seed from Teams tab
         let seed = NaN;
         for (const r of teamRows) {
           const nm = safe(r.TeamName);
@@ -285,19 +262,11 @@
           }
         }
 
-        // Coach info centralized in TEAM_INFO
-        setTeamHeader({
-          slug,
-          displayName,
-          seed,
-          coach: info
-        });
+        setTeamHeader({ slug, displayName, seed });
 
-        // Roster filter by team slug
         const roster = rosterRows.filter(r => teamSlug(r.Team) === slug);
         const sorted = sortRoster(roster);
 
-        // Update subtext with count
         document.getElementById("teamSub").textContent = sorted.length ? `${sorted.length} players` : "Roster not posted yet";
         renderRoster(sorted);
 
@@ -312,10 +281,11 @@
 
       } catch (err) {
         console.error(err);
-        alert("Team page error: check ROSTER_CSV_URL + TEAMS_CSV_URL and TEAM_INFO in data.js.");
+        alert("Team page error: check ROSTER_CSV_URL + TEAMS_CSV_URL in data.js.");
       }
     })();
   </script>
 </body>
 </html>
+
 

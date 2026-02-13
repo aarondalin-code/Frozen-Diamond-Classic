@@ -12,8 +12,8 @@
     <nav class="nav">
       <a href="./">Home</a>
       <a href="./schedule.html">Schedule/Scores</a>
-      <a href="./rules.html">Rules</a>
       <a href="./teams.html" class="active">Teams</a>
+      <a href="./rules.html">Rules</a>
       <a href="./contacts.html">Contacts</a>
       <a href="./uploads.html">Uploads</a>
       <a href="./gallery.html">Gallery</a>
@@ -29,47 +29,27 @@
   <main class="wrap">
     <section class="docSection">
       <h2>Teams</h2>
-      <p class="muted">Select a team to view its roster. Tap a player for profile details.</p>
+      <p class="muted">Tap a team to view its roster.</p>
 
       <div class="card">
         <div class="cardBody">
-          <div id="teamChips" class="teamChips"></div>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:12px;">
-        <div class="cardBody">
-          <h3 class="subhead" id="teamTitle">Select a team above</h3>
-          <div id="teamMeta" class="muted small"></div>
-
-          <div class="divider"></div>
-
-          <div id="rosterGrid" class="rosterGrid"></div>
-
+          <div id="teamsGrid" class="teamsGrid"></div>
           <p class="muted small" style="margin-top:12px;">
-            Rosters update from the Google Sheet once the Roster tab is published to CSV.
+            This page pulls team names from your Google Sheet “Teams” CSV.
           </p>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Player Modal -->
-  <div id="playerModal" class="modalOverlay" aria-hidden="true">
-    <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <button class="modalClose" id="modalCloseBtn" aria-label="Close">✕</button>
-      <div id="modalBody"></div>
-    </div>
-  </div>
-
   <script src="./data.js"></script>
 
   <script>
     async function fetchCsv(url) {
-      if (!url || String(url).includes("PASTE_")) throw new Error("ROSTER_CSV_URL not set in data.js");
+      if (!url) throw new Error("Missing TEAMS_CSV_URL in data.js");
       const bust = (url.includes("?") ? "&" : "?") + "t=" + Date.now();
       const res = await fetch(url + bust, { cache: "no-store" });
-      if (!res.ok) throw new Error("Failed to fetch roster CSV");
+      if (!res.ok) throw new Error("Failed to fetch teams CSV");
       return await res.text();
     }
 
@@ -84,139 +64,57 @@
 
     function safe(v){ return String(v || "").trim(); }
 
-    function getParam(name) {
-      const url = new URL(window.location.href);
-      return url.searchParams.get(name);
+    function teamSlug(name) {
+      // URL-friendly identifier
+      return safe(name)
+        .toLowerCase()
+        .replace(/&/g, "and")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
     }
 
-    function renderTeamChips(teams, selectedTeam) {
-      const el = document.getElementById("teamChips");
-      el.innerHTML = "";
-      for (const t of teams) {
-        const a = document.createElement("a");
-        a.href = `./teams.html?team=${encodeURIComponent(t)}`;
-        a.className = "chip" + (t === selectedTeam ? " active" : "");
-        a.textContent = t;
-        el.appendChild(a);
-      }
-    }
-
-    function openModal(player) {
-      const overlay = document.getElementById("playerModal");
-      const body = document.getElementById("modalBody");
-
-      const name = safe(player.Name) || "Player";
-      const team = safe(player.Team) || "—";
-      const num = safe(player.Number);
-      const pos = safe(player.Position);
-      const bats = safe(player.Bats);
-      const throws = safe(player.Throws);
-      const fact = safe(player.FunFact);
-      const photo = safe(player.PhotoURL);
-
-      body.innerHTML = `
-        <div class="profileHeader">
-          <div class="profilePhoto">
-            ${photo ? `<img src="${photo}" alt="${name}">` : `<div class="profilePhotoPlaceholder">No Photo</div>`}
-          </div>
-          <div class="profileInfo">
-            <h2 class="profileName" id="modalTitle">${name}</h2>
-            <div class="muted"><strong>Team:</strong> ${team}</div>
-            <div class="muted">
-              ${num ? `<strong>#</strong> ${num}` : ""}${(num && pos) ? " • " : ""}${pos ? `<strong>Pos:</strong> ${pos}` : ""}
-            </div>
-            <div class="muted small">
-              ${bats ? `Bats: ${bats}` : ""}${(bats && throws) ? " • " : ""}${throws ? `Throws: ${throws}` : ""}
-            </div>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <h3 class="subhead">Fun Fact</h3>
-        <p>${fact || `<span class="muted">Add a fun fact in the roster sheet (FunFact column).</span>`}</p>
-      `;
-
-      overlay.classList.add("open");
-      overlay.setAttribute("aria-hidden", "false");
-      document.body.classList.add("noScroll");
-    }
-
-    function closeModal() {
-      const overlay = document.getElementById("playerModal");
-      overlay.classList.remove("open");
-      overlay.setAttribute("aria-hidden", "true");
-      document.body.classList.remove("noScroll");
-    }
-
-    function renderRoster(teamName, rows) {
-      const teamTitle = document.getElementById("teamTitle");
-      const teamMeta = document.getElementById("teamMeta");
-      const grid = document.getElementById("rosterGrid");
-
-      if (!teamName) {
-        teamTitle.textContent = "Select a team above";
-        teamMeta.textContent = "";
-        grid.innerHTML = "";
-        return;
-      }
-
-      const roster = rows.filter(r => safe(r.Team) === teamName);
-
-      teamTitle.textContent = teamName;
-      teamMeta.textContent = roster.length ? `${roster.length} players` : "Roster not posted yet";
-
+    function renderTeams(teamRows) {
+      const grid = document.getElementById("teamsGrid");
       grid.innerHTML = "";
 
-      for (const p of roster) {
-        const name = safe(p.Name) || "Player";
-        const num = safe(p.Number);
-        const pos = safe(p.Position);
+      // Expecting headers: Seed, TeamName
+      const teams = teamRows
+        .map(r => ({ seed: Number(r.Seed), name: safe(r.TeamName) }))
+        .filter(t => t.name)
+        .sort((a,b) => (a.seed || 999) - (b.seed || 999));
 
-        const card = document.createElement("button");
-        card.type = "button";
-        card.className = "playerCardBtn";
-        card.innerHTML = `
-          <div class="playerTop">
-            <div class="playerName">${name}</div>
-            <div class="playerNum">${num ? "#" + num : ""}</div>
+      for (const t of teams) {
+        const slug = teamSlug(t.name);
+
+        const a = document.createElement("a");
+        a.className = "teamTile";
+        a.href = `./team.html?team=${encodeURIComponent(slug)}`;
+
+        a.innerHTML = `
+          <div class="teamTileTop">
+            <div class="teamTileName">${t.name}</div>
+            <div class="teamTileSeed">${Number.isFinite(t.seed) ? "Seed " + t.seed : ""}</div>
           </div>
-          <div class="playerMeta">${pos || "—"}</div>
-          <div class="playerLink">Tap for profile →</div>
+          <div class="teamTileMeta">View roster →</div>
         `;
-        card.addEventListener("click", () => openModal(p));
-        grid.appendChild(card);
+
+        grid.appendChild(a);
       }
     }
 
-    (async function init() {
+    (async function init(){
       try {
-        const csv = await fetchCsv(window.SHEET?.ROSTER_CSV_URL);
+        const csv = await fetchCsv(window.SHEET?.TEAMS_CSV_URL);
         const rows = parseCsv(csv);
-
-        const teams = Array.from(new Set(rows.map(r => safe(r.Team)).filter(Boolean))).sort();
-
-        let selected = getParam("team");
-        if (!selected && teams.length) selected = teams[0];
-
-        renderTeamChips(teams, selected);
-        renderRoster(selected, rows);
-
-        document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
-        document.getElementById("playerModal").addEventListener("click", (e) => {
-          if (e.target.id === "playerModal") closeModal();
-        });
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape") closeModal();
-        });
-
+        renderTeams(rows);
       } catch (err) {
         console.error(err);
-        alert("Teams page error: set ROSTER_CSV_URL in data.js and ensure the Roster tab is published to CSV.");
+        alert("Teams page error: check TEAMS_CSV_URL in data.js and make sure Teams tab is published to CSV.");
       }
     })();
   </script>
 </body>
 </html>
+
 
 

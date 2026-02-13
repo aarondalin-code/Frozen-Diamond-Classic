@@ -17,7 +17,7 @@
       <a href="./contacts.html">Contacts</a>
       <a href="./gallery.html" class="active">Gallery</a>
       <a href="./uploads.html">Uploads</a>
-     
+      
     </nav>
 
     <div class="brandCenter">
@@ -31,26 +31,20 @@
     <h2>Gallery</h2>
     <p class="muted">Photos and highlights from the tournament.</p>
 
-    <!-- Filters -->
-    <div class="galleryFilters">
-      <div class="filterGroup">
-        <label class="filterLabel" for="teamFilter">Team</label>
-        <select id="teamFilter" class="filterSelect">
-          <option value="__all__">All Teams</option>
-        </select>
+    <!-- Chip Filters -->
+    <div class="galleryFilterBar">
+      <div class="filterRow">
+        <div class="filterLabelInline">Team</div>
+        <div id="teamChips" class="chipRow"></div>
       </div>
 
-      <div class="filterGroup">
-        <label class="filterLabel" for="typeFilter">Type</label>
-        <select id="typeFilter" class="filterSelect">
-          <option value="__all__">All</option>
-          <option value="photo">Photos</option>
-          <option value="video">Videos</option>
-        </select>
+      <div class="filterRow">
+        <div class="filterLabelInline">Type</div>
+        <div id="typeChips" class="chipRow"></div>
       </div>
 
-      <div class="filterGroup filterGrow">
-        <div class="filterHint" id="resultCount"></div>
+      <div class="filterMetaRow">
+        <div id="resultCount" class="muted small"></div>
       </div>
     </div>
 
@@ -155,36 +149,85 @@
       return card;
     }
 
+    // ---- Filter state ----
     let ALL_ITEMS = [];
+    let ACTIVE_TEAM = "__all__";
+    let ACTIVE_TYPE = "__all__";
 
-    function populateTeamFilter(items){
-      const select = document.getElementById("teamFilter");
-      const teams = Array.from(new Set(items.map(i => i.Team).filter(Boolean))).sort((a,b)=>a.localeCompare(b));
+    function setActiveChip(containerEl, value){
+      const chips = containerEl.querySelectorAll(".filterChip");
+      chips.forEach(c => c.classList.toggle("active", c.dataset.value === value));
+    }
 
-      // clear existing (keep All Teams)
-      while (select.options.length > 1) select.remove(1);
+    function renderChips(){
+      const teamWrap = document.getElementById("teamChips");
+      const typeWrap = document.getElementById("typeChips");
+
+      // Team chips
+      const teams = Array.from(new Set(ALL_ITEMS.map(i => i.Team).filter(Boolean))).sort((a,b)=>a.localeCompare(b));
+      teamWrap.innerHTML = "";
+      const teamAll = document.createElement("button");
+      teamAll.type = "button";
+      teamAll.className = "filterChip";
+      teamAll.dataset.value = "__all__";
+      teamAll.textContent = "All";
+      teamAll.addEventListener("click", () => {
+        ACTIVE_TEAM = "__all__";
+        setActiveChip(teamWrap, ACTIVE_TEAM);
+        applyFilters();
+      });
+      teamWrap.appendChild(teamAll);
 
       for (const t of teams) {
-        const opt = document.createElement("option");
-        opt.value = t;
-        opt.textContent = t;
-        select.appendChild(opt);
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "filterChip";
+        b.dataset.value = t;
+        b.textContent = t;
+        b.addEventListener("click", () => {
+          ACTIVE_TEAM = t;
+          setActiveChip(teamWrap, ACTIVE_TEAM);
+          applyFilters();
+        });
+        teamWrap.appendChild(b);
       }
+
+      // Type chips
+      typeWrap.innerHTML = "";
+      const types = [
+        { v: "__all__", label: "All" },
+        { v: "photo", label: "Photos" },
+        { v: "video", label: "Videos" }
+      ];
+      for (const t of types) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "filterChip";
+        b.dataset.value = t.v;
+        b.textContent = t.label;
+        b.addEventListener("click", () => {
+          ACTIVE_TYPE = t.v;
+          setActiveChip(typeWrap, ACTIVE_TYPE);
+          applyFilters();
+        });
+        typeWrap.appendChild(b);
+      }
+
+      // Set initial active styling
+      setActiveChip(teamWrap, ACTIVE_TEAM);
+      setActiveChip(typeWrap, ACTIVE_TYPE);
     }
 
     function applyFilters(){
-      const teamVal = document.getElementById("teamFilter").value;
-      const typeVal = document.getElementById("typeFilter").value;
-
-      const filtered = ALL_ITEMS.filter(i => {
-        const teamOk = (teamVal === "__all__") || (i.Team === teamVal);
-        const typeOk = (typeVal === "__all__") || (i.Type === typeVal);
-        return teamOk && typeOk;
-      });
-
       const grid = document.getElementById("galleryGrid");
       const msg = document.getElementById("galleryMsg");
       const count = document.getElementById("resultCount");
+
+      const filtered = ALL_ITEMS.filter(i => {
+        const teamOk = (ACTIVE_TEAM === "__all__") || (i.Team === ACTIVE_TEAM);
+        const typeOk = (ACTIVE_TYPE === "__all__") || (i.Type === ACTIVE_TYPE);
+        return teamOk && typeOk;
+      });
 
       grid.innerHTML = "";
       for (const item of filtered) grid.appendChild(makeCard(item));
@@ -199,7 +242,6 @@
         const csv = await fetchCsv(window.SHEET?.GALLERY_CSV_URL);
         const rows = parseCsv(csv);
 
-        // Map rows to items; ignore invalid rows
         ALL_ITEMS = rows.map(r => ({
           Type: normalizeType(r.Type),
           Title: safe(r.Title),
@@ -209,22 +251,20 @@
           Credit: safe(r.Credit)
         }))
         .filter(x => x.Type && x.MediaURL)
-        .reverse(); // newest-first based on sheet order
+        .reverse(); // newest-first
 
-        populateTeamFilter(ALL_ITEMS);
+        renderChips();
         applyFilters();
 
       } catch(e){
         console.error(e);
         msg.textContent = `Gallery error: ${e.message}`;
       }
-
-      document.getElementById("teamFilter").addEventListener("change", applyFilters);
-      document.getElementById("typeFilter").addEventListener("change", applyFilters);
     }
 
     init();
   </script>
 </body>
 </html>
+
 

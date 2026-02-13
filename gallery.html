@@ -12,13 +12,13 @@
     <nav class="nav">
       <a href="./">Home</a>
       <a href="./schedule.html">Schedule/Scores</a>
-      <a href="./rules.html">Rules</a>
       <a href="./teams.html">Teams</a>
+      <a href="./rules.html">Rules</a>
       <a href="./contacts.html">Contacts</a>
+      <a href="./uploads.html">Uploads</a>
       <a href="./gallery.html" class="active">Gallery</a>
-      <a href="./uploads.html">Uploads</a> 
     </nav>
-    
+
     <div class="brandCenter">
       <img src="./logo.png" alt="Frozen Diamond Classic Logo" class="logoImage">
       <h1>Frozen Diamond Classic</h1>
@@ -27,56 +27,98 @@
   </header>
 
   <main class="wrap">
-    <section class="docSection">
-      <h2>Highlights</h2>
-      <p class="muted">Curated clips and photos from the day.</p>
+    <h2>Gallery</h2>
+    <p class="muted">Photos and highlights from the tournament.</p>
 
-      <div class="card">
-        <div class="cardBody">
-          <div class="featured">
-            <div class="featuredTitle">Featured Video</div>
-            <div class="videoFrame">
-              <!-- Replace the src with a YouTube embed (recommended) or Drive preview embed -->
-              <iframe
-                src="PASTE_YOUTUBE_EMBED_URL_HERE"
-                title="Featured Highlight"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
-              </iframe>
-            </div>
-            <p class="muted small" style="margin-top:8px;">
-              Recommended: upload your best videos to YouTube as <strong>Unlisted</strong> and paste the embed URL here.
-            </p>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="grid">
-            <!-- Replace these cards with your own links -->
-            <a class="tile" href="#" target="_blank" rel="noopener">
-              <div class="tileTitle">Photo Album (Coming Soon)</div>
-              <div class="tileMeta">Link to Google Photos / Drive folder</div>
-            </a>
-
-            <a class="tile" href="#" target="_blank" rel="noopener">
-              <div class="tileTitle">Best Plays (Coming Soon)</div>
-              <div class="tileMeta">Link to YouTube playlist</div>
-            </a>
-
-            <a class="tile" href="#" target="_blank" rel="noopener">
-              <div class="tileTitle">Championship Moments</div>
-              <div class="tileMeta">Add your highlight link</div>
-            </a>
-
-            <a class="tile" href="./uploads.html">
-              <div class="tileTitle">Submit Media</div>
-              <div class="tileMeta">Upload photos/videos via form</div>
-            </a>
-          </div>
-
-        </div>
-      </div>
-    </section>
+    <div id="galleryGrid" class="galleryGrid"></div>
   </main>
+
+  <script src="./data.js"></script>
+  <script>
+    function safe(v){ return String(v || "").trim(); }
+
+    async function fetchCsv(url) {
+      const bust = (url.includes("?") ? "&" : "?") + "t=" + Date.now();
+      const res = await fetch(url + bust, { cache: "no-store" });
+      if (!res.ok) throw new Error("Failed to load gallery");
+      return await res.text();
+    }
+
+    function parseCsv(text) {
+      const lines = text.trim().split(/\r?\n/);
+      const rows = lines.map(line => line.split(","));
+      const headers = (rows.shift() || []).map(h => h.trim());
+      return rows.map(r =>
+        Object.fromEntries(headers.map((h, i) => [h, safe(r[i])]))
+      );
+    }
+
+    function youtubeEmbed(url){
+      const match = url.match(/(?:v=|youtu\.be\/)([^&]+)/);
+      return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+    }
+
+    async function init(){
+      const grid = document.getElementById("galleryGrid");
+
+      try {
+        const csv = await fetchCsv(window.SHEET.GALLERY_CSV_URL);
+        const rows = parseCsv(csv);
+
+        rows.reverse(); // newest first
+
+        for(const item of rows){
+          const card = document.createElement("div");
+          card.className = "galleryCard";
+
+          const type = safe(item.Type).toLowerCase();
+          const title = safe(item.Title);
+          const team = safe(item.Team);
+          const player = safe(item.Player);
+          const credit = safe(item.Credit);
+          const media = safe(item.MediaURL);
+
+          let mediaHTML = "";
+
+          if(type === "photo"){
+            mediaHTML = `<img src="${media}" alt="${title}" loading="lazy">`;
+          }
+
+          if(type === "video"){
+            const embed = youtubeEmbed(media);
+            if(embed){
+              mediaHTML = `
+                <iframe 
+                  src="${embed}" 
+                  frameborder="0" 
+                  allowfullscreen>
+                </iframe>
+              `;
+            }
+          }
+
+          card.innerHTML = `
+            <div class="galleryMedia">${mediaHTML}</div>
+            <div class="galleryContent">
+              <div class="galleryTitle">${title}</div>
+              <div class="galleryMeta">
+                ${team}${player ? " • " + player : ""}
+              </div>
+              ${credit ? `<div class="galleryCredit">${credit}</div>` : ""}
+            </div>
+          `;
+
+          grid.appendChild(card);
+        }
+
+      } catch(e){
+        console.error(e);
+        grid.innerHTML = "<p class='muted'>Gallery not available yet.</p>";
+      }
+    }
+
+    init();
+  </script>
 </body>
 </html>
+

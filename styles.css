@@ -1121,3 +1121,42 @@ th {
     justify-content: flex-start;
   }
 }
+
+/* =========================
+   Stats (GameChanger)
+========================= */
+
+.statsTopRow{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.statsTopBtn{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.statsEmbedHeader{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.gcEmbed{
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.85);
+  padding: 12px;
+  overflow: hidden;
+}
+
+/* Make sure the GC widget has room */
+#gc-scoreboard-widget-yi4k{
+  min-height: 520px;
+}

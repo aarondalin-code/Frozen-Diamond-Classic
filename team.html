@@ -46,9 +46,10 @@
         <div class="teamHeaderRight">
           <div class="coachCard">
             <div class="coachLabel">Head Coach</div>
-            <div class="coachName" id="coachName">See Contacts page</div>
+            <div class="coachName" id="coachName">TBD</div>
             <div class="coachLinks">
-              <a class="coachLink" href="./contacts.html">View Contacts →</a>
+              <a id="coachEmail" class="coachLink" href="#" style="display:none;">Email</a>
+              <a id="coachPhone" class="coachLink" href="#" style="display:none;">Call/Text</a>
             </div>
           </div>
         </div>
@@ -112,6 +113,10 @@
       return rows
         .filter(r => r.some(x => String(x).trim() !== ""))
         .map(r => Object.fromEntries(headers.map((h, i) => [h, String(r[i] ?? "").trim()])));
+    }
+
+    function normalizePhoneForTel(phone) {
+      return safe(phone).replace(/[^\d+]/g, "");
     }
 
     function openModal(player) {
@@ -194,10 +199,37 @@
         seedKicker.textContent = "Frozen Diamond Classic";
       }
 
-      // Optional team logos via TEAM_INFO (fallback to tournament logo)
       const teamLogo = window.TEAM_INFO?.[slug]?.logo || "./logo.png";
       logoEl.src = teamLogo;
       logoEl.onerror = () => { logoEl.src = "./logo.png"; };
+
+      // Coach info (from TEAM_INFO)
+      const coach = window.TEAM_INFO?.[slug] || {};
+      const coachNameEl = document.getElementById("coachName");
+      const coachEmailEl = document.getElementById("coachEmail");
+      const coachPhoneEl = document.getElementById("coachPhone");
+
+      const coachName = safe(coach.coachName);
+      const coachEmail = safe(coach.coachEmail);
+      const coachPhone = safe(coach.coachPhone);
+
+      coachNameEl.textContent = coachName && coachName.toLowerCase() !== "tbd" ? coachName : "TBD";
+
+      if (coachEmail && coachEmail.toLowerCase() !== "tbd") {
+        coachEmailEl.style.display = "inline-flex";
+        coachEmailEl.textContent = coachEmail;
+        coachEmailEl.href = `mailto:${coachEmail}`;
+      } else {
+        coachEmailEl.style.display = "none";
+      }
+
+      if (coachPhone && coachPhone.toLowerCase() !== "tbd") {
+        coachPhoneEl.style.display = "inline-flex";
+        coachPhoneEl.textContent = coachPhone;
+        coachPhoneEl.href = `tel:${normalizePhoneForTel(coachPhone)}`;
+      } else {
+        coachPhoneEl.style.display = "none";
+      }
     }
 
     function renderRoster(roster) {
@@ -208,7 +240,6 @@
         const name = safe(p.Name) || "Player";
         const num = safe(p.Number);
         const pos = safe(p.Position);
-
         const photo = safe(p.PhotoURL) || FALLBACK_PLAYER_IMG;
 
         const card = document.createElement("button");
@@ -226,7 +257,6 @@
           </div>
         `;
 
-        // Fallback if image is missing/broken
         const img = card.querySelector("img");
         img.onerror = () => { img.src = FALLBACK_PLAYER_IMG; };
 
@@ -281,7 +311,7 @@
 
       } catch (err) {
         console.error(err);
-        alert("Team page error: check ROSTER_CSV_URL + TEAMS_CSV_URL in data.js.");
+        alert("Team page error: check TEAM_INFO in data.js and your CSV URLs.");
       }
     })();
   </script>

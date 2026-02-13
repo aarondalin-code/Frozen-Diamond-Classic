@@ -65,8 +65,6 @@
   <script src="./data.js"></script>
 
   <script>
-    let rosterRows = [];
-
     async function fetchCsv(url) {
       if (!url || String(url).includes("PASTE_")) throw new Error("ROSTER_CSV_URL not set in data.js");
       const bust = (url.includes("?") ? "&" : "?") + "t=" + Date.now();
@@ -94,7 +92,6 @@
     function renderTeamChips(teams, selectedTeam) {
       const el = document.getElementById("teamChips");
       el.innerHTML = "";
-
       for (const t of teams) {
         const a = document.createElement("a");
         a.href = `./teams.html?team=${encodeURIComponent(t)}`;
@@ -187,7 +184,6 @@
           <div class="playerMeta">${pos || "—"}</div>
           <div class="playerLink">Tap for profile →</div>
         `;
-
         card.addEventListener("click", () => openModal(p));
         grid.appendChild(card);
       }
@@ -196,18 +192,17 @@
     (async function init() {
       try {
         const csv = await fetchCsv(window.SHEET?.ROSTER_CSV_URL);
-        rosterRows = parseCsv(csv);
+        const rows = parseCsv(csv);
 
-        const teams = Array.from(new Set(rosterRows.map(r => safe(r.Team)).filter(Boolean))).sort();
+        const teams = Array.from(new Set(rows.map(r => safe(r.Team)).filter(Boolean))).sort();
 
         let selected = getParam("team");
         if (!selected && teams.length) selected = teams[0];
 
         renderTeamChips(teams, selected);
-        renderRoster(selected, rosterRows);
+        renderRoster(selected, rows);
 
-        // Modal close behaviors
-        document.getElementById("modalCloseBtn").addEventListener("click", closeModalModalSafe);
+        document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
         document.getElementById("playerModal").addEventListener("click", (e) => {
           if (e.target.id === "playerModal") closeModal();
         });
@@ -215,30 +210,13 @@
           if (e.key === "Escape") closeModal();
         });
 
-        function closeModalSafe(){ closeModal(); }
-        function closeModal(){ 
-          const overlay = document.getElementById("playerModal");
-          overlay.classList.remove("open");
-          overlay.setAttribute("aria-hidden", "true");
-          document.body.classList.remove("noScroll");
-        }
-        function closeModal(){ /* overwritten below intentionally */ }
       } catch (err) {
         console.error(err);
         alert("Teams page error: set ROSTER_CSV_URL in data.js and ensure the Roster tab is published to CSV.");
       }
     })();
-
-    // Ensure closeModal is available (avoid accidental overwrite)
-    function closeModal(){
-      const overlay = document.getElementById("playerModal");
-      overlay.classList.remove("open");
-      overlay.setAttribute("aria-hidden", "true");
-      document.body.classList.remove("noScroll");
-    }
-    function closeModalSafe(){ closeModal(); }
-    function closeModal(){ /* overwritten above */ }
   </script>
 </body>
 </html>
+
 

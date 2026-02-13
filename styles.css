@@ -799,3 +799,131 @@ th {
 @media (max-width: 520px){
   .teamsGrid{ grid-template-columns: 1fr; }
 }
+
+/* =========================
+   Team Page Header Block
+========================= */
+
+.teamHeaderCard{
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 12px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.teamHeaderLeft{
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.teamLogo{
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  background: #0f172a;
+}
+
+.teamKicker{
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.35px;
+  color: #475569;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.teamTitle{
+  margin: 0;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.teamMetaRow{
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.teamPill{
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  font-weight: 900;
+  font-size: 12px;
+  color: var(--text);
+}
+
+.linkPill{
+  text-decoration: none;
+  color: var(--royal);
+  border-color: rgba(37,99,235,0.35);
+}
+
+.linkPill:hover{
+  border-color: rgba(37,99,235,0.55);
+}
+
+.teamHeaderRight{
+  display: flex;
+  align-items: stretch;
+}
+
+.coachCard{
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #f8fafc;
+  padding: 12px;
+}
+
+.coachLabel{
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.35px;
+  color: #475569;
+  margin-bottom: 6px;
+}
+
+.coachName{
+  font-weight: 900;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.coachLinks{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.coachLink{
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 10px;
+  border-radius: 10px;
+  background: white;
+  border: 1px solid var(--border);
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 12px;
+  color: var(--royal);
+}
+
+.coachLink:hover{
+  border-color: rgba(37,99,235,0.45);
+}
+
+@media (max-width: 760px){
+  .teamHeaderCard{ grid-template-columns: 1fr; }
+}

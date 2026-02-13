@@ -54,31 +54,3 @@
   <script src="./script.js"></script>
 </body>
 </html>
-
-<section class="cardSection">
-  <h2>GameChanger Live + Stats</h2>
-  <p class="muted">For live updates, box scores, and team stats:</p>
-
-  <p style="margin: 10px 0 14px;">
-    <a class="btnPrimary" href="https://web.gc.com/organizations/LtUv39afqNw8/home" target="_blank" rel="noopener">
-      Open GameChanger Tournament Page →
-    </a>
-  </p>
-
-  <!-- Paste the GameChanger widget embed code below (from Tools → Create Scoreboard) -->
-  <div class="gcEmbed" id="gcEmbed">
-    <!-- GC WIDGET CODE GOES HERE -->
-  </div>
-</section>
-
-<div id="gc-scoreboard-widget-yi4k"></div>
-
-<!-- Put this before the closing </body> tag -->
-<script src="https://widgets.gc.com/static/js/sdk.v1.js"></script>
-<script>
-    window.GC.scoreboard.init({
-        target: "#gc-scoreboard-widget-yi4k",
-        widgetId: "d6163834-654a-4545-9652-dc5da3690055",
-        maxVerticalGamesVisible: 4,
-    })
-</script>

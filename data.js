@@ -50,7 +50,7 @@ window.TEAM_INFO = {
   },
   "westfield-white": {
     name: "Westfield White",
-    logo: "./team-logos/westfield-white.png",
+    logo: "./team-logos/westfield-blue.jpg",
     coachName: "Danny Lallis",
     coachEmail: "danny.lallis@gmail.com",
     coachPhone: "(898) 698-3012"

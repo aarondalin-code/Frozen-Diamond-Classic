@@ -15,9 +15,8 @@
       <a href="./teams.html">Teams</a>
       <a href="./rules.html">Rules</a>
       <a href="./contacts.html">Contacts</a>
-      <a href="./gallery.html" class="active">Gallery</a>
       <a href="./uploads.html">Uploads</a>
-      
+      <a href="./gallery.html" class="active">Gallery</a>
     </nav>
 
     <div class="brandCenter">
@@ -31,91 +30,196 @@
     <h2>Gallery</h2>
     <p class="muted">Photos and highlights from the tournament.</p>
 
+    <!-- Filters -->
+    <div class="galleryFilters">
+      <div class="filterGroup">
+        <label class="filterLabel" for="teamFilter">Team</label>
+        <select id="teamFilter" class="filterSelect">
+          <option value="__all__">All Teams</option>
+        </select>
+      </div>
+
+      <div class="filterGroup">
+        <label class="filterLabel" for="typeFilter">Type</label>
+        <select id="typeFilter" class="filterSelect">
+          <option value="__all__">All</option>
+          <option value="photo">Photos</option>
+          <option value="video">Videos</option>
+        </select>
+      </div>
+
+      <div class="filterGroup filterGrow">
+        <div class="filterHint" id="resultCount"></div>
+      </div>
+    </div>
+
     <div id="galleryGrid" class="galleryGrid"></div>
+    <p id="galleryMsg" class="muted small" style="margin-top:12px;"></p>
   </main>
 
   <script src="./data.js"></script>
   <script>
-    function safe(v){ return String(v || "").trim(); }
+    function safe(v){ return String(v ?? "").trim(); }
 
     async function fetchCsv(url) {
+      if (!url) throw new Error("Missing GALLERY_CSV_URL in data.js");
       const bust = (url.includes("?") ? "&" : "?") + "t=" + Date.now();
       const res = await fetch(url + bust, { cache: "no-store" });
-      if (!res.ok) throw new Error("Failed to load gallery");
+      if (!res.ok) throw new Error(`Failed to load gallery CSV (${res.status})`);
       return await res.text();
     }
 
+    // Robust CSV parser (handles quoted commas)
     function parseCsv(text) {
-      const lines = text.trim().split(/\r?\n/);
-      const rows = lines.map(line => line.split(","));
-      const headers = (rows.shift() || []).map(h => h.trim());
-      return rows.map(r =>
-        Object.fromEntries(headers.map((h, i) => [h, safe(r[i])]))
-      );
+      const rows = [];
+      let row = [];
+      let cur = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        const next = text[i + 1];
+
+        if (ch === '"') {
+          if (inQuotes && next === '"') { cur += '"'; i++; }
+          else inQuotes = !inQuotes;
+          continue;
+        }
+
+        if (!inQuotes && ch === ",") { row.push(cur); cur = ""; continue; }
+
+        if (!inQuotes && (ch === "\n" || ch === "\r")) {
+          if (ch === "\r" && next === "\n") i++;
+          row.push(cur); cur = "";
+          if (row.some(v => safe(v) !== "")) rows.push(row);
+          row = [];
+          continue;
+        }
+
+        cur += ch;
+      }
+
+      row.push(cur);
+      if (row.some(v => safe(v) !== "")) rows.push(row);
+
+      const headers = (rows.shift() || []).map(h => safe(h).replace(/\s+/g,""));
+      return rows.map(r => {
+        const obj = {};
+        headers.forEach((h, idx) => obj[h] = safe(r[idx]));
+        return obj;
+      });
+    }
+
+    function normalizeType(t){
+      t = safe(t).toLowerCase();
+      if (t === "photo" || t === "image") return "photo";
+      if (t === "video") return "video";
+      return "";
     }
 
     function youtubeEmbed(url){
-      const match = url.match(/(?:v=|youtu\.be\/)([^&]+)/);
-      return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+      const u = safe(url);
+      let m = u.match(/youtu\.be\/([^?&]+)/);
+      if (m) return `https://www.youtube.com/embed/${m[1]}`;
+      m = u.match(/[?&]v=([^?&]+)/);
+      if (m) return `https://www.youtube.com/embed/${m[1]}`;
+      m = u.match(/youtube\.com\/shorts\/([^?&]+)/);
+      if (m) return `https://www.youtube.com/embed/${m[1]}`;
+      return null;
+    }
+
+    function makeCard(item){
+      const card = document.createElement("div");
+      card.className = "galleryCard";
+
+      let mediaHTML = "";
+      if (item.Type === "photo") {
+        mediaHTML = `<img src="${item.MediaURL}" alt="${item.Title || "Photo"}" loading="lazy"
+                       onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'muted\\' style=\\'padding:12px;\\'>Image failed to load</div>';">`;
+      } else if (item.Type === "video") {
+        const embed = youtubeEmbed(item.MediaURL);
+        mediaHTML = embed
+          ? `<iframe src="${embed}" frameborder="0" allowfullscreen></iframe>`
+          : `<div class="muted" style="padding:12px;">Video link not recognized. Use a YouTube URL.</div>`;
+      }
+
+      card.innerHTML = `
+        <div class="galleryMedia">${mediaHTML}</div>
+        <div class="galleryContent">
+          <div class="galleryTitle">${item.Title || (item.Type === "video" ? "Video" : "Photo")}</div>
+          <div class="galleryMeta">${item.Team}${item.Player ? " • " + item.Player : ""}</div>
+          ${item.Credit ? `<div class="galleryCredit">${item.Credit}</div>` : ""}
+        </div>
+      `;
+      return card;
+    }
+
+    let ALL_ITEMS = [];
+
+    function populateTeamFilter(items){
+      const select = document.getElementById("teamFilter");
+      const teams = Array.from(new Set(items.map(i => i.Team).filter(Boolean))).sort((a,b)=>a.localeCompare(b));
+
+      // clear existing (keep All Teams)
+      while (select.options.length > 1) select.remove(1);
+
+      for (const t of teams) {
+        const opt = document.createElement("option");
+        opt.value = t;
+        opt.textContent = t;
+        select.appendChild(opt);
+      }
+    }
+
+    function applyFilters(){
+      const teamVal = document.getElementById("teamFilter").value;
+      const typeVal = document.getElementById("typeFilter").value;
+
+      const filtered = ALL_ITEMS.filter(i => {
+        const teamOk = (teamVal === "__all__") || (i.Team === teamVal);
+        const typeOk = (typeVal === "__all__") || (i.Type === typeVal);
+        return teamOk && typeOk;
+      });
+
+      const grid = document.getElementById("galleryGrid");
+      const msg = document.getElementById("galleryMsg");
+      const count = document.getElementById("resultCount");
+
+      grid.innerHTML = "";
+      for (const item of filtered) grid.appendChild(makeCard(item));
+
+      count.textContent = filtered.length ? `${filtered.length} item(s)` : `0 items`;
+      msg.textContent = filtered.length ? "" : "No items match your filters.";
     }
 
     async function init(){
-      const grid = document.getElementById("galleryGrid");
-
+      const msg = document.getElementById("galleryMsg");
       try {
-        const csv = await fetchCsv(window.SHEET.GALLERY_CSV_URL);
+        const csv = await fetchCsv(window.SHEET?.GALLERY_CSV_URL);
         const rows = parseCsv(csv);
 
-        rows.reverse(); // newest first
+        // Map rows to items; ignore invalid rows
+        ALL_ITEMS = rows.map(r => ({
+          Type: normalizeType(r.Type),
+          Title: safe(r.Title),
+          Team: safe(r.Team),
+          Player: safe(r.Player),
+          MediaURL: safe(r.MediaURL),
+          Credit: safe(r.Credit)
+        }))
+        .filter(x => x.Type && x.MediaURL)
+        .reverse(); // newest-first based on sheet order
 
-        for(const item of rows){
-          const card = document.createElement("div");
-          card.className = "galleryCard";
-
-          const type = safe(item.Type).toLowerCase();
-          const title = safe(item.Title);
-          const team = safe(item.Team);
-          const player = safe(item.Player);
-          const credit = safe(item.Credit);
-          const media = safe(item.MediaURL);
-
-          let mediaHTML = "";
-
-          if(type === "photo"){
-            mediaHTML = `<img src="${media}" alt="${title}" loading="lazy">`;
-          }
-
-          if(type === "video"){
-            const embed = youtubeEmbed(media);
-            if(embed){
-              mediaHTML = `
-                <iframe 
-                  src="${embed}" 
-                  frameborder="0" 
-                  allowfullscreen>
-                </iframe>
-              `;
-            }
-          }
-
-          card.innerHTML = `
-            <div class="galleryMedia">${mediaHTML}</div>
-            <div class="galleryContent">
-              <div class="galleryTitle">${title}</div>
-              <div class="galleryMeta">
-                ${team}${player ? " • " + player : ""}
-              </div>
-              ${credit ? `<div class="galleryCredit">${credit}</div>` : ""}
-            </div>
-          `;
-
-          grid.appendChild(card);
-        }
+        populateTeamFilter(ALL_ITEMS);
+        applyFilters();
 
       } catch(e){
         console.error(e);
-        grid.innerHTML = "<p class='muted'>Gallery not available yet.</p>";
+        msg.textContent = `Gallery error: ${e.message}`;
       }
+
+      document.getElementById("teamFilter").addEventListener("change", applyFilters);
+      document.getElementById("typeFilter").addEventListener("change", applyFilters);
     }
 
     init();

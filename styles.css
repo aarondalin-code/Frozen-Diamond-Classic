@@ -46,17 +46,17 @@ body {
 }
 
 /* =========================
-   Header (More Compact)
+   Header (Compact)
 ========================= */
 
 .siteHeader {
   background: linear-gradient(180deg, var(--navBg), #0a1020);
   border-bottom: 3px solid var(--royal);
-  padding: 4px 0 8px;  /* tighter header height */
+  padding: 4px 0 8px;
   position: relative;
 }
 
-/* Nav (top-right) */
+/* Nav */
 .nav {
   position: absolute;
   top: 6px;
@@ -88,7 +88,7 @@ body {
   color: white;
 }
 
-/* Brand Block */
+/* Brand */
 .brandCenter {
   display: flex;
   flex-direction: column;
@@ -98,7 +98,7 @@ body {
 }
 
 .logoImage {
-  width: 90px;   /* larger logo */
+  width: 90px; /* larger logo */
   height: auto;
   margin-bottom: 2px;
   filter: drop-shadow(0 3px 8px rgba(0,0,0,0.6));
@@ -106,7 +106,7 @@ body {
 
 .brandCenter h1 {
   margin: 0;
-  font-size: 26px;  /* much bigger */
+  font-size: 26px;      /* bigger title without expanding header */
   line-height: 1;
   font-weight: 900;
   color: white;
@@ -127,11 +127,11 @@ body {
 .wrap {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 22px 18px 36px;
+  padding: 20px 18px 34px;
 }
 
 h2 {
-  margin-top: 24px;
+  margin-top: 22px;
   margin-bottom: 8px;
 }
 
@@ -139,19 +139,19 @@ h2 {
 .small { font-size: 12px; }
 
 /* =========================
-   Countdown Styling
+   Countdown
 ========================= */
 
 .countdownCard {
   background: white;
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 14px;
+  padding: 12px;
   text-align: center;
 }
 
 .countdownLabel {
-  font-size: 12px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-weight: 800;
@@ -159,14 +159,14 @@ h2 {
 }
 
 .countdownValue {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 900;
-  margin: 6px 0;
+  margin: 4px 0;
   color: var(--royal);
 }
 
 /* =========================
-   Document / Card Styling
+   Cards / Content
 ========================= */
 
 .docSection { margin-top: 12px; }
@@ -215,71 +215,12 @@ h2 {
   text-decoration: none;
 }
 
-.link:hover {
-  text-decoration: underline;
-}
-
-/* =========================
-   Lighter Food Block Styling
-========================= */
-
-.foodNote {
-  margin-top: 14px;
-  padding: 12px;
-  background: #f8fafc;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-}
-
-.foodTitle {
-  font-size: 12px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  margin-bottom: 6px;
-  color: #475569;
-}
-
-.foodList {
-  font-size: 14px;
-  color: #475569;
-  line-height: 1.5;
-}
+.link:hover { text-decoration: underline; }
 
 /* =========================
    Tables
 ========================= */
 
-.tableWrap {
-  width: 100%;
-  overflow: auto;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-}
-
-.simpleTable {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  min-width: 860px;
-}
-
-.simpleTable th,
-.simpleTable td {
-  border-bottom: 1px solid var(--border);
-  padding: 9px;
-  text-align: left;
-  vertical-align: top;
-}
-
-.simpleTable th {
-  background: #0f172a;
-  color: white;
-  font-weight: 800;
-  font-size: 12px;
-}
-
-/* Schedule table */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -331,6 +272,15 @@ th {
   gap: 14px;
 }
 
+.colTitle {
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: #111827;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
 .slot { margin-bottom: 12px; }
 
 .gameCard {
@@ -367,16 +317,25 @@ th {
   font-weight: 800;
 }
 
-/* =========================
-   Responsive
-========================= */
-
-@media (max-width: 760px) {
-  .cols2 { columns: 1; }
+/* Connector lines */
+.connectorRight::after {
+  content: "";
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  width: 14px;
+  height: 2px;
+  background: #94a3b8;
 }
 
-@media (max-width: 980px) {
-  .nav { right: 14px; }
+.connectorMid::before {
+  content: "";
+  position: absolute;
+  left: -14px;
+  top: 50%;
+  width: 14px;
+  height: 2px;
+  background: #94a3b8;
 }
 
 /* =========================
@@ -403,7 +362,6 @@ th {
   border: 1px solid rgba(0,0,0,0.15);
 }
 
-/* Subtle glow/pulse */
 @keyframes championGlow {
   0%, 100% {
     transform: translateY(0);
@@ -415,7 +373,77 @@ th {
   }
 }
 
-/* Respect reduced-motion accessibility */
 @media (prefers-reduced-motion: reduce) {
   .championCard { animation: none; }
+}
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 760px) {
+  .cols2 { columns: 1; }
+}
+
+/* iPhone / narrow mobile */
+@media (max-width: 520px) {
+
+  .siteHeader {
+    padding: 8px 0 10px;
+  }
+
+  /* Make nav a normal row and ensure it's clickable */
+  .nav {
+    position: relative;
+    z-index: 10;
+    top: auto;
+    right: auto;
+    justify-content: center;
+    padding: 6px 10px 6px;
+    gap: 10px;
+  }
+
+  .nav a {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  /* Brand sits below nav and can't block taps */
+  .brandCenter {
+    position: relative;
+    z-index: 1;
+    padding: 0 10px;
+    margin-top: 6px;
+  }
+
+  .logoImage {
+    width: 78px;
+    margin-bottom: 2px;
+  }
+
+  .brandCenter h1 {
+    font-size: 22px;
+    line-height: 1.05;
+  }
+
+  .brandCenter .tagline {
+    font-size: 10px;
+    margin-top: 1px;
+  }
+
+  .wrap {
+    padding: 16px 12px 28px;
+  }
+
+  /* Bracket: stack columns */
+  .bracketGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Tables: allow horizontal scroll */
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
 }

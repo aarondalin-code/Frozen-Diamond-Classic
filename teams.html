@@ -1,1 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Teams • Frozen Diamond Classic</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body class="watermarkPage">
+  <header class="siteHeader">
+    <nav class="nav">
+      <a href="./">Home</a>
+      <a href="./schedule.html">Schedule/Scores</a>
+      <a href="./teams.html" class="active">Teams</a>
+      <a href="./rules.html">Rules</a>
+      <a href="./contacts.html">Contacts</a>
+      <a href="./uploads.html">Uploads</a>
+      <a href="./gallery.html">Gallery</a>
+    </nav>
+
+    <div class="brandCenter">
+      <img src="./logo.png" alt="Frozen Diamond Classic Logo" class="logoImage">
+      <h1>Frozen Diamond Classic</h1>
+      <div class="tagline">Tournament Central</div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="docSection">
+      <h2>Teams</h2>
+      <p class="muted">Select a team to view its roster. Tap a player for profile details.</p>
+
+      <div class="card">
+        <div class="cardBody">
+          <div id="teamChips" class="teamChips"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:12px;">
+        <div class="cardBody">
+          <h3 class="subhead" id="teamTitle">Select a team above</h3>
+          <div id="teamMeta" class="muted small"></div>
+
+          <div class="divider"></div>
+
+          <div id="rosterGrid" class="rosterGrid"></div>
+
+          <p class="muted small" style="margin-top:12px;">
+            Rosters update from the Google Sheet once the Roster tab is published to CSV.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Player Modal -->
+  <div id="playerModal" class="modalOverlay" aria-hidden="true">
+    <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modalClose" id="modalCloseBtn" aria-label="Close">✕</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="./data.js"></script>
+
+  <script>
+    let rosterRows = [];
+
+    async function fetchCsv(url) {
+      if (!url || String(url).includes("PASTE_")) throw new Error("ROSTER_CSV_URL not set in data.js");
+      const bust = (url.includes("?") ? "&" : "?") + "t=" + Date.now();
+      const res = await fetch(url + bust, { cache: "no-store" });
+      if (!res.ok) throw new Error("Failed to fetch roster CSV");
+      return await res.text();
+    }
+
+    function parseCsv(text) {
+      const lines = text.trim().split(/\r?\n/);
+      const rows = lines.map(line => line.split(","));
+      const headers = (rows.shift() || []).map(h => String(h).trim().replace(/\s+/g, ""));
+      return rows
+        .filter(r => r.some(x => String(x).trim() !== ""))
+        .map(r => Object.fromEntries(headers.map((h, i) => [h, String(r[i] ?? "").trim()])));
+    }
+
+    function safe(v){ return String(v || "").trim(); }
+
+    function getParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+
+    function renderTeamChips(teams, selectedTeam) {
+      const el = document.getElementById("teamChips");
+      el.innerHTML = "";
+
+      for (const t of teams) {
+        const a = document.createElement("a");
+        a.href = `./teams.html?team=${encodeURIComponent(t)}`;
+        a.className = "chip" + (t === selectedTeam ? " active" : "");
+        a.textContent = t;
+        el.appendChild(a);
+      }
+    }
+
+    function openModal(player) {
+      const overlay = document.getElementById("playerModal");
+      const body = document.getElementById("modalBody");
+
+      const name = safe(player.Name) || "Player";
+      const team = safe(player.Team) || "—";
+      const num = safe(player.Number);
+      const pos = safe(player.Position);
+      const bats = safe(player.Bats);
+      const throws = safe(player.Throws);
+      const fact = safe(player.FunFact);
+      const photo = safe(player.PhotoURL);
+
+      body.innerHTML = `
+        <div class="profileHeader">
+          <div class="profilePhoto">
+            ${photo ? `<img src="${photo}" alt="${name}">` : `<div class="profilePhotoPlaceholder">No Photo</div>`}
+          </div>
+          <div class="profileInfo">
+            <h2 class="profileName" id="modalTitle">${name}</h2>
+            <div class="muted"><strong>Team:</strong> ${team}</div>
+            <div class="muted">
+              ${num ? `<strong>#</strong> ${num}` : ""}${(num && pos) ? " • " : ""}${pos ? `<strong>Pos:</strong> ${pos}` : ""}
+            </div>
+            <div class="muted small">
+              ${bats ? `Bats: ${bats}` : ""}${(bats && throws) ? " • " : ""}${throws ? `Throws: ${throws}` : ""}
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 class="subhead">Fun Fact</h3>
+        <p>${fact || `<span class="muted">Add a fun fact in the roster sheet (FunFact column).</span>`}</p>
+      `;
+
+      overlay.classList.add("open");
+      overlay.setAttribute("aria-hidden", "false");
+      document.body.classList.add("noScroll");
+    }
+
+    function closeModal() {
+      const overlay = document.getElementById("playerModal");
+      overlay.classList.remove("open");
+      overlay.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("noScroll");
+    }
+
+    function renderRoster(teamName, rows) {
+      const teamTitle = document.getElementById("teamTitle");
+      const teamMeta = document.getElementById("teamMeta");
+      const grid = document.getElementById("rosterGrid");
+
+      if (!teamName) {
+        teamTitle.textContent = "Select a team above";
+        teamMeta.textContent = "";
+        grid.innerHTML = "";
+        return;
+      }
+
+      const roster = rows.filter(r => safe(r.Team) === teamName);
+
+      teamTitle.textContent = teamName;
+      teamMeta.textContent = roster.length ? `${roster.length} players` : "Roster not posted yet";
+
+      grid.innerHTML = "";
+
+      for (const p of roster) {
+        const name = safe(p.Name) || "Player";
+        const num = safe(p.Number);
+        const pos = safe(p.Position);
+
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "playerCardBtn";
+        card.innerHTML = `
+          <div class="playerTop">
+            <div class="playerName">${name}</div>
+            <div class="playerNum">${num ? "#" + num : ""}</div>
+          </div>
+          <div class="playerMeta">${pos || "—"}</div>
+          <div class="playerLink">Tap for profile →</div>
+        `;
+
+        card.addEventListener("click", () => openModal(p));
+        grid.appendChild(card);
+      }
+    }
+
+    (async function init() {
+      try {
+        const csv = await fetchCsv(window.SHEET?.ROSTER_CSV_URL);
+        rosterRows = parseCsv(csv);
+
+        const teams = Array.from(new Set(rosterRows.map(r => safe(r.Team)).filter(Boolean))).sort();
+
+        let selected = getParam("team");
+        if (!selected && teams.length) selected = teams[0];
+
+        renderTeamChips(teams, selected);
+        renderRoster(selected, rosterRows);
+
+        // Modal close behaviors
+        document.getElementById("modalCloseBtn").addEventListener("click", closeModalModalSafe);
+        document.getElementById("playerModal").addEventListener("click", (e) => {
+          if (e.target.id === "playerModal") closeModal();
+        });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") closeModal();
+        });
+
+        function closeModalSafe(){ closeModal(); }
+        function closeModal(){ 
+          const overlay = document.getElementById("playerModal");
+          overlay.classList.remove("open");
+          overlay.setAttribute("aria-hidden", "true");
+          document.body.classList.remove("noScroll");
+        }
+        function closeModal(){ /* overwritten below intentionally */ }
+      } catch (err) {
+        console.error(err);
+        alert("Teams page error: set ROSTER_CSV_URL in data.js and ensure the Roster tab is published to CSV.");
+      }
+    })();
+
+    // Ensure closeModal is available (avoid accidental overwrite)
+    function closeModal(){
+      const overlay = document.getElementById("playerModal");
+      overlay.classList.remove("open");
+      overlay.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("noScroll");
+    }
+    function closeModalSafe(){ closeModal(); }
+    function closeModal(){ /* overwritten above */ }
+  </script>
+</body>
+</html>
 

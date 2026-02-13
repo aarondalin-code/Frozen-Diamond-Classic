@@ -30,13 +30,37 @@
     <section class="docSection">
       <a class="link" href="./teams.html">← Back to Teams</a>
 
-      <div class="card" style="margin-top:10px;">
+      <!-- Team Header Block -->
+      <div class="teamHeaderCard" style="margin-top:10px;">
+        <div class="teamHeaderLeft">
+          <img id="teamLogo" class="teamLogo" src="./logo.png" alt="Team logo">
+          <div>
+            <div class="teamKicker" id="teamSeedKicker">Frozen Diamond Classic</div>
+            <h2 class="teamTitle" id="teamName">Team</h2>
+            <div class="teamMetaRow">
+              <span class="teamPill" id="teamSeedPill" style="display:none;"></span>
+              <a class="teamPill linkPill" href="./contacts.html">Contacts</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="teamHeaderRight">
+          <div class="coachCard">
+            <div class="coachLabel">Head Coach</div>
+            <div class="coachName" id="coachName">TBD</div>
+            <div class="coachLinks">
+              <a id="coachEmail" class="coachLink" href="#" style="display:none;">Email</a>
+              <a id="coachPhone" class="coachLink" href="#" style="display:none;">Call/Text</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Roster -->
+      <div class="card" style="margin-top:12px;">
         <div class="cardBody">
-          <h2 id="teamName">Team</h2>
           <p class="muted" id="teamSub">Roster</p>
-
           <div class="divider"></div>
-
           <div id="rosterGrid" class="rosterGrid"></div>
 
           <p class="muted small" style="margin-top:12px;">
@@ -74,10 +98,10 @@
     }
 
     async function fetchCsv(url) {
-      if (!url) throw new Error("Missing ROSTER_CSV_URL in data.js");
+      if (!url) throw new Error("Missing CSV URL in data.js");
       const bust = (url.includes("?") ? "&" : "?") + "t=" + Date.now();
       const res = await fetch(url + bust, { cache: "no-store" });
-      if (!res.ok) throw new Error(`Failed to fetch roster CSV (${res.status})`);
+      if (!res.ok) throw new Error(`Failed to fetch CSV (${res.status})`);
       return await res.text();
     }
 
@@ -139,7 +163,6 @@
     }
 
     function sortRoster(roster) {
-      // Prefer jersey number numeric, then name
       return roster.sort((a, b) => {
         const na = Number(safe(a.Number));
         const nb = Number(safe(b.Number));
@@ -154,14 +177,60 @@
       });
     }
 
-    function renderRoster(teamDisplayName, roster) {
+    function setTeamHeader({ slug, displayName, seed, coach }) {
       const nameEl = document.getElementById("teamName");
       const subEl = document.getElementById("teamSub");
+      const seedPill = document.getElementById("teamSeedPill");
+      const seedKicker = document.getElementById("teamSeedKicker");
+      const logoEl = document.getElementById("teamLogo");
+
+      nameEl.textContent = displayName || slug;
+      subEl.textContent = "Roster";
+
+      // Seed
+      if (Number.isFinite(seed)) {
+        seedPill.style.display = "inline-flex";
+        seedPill.textContent = `Seed ${seed}`;
+        seedKicker.textContent = `Frozen Diamond Classic • Seed ${seed}`;
+      } else {
+        seedPill.style.display = "none";
+        seedKicker.textContent = "Frozen Diamond Classic";
+      }
+
+      // Logo with fallback
+      const logoSrc = coach?.logo || (window.TEAM_INFO?.[slug]?.logo) || window.DEFAULT_TEAM_LOGO || "./logo.png";
+      logoEl.src = logoSrc;
+      logoEl.alt = `${displayName || slug} logo`;
+      logoEl.onerror = () => { logoEl.src = window.DEFAULT_TEAM_LOGO || "./logo.png"; };
+
+      // Coach
+      const coachName = document.getElementById("coachName");
+      const coachEmail = document.getElementById("coachEmail");
+      const coachPhone = document.getElementById("coachPhone");
+
+      coachName.textContent = coach?.coachName || "TBD";
+
+      const emailVal = safe(coach?.coachEmail);
+      if (emailVal && emailVal !== "TBD") {
+        coachEmail.style.display = "inline-flex";
+        coachEmail.textContent = emailVal;
+        coachEmail.href = `mailto:${emailVal}`;
+      } else {
+        coachEmail.style.display = "none";
+      }
+
+      const phoneVal = safe(coach?.coachPhone);
+      if (phoneVal) {
+        coachPhone.style.display = "inline-flex";
+        coachPhone.textContent = phoneVal;
+        coachPhone.href = `tel:${phoneVal.replace(/[^\d+]/g, "")}`;
+      } else {
+        coachPhone.style.display = "none";
+      }
+    }
+
+    function renderRoster(roster) {
       const grid = document.getElementById("rosterGrid");
-
-      nameEl.textContent = teamDisplayName || "Team";
-      subEl.textContent = roster.length ? `${roster.length} players` : "Roster not posted yet";
-
       grid.innerHTML = "";
 
       for (const p of roster) {
@@ -180,7 +249,6 @@
           <div class="playerMeta">${pos || "—"}</div>
           <div class="playerLink">Tap for profile →</div>
         `;
-
         card.addEventListener("click", () => openModal(p));
         grid.appendChild(card);
       }
@@ -191,15 +259,47 @@
         const slug = safe(getParam("team"));
         if (!slug) throw new Error("Missing ?team= in URL");
 
-        const csv = await fetchCsv(window.SHEET?.ROSTER_CSV_URL);
-        const rows = parseCsv(csv);
+        // Load roster + teams (seed)
+        const [rosterCsv, teamsCsv] = await Promise.all([
+          fetchCsv(window.SHEET?.ROSTER_CSV_URL),
+          fetchCsv(window.SHEET?.TEAMS_CSV_URL)
+        ]);
 
-        // Find team display name by matching slug against Team column
-        const allTeams = Array.from(new Set(rows.map(r => safe(r.Team)).filter(Boolean)));
-        const teamDisplayName = allTeams.find(t => teamSlug(t) === slug) || slug;
+        const rosterRows = parseCsv(rosterCsv);
+        const teamRows = parseCsv(teamsCsv);
 
-        const roster = rows.filter(r => teamSlug(r.Team) === slug);
-        renderRoster(teamDisplayName, sortRoster(roster));
+        // Find displayName from TEAM_INFO first; else from roster/slug
+        const info = window.TEAM_INFO?.[slug] || {};
+        const allRosterTeams = Array.from(new Set(rosterRows.map(r => safe(r.Team)).filter(Boolean)));
+        const rosterDisplay = allRosterTeams.find(t => teamSlug(t) === slug) || "";
+
+        const displayName = info.name || rosterDisplay || slug;
+
+        // Seed (from Teams tab TeamName/Seed)
+        let seed = NaN;
+        for (const r of teamRows) {
+          const nm = safe(r.TeamName);
+          if (nm && teamSlug(nm) === slug) {
+            const s = Number(safe(r.Seed));
+            if (Number.isFinite(s)) seed = s;
+          }
+        }
+
+        // Coach info centralized in TEAM_INFO
+        setTeamHeader({
+          slug,
+          displayName,
+          seed,
+          coach: info
+        });
+
+        // Roster filter by team slug
+        const roster = rosterRows.filter(r => teamSlug(r.Team) === slug);
+        const sorted = sortRoster(roster);
+
+        // Update subtext with count
+        document.getElementById("teamSub").textContent = sorted.length ? `${sorted.length} players` : "Roster not posted yet";
+        renderRoster(sorted);
 
         // Modal close behaviors
         document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
@@ -212,9 +312,10 @@
 
       } catch (err) {
         console.error(err);
-        alert("Team page error: check that ROSTER_CSV_URL is set and that the roster sheet has a 'Team' column.");
+        alert("Team page error: check ROSTER_CSV_URL + TEAMS_CSV_URL and TEAM_INFO in data.js.");
       }
     })();
   </script>
 </body>
 </html>
+

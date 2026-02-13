@@ -15,7 +15,7 @@ window.SHEET = {
 window.TEAM_INFO = {
   "westfield-blue": {
     name: "Westfield Blue",
-    logo: "./team-logos/westfield-blue.png",
+    logo: "./team-logos/westfield-blue.jpg",
     coachName: "Aaron Dalin",
     coachEmail: "aarondalin@gmail.com",
     coachPhone: "(917) 922-9847"

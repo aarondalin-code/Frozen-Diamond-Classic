@@ -1,0 +1,1 @@
+Player photos folder

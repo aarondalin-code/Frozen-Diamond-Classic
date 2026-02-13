@@ -1046,3 +1046,78 @@ th {
   color: #475569;
   padding: 10px 0;
 }
+
+/* =========================
+   Gallery Chip Filters
+========================= */
+
+.galleryFilterBar{
+  margin-top: 14px;
+  margin-bottom: 10px;
+  padding: 12px;
+  background: rgba(255,255,255,0.75);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  backdrop-filter: blur(6px);
+}
+
+.filterRow{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.filterLabelInline{
+  font-size: 12px;
+  font-weight: 900;
+  color: #334155;
+  min-width: 42px;
+}
+
+.chipRow{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filterChip{
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  color: var(--text);
+  font-weight: 900;
+  font-size: 12px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+}
+
+.filterChip:hover{
+  transform: translateY(-1px);
+  border-color: rgba(37,99,235,0.45);
+}
+
+.filterChip.active{
+  background: rgba(37,99,235,0.18);
+  border-color: rgba(37,99,235,0.55);
+  color: #0b1220;
+}
+
+.filterMetaRow{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2px;
+}
+
+/* Mobile: reduce chip padding a touch */
+@media (max-width: 520px){
+  .filterChip{
+    padding: 7px 10px;
+    font-size: 11px;
+  }
+  .filterMetaRow{
+    justify-content: flex-start;
+  }
+}

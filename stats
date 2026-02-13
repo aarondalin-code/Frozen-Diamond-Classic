@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stats • Frozen Diamond Classic</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body class="watermarkPage">
+  <header class="siteHeader">
+    <nav class="nav">
+      <a href="./">Home</a>
+      <a href="./schedule.html">Schedule/Scores</a>
+      <a href="./teams.html">Teams</a>
+      <a href="./rules.html">Rules</a>
+      <a href="./contacts.html">Contacts</a>
+      <a href="./uploads.html">Uploads</a>
+      <a href="./gallery.html">Gallery</a>
+      <a href="./stats.html" class="active">Stats</a>
+    </nav>
+
+    <div class="brandCenter">
+      <img src="./logo.png" alt="Frozen Diamond Classic Logo" class="logoImage">
+      <h1>Frozen Diamond Classic</h1>
+      <div class="tagline">Tournament Central</div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <h2>Stats (GameChanger)</h2>
+    <p class="muted">
+      Live scoring, box scores, standings, and team/player stats are available on GameChanger.
+    </p>
+
+    <div class="card" style="margin-top:12px;">
+      <div class="cardBody">
+        <div class="statsTopRow">
+          <div>
+            <h3 style="margin:0 0 6px;">Tournament Hub</h3>
+            <p class="muted" style="margin:0;">
+              Open the tournament directly in GameChanger for the full experience.
+            </p>
+          </div>
+
+          <div class="statsTopBtn">
+            <a class="btnPrimary" href="https://web.gc.com/organizations/LtUv39afqNw8/home" target="_blank" rel="noopener">
+              Open in GameChanger →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <div class="cardBody">
+        <div class="statsEmbedHeader">
+          <h3 style="margin:0;">Scoreboard Widget</h3>
+          <div class="muted small">Shows up to 4 games at a time</div>
+        </div>
+
+        <div class="gcEmbed">
+          <!-- GameChanger widget mount point -->
+          <div id="gc-scoreboard-widget-yi4k"></div>
+        </div>
+
+        <p class="muted small" style="margin-top:10px;">
+          If you don’t see the widget on iPhone, use “Open in GameChanger” above (best reliability).
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- GameChanger SDK (keep before closing </body>) -->
+  <script src="https://widgets.gc.com/static/js/sdk.v1.js"></script>
+  <script>
+    // Initialize after SDK loads
+    window.GC.scoreboard.init({
+      target: "#gc-scoreboard-widget-yi4k",
+      widgetId: "d6163834-654a-4545-9652-dc5da3690055",
+      maxVerticalGamesVisible: 4
+    });
+  </script>
+</body>
+</html>
+

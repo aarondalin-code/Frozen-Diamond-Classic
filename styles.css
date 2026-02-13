@@ -1002,3 +1002,47 @@ th {
   margin-top: 6px;
   color: #64748b;
 }
+
+/* =========================
+   Gallery Filters
+========================= */
+
+.galleryFilters{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: end;
+  margin-top: 14px;
+  margin-bottom: 12px;
+}
+
+.filterGroup{
+  display: grid;
+  gap: 6px;
+}
+
+.filterGrow{
+  flex: 1;
+  min-width: 160px;
+}
+
+.filterLabel{
+  font-size: 12px;
+  font-weight: 900;
+  color: #334155;
+}
+
+.filterSelect{
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: white;
+  padding: 10px 12px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.filterHint{
+  font-size: 12px;
+  color: #475569;
+  padding: 10px 0;
+}

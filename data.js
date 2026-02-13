@@ -15,58 +15,58 @@ window.TEAM_INFO = {
   "westfield-blue": {
     name: "Westfield Blue",
     logo: "./team-logos/westfield-blue.png",
-    coachName: "TBD",
-    coachEmail: "TBD",
-    coachPhone: ""
+    coachName: "Aaron Dalin",
+    coachEmail: "aarondalin@gmail.com",
+    coachPhone: "(917) 922-9847"
   },
   "branchburg": {
     name: "Branchburg",
     logo: "./team-logos/branchburg.png",
-    coachName: "TBD",
-    coachEmail: "TBD",
-    coachPhone: ""
+    coachName: "Tom Sharples",
+    coachEmail: "trsjr12@gmail.com",
+    coachPhone: "(908) 361-6332"
   },
   "ridge": {
     name: "Ridge",
     logo: "./team-logos/ridge.png",
-    coachName: "TBD",
-    coachEmail: "TBD",
-    coachPhone: ""
+    coachName: "Greg Brunner",
+    coachEmail: "gregbrunner@ridgebaseballclub.com",
+    coachPhone: "(267) 475-9516"
   },
   "scotch-plains-fanwood": {
     name: "Scotch Plains Fanwood",
     logo: "./team-logos/scotch-plains-fanwood.png",
-    coachName: "TBD",
-    coachEmail: "TBD",
-    coachPhone: ""
+    coachName: "Ross Alpert",
+    coachEmail: "ross.alpert2@gmail.com",
+    coachPhone: "(732) 535-1077"
   },
   "hillsborough": {
     name: "Hillsborough",
     logo: "./team-logos/hillsborough.png",
-    coachName: "TBD",
-    coachEmail: "TBD",
-    coachPhone: ""
+    coachName: "Blair Dameron",
+    coachEmail: "blaird@hillsboroughbaseball.org",
+    coachPhone: "(215) 593-5207"
   },
   "westfield-white": {
     name: "Westfield White",
     logo: "./team-logos/westfield-white.png",
-    coachName: "TBD",
-    coachEmail: "TBD",
-    coachPhone: ""
+    coachName: "Danny Lallis",
+    coachEmail: "danny.lallis@gmail.com",
+    coachPhone: "(898) 698-3012"
   },
   "south-orange-maplewood": {
     name: "South Orange Maplewood",
     logo: "./team-logos/south-orange-maplewood.png",
-    coachName: "TBD",
-    coachEmail: "TBD",
-    coachPhone: ""
+    coachName: "Jeremy Wintroub",
+    coachEmail: "jwintroub@gmail.com",
+    coachPhone: "(215) 370-8975"
   },
   "watchung-hills": {
     name: "Watchung Hills",
     logo: "./team-logos/watchung-hills.png",
-    coachName: "TBD",
-    coachEmail: "TBD",
-    coachPhone: ""
+    coachName: "Steven Freitas",
+    coachEmail: "freitas.steven@gmail.com",
+    coachPhone: "(201) 744-6063"
   }
 };
 

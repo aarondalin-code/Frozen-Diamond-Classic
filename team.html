@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Team Roster • Frozen Diamond Classic</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body class="watermarkPage">
+  <header class="siteHeader">
+    <nav class="nav">
+      <a href="./">Home</a>
+      <a href="./schedule.html">Schedule/Scores</a>
+      <a href="./teams.html" class="active">Teams</a>
+      <a href="./rules.html">Rules</a>
+      <a href="./contacts.html">Contacts</a>
+      <a href="./uploads.html">Uploads</a>
+      <a href="./gallery.html">Gallery</a>
+    </nav>
+
+    <div class="brandCenter">
+      <img src="./logo.png" alt="Frozen Diamond Classic Logo" class="logoImage">
+      <h1>Frozen Diamond Classic</h1>
+      <div class="tagline">Tournament Central</div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="docSection">
+      <a class="link" href="./teams.html">← Back to Teams</a>
+
+      <div class="card" style="margin-top:10px;">
+        <div class="cardBody">
+          <h2 id="teamName">Team</h2>
+          <p class="muted" id="teamSub">Roster</p>
+
+          <div class="divider"></div>
+
+          <div id="rosterGrid" class="rosterGrid"></div>
+
+          <p class="muted small" style="margin-top:12px;">
+            Rosters update automatically when the Google Sheet roster is updated and published.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Player Modal -->
+  <div id="playerModal" class="modalOverlay" aria-hidden="true">
+    <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modalClose" id="modalCloseBtn" aria-label="Close">✕</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="./data.js"></script>
+
+  <script>
+    function safe(v){ return String(v || "").trim(); }
+
+    function teamSlug(name) {
+      return safe(name)
+        .toLowerCase()
+        .replace(/&/g, "and")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
+    }
+
+    function getParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+
+    async function fetchCsv(url) {
+      if (!url) throw new Error("Missing ROSTER_CSV_URL in data.js");
+      const bust = (url.includes("?") ? "&" : "?") + "t=" + Date.now();
+      const res = await fetch(url + bust, { cache: "no-store" });
+      if (!res.ok) throw new Error(`Failed to fetch roster CSV (${res.status})`);
+      return await res.text();
+    }
+
+    function parseCsv(text) {
+      const lines = text.trim().split(/\r?\n/);
+      const rows = lines.map(line => line.split(","));
+      const headers = (rows.shift() || []).map(h => String(h).trim().replace(/\s+/g, ""));
+      return rows
+        .filter(r => r.some(x => String(x).trim() !== ""))
+        .map(r => Object.fromEntries(headers.map((h, i) => [h, String(r[i] ?? "").trim()])));
+    }
+
+    function openModal(player) {
+      const overlay = document.getElementById("playerModal");
+      const body = document.getElementById("modalBody");
+
+      const name = safe(player.Name) || "Player";
+      const team = safe(player.Team) || "—";
+      const num = safe(player.Number);
+      const pos = safe(player.Position);
+      const bats = safe(player.Bats);
+      const throws = safe(player.Throws);
+      const fact = safe(player.FunFact);
+      const photo = safe(player.PhotoURL);
+
+      body.innerHTML = `
+        <div class="profileHeader">
+          <div class="profilePhoto">
+            ${photo ? `<img src="${photo}" alt="${name}">` : `<div class="profilePhotoPlaceholder">No Photo</div>`}
+          </div>
+          <div class="profileInfo">
+            <h2 class="profileName" id="modalTitle">${name}</h2>
+            <div class="muted"><strong>Team:</strong> ${team}</div>
+            <div class="muted">
+              ${num ? `<strong>#</strong> ${num}` : ""}${(num && pos) ? " • " : ""}${pos ? `<strong>Pos:</strong> ${pos}` : ""}
+            </div>
+            <div class="muted small">
+              ${bats ? `Bats: ${bats}` : ""}${(bats && throws) ? " • " : ""}${throws ? `Throws: ${throws}` : ""}
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 class="subhead">Fun Fact</h3>
+        <p>${fact || `<span class="muted">Add a fun fact in the roster sheet (FunFact column).</span>`}</p>
+      `;
+
+      overlay.classList.add("open");
+      overlay.setAttribute("aria-hidden", "false");
+      document.body.classList.add("noScroll");
+    }
+
+    function closeModal() {
+      const overlay = document.getElementById("playerModal");
+      overlay.classList.remove("open");
+      overlay.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("noScroll");
+    }
+
+    function sortRoster(roster) {
+      // Prefer jersey number numeric, then name
+      return roster.sort((a, b) => {
+        const na = Number(safe(a.Number));
+        const nb = Number(safe(b.Number));
+        const aHas = Number.isFinite(na);
+        const bHas = Number.isFinite(nb);
+
+        if (aHas && bHas && na !== nb) return na - nb;
+        if (aHas && !bHas) return -1;
+        if (!aHas && bHas) return 1;
+
+        return safe(a.Name).localeCompare(safe(b.Name));
+      });
+    }
+
+    function renderRoster(teamDisplayName, roster) {
+      const nameEl = document.getElementById("teamName");
+      const subEl = document.getElementById("teamSub");
+      const grid = document.getElementById("rosterGrid");
+
+      nameEl.textContent = teamDisplayName || "Team";
+      subEl.textContent = roster.length ? `${roster.length} players` : "Roster not posted yet";
+
+      grid.innerHTML = "";
+
+      for (const p of roster) {
+        const name = safe(p.Name) || "Player";
+        const num = safe(p.Number);
+        const pos = safe(p.Position);
+
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "playerCardBtn";
+        card.innerHTML = `
+          <div class="playerTop">
+            <div class="playerName">${name}</div>
+            <div class="playerNum">${num ? "#" + num : ""}</div>
+          </div>
+          <div class="playerMeta">${pos || "—"}</div>
+          <div class="playerLink">Tap for profile →</div>
+        `;
+
+        card.addEventListener("click", () => openModal(p));
+        grid.appendChild(card);
+      }
+    }
+
+    (async function init(){
+      try {
+        const slug = safe(getParam("team"));
+        if (!slug) throw new Error("Missing ?team= in URL");
+
+        const csv = await fetchCsv(window.SHEET?.ROSTER_CSV_URL);
+        const rows = parseCsv(csv);
+
+        // Find team display name by matching slug against Team column
+        const allTeams = Array.from(new Set(rows.map(r => safe(r.Team)).filter(Boolean)));
+        const teamDisplayName = allTeams.find(t => teamSlug(t) === slug) || slug;
+
+        const roster = rows.filter(r => teamSlug(r.Team) === slug);
+        renderRoster(teamDisplayName, sortRoster(roster));
+
+        // Modal close behaviors
+        document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
+        document.getElementById("playerModal").addEventListener("click", (e) => {
+          if (e.target.id === "playerModal") closeModal();
+        });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") closeModal();
+        });
+
+      } catch (err) {
+        console.error(err);
+        alert("Team page error: check that ROSTER_CSV_URL is set and that the roster sheet has a 'Team' column.");
+      }
+    })();
+  </script>
+</body>
+</html>

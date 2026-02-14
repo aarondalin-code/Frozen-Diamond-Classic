@@ -243,6 +243,7 @@
       const pos = safe(player.Position);
       const bats = safe(player.Bats);
       const throws = safe(player.Throws);
+      const fav = safe(player.FavoriteTeam);
       const fun = safe(player.FunFact);
       const photo = getPhotoSrc(player);
 
@@ -251,6 +252,7 @@
       if (pos) lines.push(line("Position", pos));
       if (bats) lines.push(line("Bats", bats));
       if (throws) lines.push(line("Throws", throws));
+      if (fav) lines.push(line("Favorite MLB Team", fav));
       if (fun) lines.push(line("Fun Fact", fun));
 
       openModal(`

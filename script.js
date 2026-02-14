@@ -16,6 +16,24 @@
     return safe(status).toLowerCase() === "final";
   }
 
+  function teamSlug(name) {
+    const n = safe(name);
+    if (!n || n === "TBD") return "";
+    return n
+      .toLowerCase()
+      .replace(/&/g, "and")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+  }
+
+  function teamLinkHTML(name) {
+    const n = safe(name);
+    if (!n || n === "TBD") return "TBD";
+    const slug = teamSlug(n);
+    if (!slug) return n;
+    return `<a class="teamLinkInline" href="./team.html?team=${encodeURIComponent(slug)}">${n}</a>`;
+  }
+
   async function fetchCsv(url) {
     if (!url) throw new Error("Missing CSV URL in data.js");
     const bust = (url.includes("?") ? "&" : "?") + "t=" + Date.now();
@@ -215,18 +233,22 @@
       const tr = document.createElement("tr");
       if (final) tr.classList.add("finalRow");
 
+      // matchup as HTML links
+      const matchupHTML = `${teamLinkHTML(teamA)} <span class="vsSep">vs</span> ${teamLinkHTML(teamB)}`;
+
       const cells = [
-        safe(g.Time),
-        safe(g.Field),
-        `Game ${safe(g.Game)}`,
-        `${teamA} vs ${teamB}`,
-        score,
-        final ? "Final" : (safe(g.Status || "Scheduled") || "Scheduled"),
+        { type: "text", value: safe(g.Time) },
+        { type: "text", value: safe(g.Field) },
+        { type: "text", value: `Game ${safe(g.Game)}` },
+        { type: "html", value: matchupHTML },
+        { type: "text", value: score },
+        { type: "text", value: final ? "Final" : (safe(g.Status || "Scheduled") || "Scheduled") },
       ];
 
-      for (const text of cells) {
+      for (const c of cells) {
         const td = document.createElement("td");
-        td.textContent = text;
+        if (c.type === "html") td.innerHTML = c.value;
+        else td.textContent = c.value;
         tr.appendChild(td);
       }
 
@@ -257,13 +279,19 @@
       const card = document.createElement("div");
       card.className = "scheduleCard" + (final ? " final" : "");
 
+      const matchupHTML = `
+        ${teamLinkHTML(teamA)}
+        <span class="vsSep">vs</span>
+        ${teamLinkHTML(teamB)}
+      `;
+
       card.innerHTML = `
         <div class="scheduleCardTop">
           <div class="scheduleCardMeta">Game ${safe(g.Game)} • ${safe(g.Time)}</div>
           <div class="scheduleCardStatus">${statusText}</div>
         </div>
         <div class="scheduleCardBody">
-          <div class="scheduleMatchup">${teamA} vs ${teamB}</div>
+          <div class="scheduleMatchup">${matchupHTML}</div>
           <div class="scheduleScoreRow">
             <div class="scheduleScore">${final ? score : ""}</div>
             <div class="scheduleField">${safe(g.Field)}</div>
@@ -315,10 +343,10 @@
       await loadAndRender();
     } catch (err) {
       console.error(err);
-      // no repeated alerts for spectators
     }
   }, 60000);
 })();
+
 
 
 

@@ -1479,18 +1479,18 @@ th {
 }
 
 .teamsPage .teamTile{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 20px;
+  position: relative;
+  display: block;
+  padding: 14px 16px;            /* smaller */
   border-radius: 14px;
   border: 1px solid var(--border);
   background: #f8fafc;
   text-decoration: none;
   color: var(--text);
-  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
-  min-height: 100px;
+  overflow: hidden;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
 }
+
 
 .teamsPage .teamTile:hover{
   transform: translateY(-3px);

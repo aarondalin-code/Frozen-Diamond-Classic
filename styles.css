@@ -1206,3 +1206,152 @@ th {
   object-fit: cover;
   flex: 0 0 auto;
 }
+
+/* =========================================================
+   TEAM PAGE RESTORE PATCH
+   (Paste at bottom of styles.css)
+========================================================= */
+
+/* Ensure watermark behavior is consistent */
+.watermarkPage{
+  position: relative;
+  background: #f4f6fa;
+}
+
+.watermarkPage::before{
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("./logo.png") no-repeat center;
+  background-size: min(900px, 92vw);
+  opacity: 0.07;                 /* adjust if watermark feels off */
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Make sure the page content sits above watermark */
+.watermarkPage .siteHeader,
+.watermarkPage .wrap{
+  position: relative;
+  z-index: 1;
+}
+
+/* Roster grid should be a clean grid */
+.rosterGrid{
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 12px !important;
+}
+
+/* Player card button layout restore */
+.playerCardBtn{
+  width: 100% !important;
+  text-align: left !important;
+  cursor: pointer !important;
+  border: 1px solid var(--border) !important;
+  background: #f8fafc !important;
+  border-radius: 12px !important;
+  padding: 12px !important;
+  color: var(--text) !important;
+  transition: transform 0.15s ease, border-color 0.15s ease !important;
+  overflow: hidden !important;         /* prevents spill */
+}
+
+.playerCardBtn:hover{
+  transform: translateY(-2px) !important;
+  border-color: rgba(37,99,235,0.45) !important;
+}
+
+/* Card internal row */
+.playerCardRow{
+  display: flex !important;
+  gap: 12px !important;
+  align-items: center !important;
+  min-width: 0 !important;
+}
+
+/* Thumbnail */
+.playerThumb{
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 999px !important;
+  border: 1px solid var(--border) !important;
+  overflow: hidden !important;
+  background: #0f172a !important;
+  flex: 0 0 auto !important;
+}
+
+.playerThumb img{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+/* Main text area */
+.playerCardMain{
+  flex: 1 !important;
+  min-width: 0 !important;  /* critical: prevents text overflow */
+}
+
+/* Name + number row */
+.playerTop{
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: baseline !important;
+  gap: 10px !important;
+}
+
+.playerName{
+  font-weight: 900 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.playerNum{
+  font-weight: 900 !important;
+  color: #334155 !important;
+  flex: 0 0 auto !important;
+}
+
+.playerMeta{
+  margin-top: 6px !important;
+  font-size: 12px !important;
+  color: #475569 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.playerLink{
+  margin-top: 10px !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  color: var(--royal) !important;
+}
+
+/* Modal profile lines (keep clean) */
+.profileLines{ display: grid !important; gap: 8px !important; }
+
+.profileLine{
+  display:flex !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  padding: 8px 0 !important;
+  border-bottom: 1px solid var(--border) !important;
+  font-weight: 800 !important;
+  font-size: 13px !important;
+}
+
+.profileKey{ color:#64748b !important; font-weight: 700 !important; }
+.profileVal{ color:#0f172a !important; text-align:right !important; }
+
+/* Mobile */
+@media (max-width: 760px){
+  .rosterGrid{ grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+@media (max-width: 520px){
+  .rosterGrid{ grid-template-columns: 1fr !important; }
+}

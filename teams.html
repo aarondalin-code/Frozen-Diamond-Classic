@@ -36,10 +36,7 @@
       <div class="card">
         <div class="cardBody">
           <div id="teamsGrid" class="teamsGrid"></div>
-          <p class="muted small" style="margin-top:12px;">
-            Records update automatically when games are marked <strong>Final</strong>.
-          </p>
-          <p id="teamsMsg" class="muted small" style="margin-top:6px;"></p>
+          <p id="teamsMsg" class="muted small" style="margin-top:12px;"></p>
         </div>
       </div>
     </section>
@@ -54,7 +51,7 @@
     function isFinal(status){ return safe(status).toLowerCase() === "final"; }
 
     async function fetchCsv(url, label) {
-      if (!url) throw new Error(`Missing ${label} URL in data.js`);
+      if (!url) throw new Error(`Missing ${label}_CSV_URL in data.js`);
       const bust = (url.includes("?") ? "&" : "?") + "t=" + Date.now();
       const res = await fetch(url + bust, { cache: "no-store" });
       if (!res.ok) throw new Error(`Failed to fetch ${label} CSV (${res.status})`);
@@ -139,18 +136,16 @@
       if (!g) return null;
 
       const wl = winnerLoser(g);
-      if (!wl) return null;
-      if (wl.T) return null; // downstream undefined on ties
+      if (!wl || wl.T) return null;
 
       return resolveTeamRef(type === "W" ? wl.W : wl.L, teamsBySeed, gamesById);
     }
 
-    // ---- Compute records from finals ----
-    function computeRecords(gameRows, teamsBySeed, gamesById) {
-      const rec = new Map(); // teamName -> {W,L,T,RF,RA}
+    function computeRecordMap(gameRows, teamsBySeed, gamesById) {
+      const rec = new Map(); // teamName -> {W,L,T}
 
       function ensure(name){
-        if (!rec.has(name)) rec.set(name, { W:0, L:0, T:0, RF:0, RA:0 });
+        if (!rec.has(name)) rec.set(name, { W:0, L:0, T:0 });
         return rec.get(name);
       }
 
@@ -167,9 +162,6 @@
 
         const A = ensure(aName);
         const B = ensure(bName);
-
-        A.RF += aScore; A.RA += bScore;
-        B.RF += bScore; B.RA += aScore;
 
         if (aScore > bScore) { A.W++; B.L++; }
         else if (bScore > aScore) { B.W++; A.L++; }
@@ -194,6 +186,7 @@
 
       for (const t of teams) {
         const slug = teamSlug(t.name);
+
         const info = window.TEAM_INFO?.[slug] || {};
         const logo = info.logo || window.DEFAULT_TEAM_LOGO || "./logo.png";
 
@@ -201,16 +194,15 @@
         a.className = "teamTile";
         a.href = `./team.html?team=${encodeURIComponent(slug)}`;
 
-        const r = recordMap.get(t.name); // match by exact team name from Teams tab
+        const r = recordMap.get(t.name);
 
+        // IMPORTANT: keep structure minimal so your existing tile sizing stays unchanged
         a.innerHTML = `
-          <div class="teamTileInner">
-            <img class="teamTileLogo" src="${logo}" alt="${t.name} logo"
-                 onerror="this.onerror=null; this.src='${window.DEFAULT_TEAM_LOGO || "./logo.png"}';" />
-            <div class="teamTileName">${t.name}</div>
-            <div class="teamRecord">${recordText(r)}</div>
-            <div class="teamTileMeta">View roster →</div>
-          </div>
+          <img class="teamTileLogo" src="${logo}" alt="${t.name} logo"
+               onerror="this.onerror=null; this.src='${window.DEFAULT_TEAM_LOGO || "./logo.png"}';" />
+          <div class="teamName">${t.name}</div>
+          <div class="teamRecord">${recordText(r)}</div>
+          <div class="viewRoster">View roster →</div>
         `;
 
         grid.appendChild(a);
@@ -237,13 +229,12 @@
           gameRows.map(r => [Number(r.Game), r]).filter(([id]) => Number.isFinite(id))
         );
 
-        const recordMap = computeRecords(gameRows, teamsBySeed, gamesById);
+        const recordMap = computeRecordMap(gameRows, teamsBySeed, gamesById);
 
         renderTeams(teamRows, recordMap);
 
         const finalsCount = gameRows.filter(g => isFinal(g.Status)).length;
         msgEl.textContent = finalsCount ? `Records based on ${finalsCount} final game(s).` : "No final games yet.";
-
       } catch (err) {
         console.error(err);
         alert("Teams page error: check TEAMS_CSV_URL and GAMES_CSV_URL in data.js and make sure both tabs are published to CSV.");
@@ -252,6 +243,7 @@
   </script>
 </body>
 </html>
+
 
 
 

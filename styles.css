@@ -1744,5 +1744,13 @@ th {
   border: 0;
 }
 
+/* Centered Hero */
+.centeredHero{
+  text-align: center;
+}
+
+.centeredGlance{
+  justify-content: center;
+}
 
 

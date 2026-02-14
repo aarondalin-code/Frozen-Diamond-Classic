@@ -14,7 +14,7 @@
 
 * { box-sizing: border-box; }
 
-body {
+body{
   margin: 0;
   font-family: Arial, sans-serif;
   background: var(--bg);
@@ -22,25 +22,27 @@ body {
 }
 
 /* =========================
-   Shared Logo Watermark
+   Shared Logo Watermark (current behavior)
 ========================= */
 
-.watermarkPage {
+.watermarkPage{
   position: relative;
+  background: var(--bg);
 }
 
-.watermarkPage::before {
+.watermarkPage::before{
   content: "";
   position: fixed;
   inset: 0;
-  background: url("./logo.png") center 55% no-repeat;
-  background-size: 1050px;
-  opacity: 0.075;
+  background: url("./logo.png") no-repeat center;
+  background-size: min(900px, 92vw);
+  opacity: 0.07;
   pointer-events: none;
   z-index: 0;
 }
 
-.watermarkPage .wrap {
+.watermarkPage .siteHeader,
+.watermarkPage .wrap{
   position: relative;
   z-index: 1;
 }
@@ -49,545 +51,304 @@ body {
    Header (Compact)
 ========================= */
 
-.siteHeader {
+.siteHeader{
   background: linear-gradient(180deg, var(--navBg), #0a1020);
   border-bottom: 3px solid var(--royal);
   padding: 4px 0 8px;
   position: relative;
 }
 
-/* Nav */
-.nav {
+/* Nav (desktop: top-right) */
+.nav{
   position: absolute;
   top: 6px;
-  right: 20px;
+  right: 18px;
   display: flex;
   gap: 10px;
-  flex-wrap: wrap;
+  z-index: 10;
 }
 
-.nav a {
+.nav a{
   text-decoration: none;
   color: #cbd5e1;
-  font-weight: 700;
-  font-size: 11px;
-  padding: 4px 8px;
+  font-weight: 800;
+  font-size: 12px;
+  padding: 6px 10px;
   border-radius: 999px;
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.12);
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
-.nav a:hover {
+.nav a:hover{
   background: rgba(37,99,235,0.25);
-  color: white;
+  color: #fff;
 }
 
-.nav a.active {
+.nav a.active{
   background: rgba(37,99,235,0.35);
-  color: white;
+  color: #fff;
 }
 
-/* Brand */
-.brandCenter {
+/* Centered brand */
+.brandCenter{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
+  padding-top: 6px;
 }
 
-.logoImage {
-  width: 90px;
+.logoImage{
+  width: 90px; /* compact header + larger logo */
   height: auto;
-  margin-bottom: 2px;
-  filter: drop-shadow(0 3px 8px rgba(0,0,0,0.6));
+  margin-bottom: 6px;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
 }
 
-.brandCenter h1 {
+.brandCenter h1{
   margin: 0;
-  font-size: 26px;
-  line-height: 1;
+  font-size: 32px;   /* bigger title without increasing band height */
   font-weight: 900;
-  color: white;
-  letter-spacing: 0.5px;
+  color: #fff;
+  letter-spacing: 0.8px;
+  line-height: 1.05;
 }
 
-.brandCenter .tagline {
-  margin-top: -2px;
-  font-size: 9px;
+.brandCenter .tagline{
+  margin-top: 4px;
+  font-size: 13px;
   color: #cbd5e1;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.4px;
 }
 
 /* =========================
    Content Wrapper
 ========================= */
 
-.wrap {
+.wrap{
   max-width: 1100px;
   margin: 0 auto;
-  padding: 20px 18px 34px;
+  padding: 20px 18px 40px;
 }
-
-h2 {
-  margin-top: 22px;
-  margin-bottom: 8px;
-}
-
-.muted { color: var(--muted); }
-.small { font-size: 12px; }
 
 /* =========================
    Countdown
 ========================= */
 
-.countdownCard {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px;
-  text-align: center;
+.countdownRow{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
 }
 
-.countdownLabel {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 800;
-  color: #334155;
-}
-
-.countdownValue {
-  font-size: 18px;
+.countChip{
+  background: rgba(37,99,235,0.10);
+  border: 1px solid rgba(37,99,235,0.25);
+  border-radius: 999px;
+  padding: 8px 12px;
   font-weight: 900;
-  margin: 4px 0;
-  color: var(--royal);
+  font-size: 12px;
+  color: #0f172a;
 }
 
 /* =========================
    Cards / Content
 ========================= */
 
-.docSection { margin-top: 12px; }
-
-.docSection p {
-  margin: 0;
-  line-height: 1.55;
-  color: #334155;
-}
-
-.card {
+.card{
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 14px;
   overflow: hidden;
+  box-shadow: 0 8px 24px rgba(2,6,23,0.06);
 }
 
-.cardBody {
-  padding: 12px;
+.cardBody{
+  padding: 14px;
 }
 
-.bullets {
-  margin: 0;
-  padding-left: 18px;
-  line-height: 1.6;
-  color: #334155;
+h2{
+  margin: 18px 0 10px;
 }
 
-.cols2 {
-  columns: 2;
-  column-gap: 24px;
-}
-
-.subhead {
-  margin: 12px 0 6px;
-  font-size: 13px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  color: #0f172a;
-}
-
-.link {
-  color: var(--royal);
-  font-weight: 800;
-  text-decoration: none;
-}
-
-.link:hover { text-decoration: underline; }
-
-.divider {
-  height: 1px;
-  background: var(--border);
-  margin: 14px 0;
-}
+.muted{ color: var(--muted); }
+.small{ font-size: 12px; }
 
 /* =========================
    Buttons / Actions
 ========================= */
 
-.actionRow{
-  display: flex;
-  gap: 10px;
-  margin-top: 12px;
-  flex-wrap: wrap;
-}
-
-.btnPrimary, .btnSecondary{
+.btnPrimary,
+.btnSecondary{
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  padding: 10px 14px;
-  border-radius: 10px;
+  gap: 8px;
   text-decoration: none;
   font-weight: 900;
-  font-size: 13px;
-  border: 1px solid transparent;
-  transition: transform 0.15s ease, background 0.15s ease;
+  font-size: 12px;
+  border-radius: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+  white-space: nowrap;
 }
 
 .btnPrimary{
-  background: var(--royal);
-  color: white;
-  border-color: rgba(255,255,255,0.10);
+  background: rgba(37,99,235,0.12);
+  border-color: rgba(37,99,235,0.25);
+  color: #0f172a;
 }
 
-.btnPrimary:hover{ transform: translateY(-1px); }
+.btnPrimary:hover{
+  background: rgba(37,99,235,0.18);
+  border-color: rgba(37,99,235,0.35);
+  transform: translateY(-1px);
+}
 
 .btnSecondary{
-  background: white;
-  color: var(--text);
-  border-color: var(--border);
-}
-
-.btnSecondary:hover{ transform: translateY(-1px); }
-
-/* =========================
-   Gallery
-========================= */
-
-.featuredTitle{
-  font-size: 12px;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  color: #334155;
-  margin-bottom: 8px;
-}
-
-.videoFrame{
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #0f172a;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid rgba(0,0,0,0.08);
-}
-
-.videoFrame iframe{
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-.grid{
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-}
-
-.tile{
-  display: block;
-  text-decoration: none;
   background: #f8fafc;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px;
-  transition: transform 0.15s ease, border-color 0.15s ease;
   color: var(--text);
 }
 
-.tile:hover{
-  transform: translateY(-2px);
-  border-color: rgba(37,99,235,0.45);
-}
-
-.tileTitle{
-  font-weight: 900;
-  margin-bottom: 6px;
-}
-
-.tileMeta{
-  font-size: 12px;
-  color: #475569;
-  line-height: 1.3;
+.btnSecondary:hover{
+  border-color: rgba(37,99,235,0.35);
+  transform: translateY(-1px);
 }
 
 /* =========================
    Tables
 ========================= */
 
-table {
+table{
   width: 100%;
   border-collapse: collapse;
-  background: white;
+  background: #fff;
   border: 1px solid var(--border);
   border-radius: 10px;
   overflow: hidden;
 }
 
-th, td {
+th, td{
   border-bottom: 1px solid var(--border);
-  padding: 9px;
+  padding: 10px;
   text-align: left;
 }
 
-th {
+th{
   background: #0f172a;
-  color: white;
-  font-size: 12px;
+  color: #fff;
 }
 
 /* =========================
    Bracket
 ========================= */
 
-.bracket {
+.bracket{
   display: grid;
-  gap: 14px;
-  margin-bottom: 18px;
+  gap: 16px;
+  margin-bottom: 20px;
 }
 
-.bracketSection {
-  background: white;
+.bracketSection{
+  background: #fff;
   border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 14px;
+  border-radius: 12px;
+  padding: 16px;
 }
 
-.bracketSection h3 {
-  margin: 0 0 10px;
-  font-size: 13px;
+.bracketSection h3{
+  margin: 0 0 12px;
+  font-size: 14px;
   text-transform: uppercase;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.5px;
 }
 
-.bracketGrid {
+.bracketGrid{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 14px;
+  gap: 16px;
 }
 
-.colTitle {
-  font-weight: 800;
-  margin-bottom: 8px;
-  color: #111827;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
+.slot{ margin-bottom: 14px; }
 
-.col { position: relative; }
-.slot { position: relative; margin-bottom: 12px; }
-
-.gameCard {
+.gameCard{
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 9px;
+  border-radius: 10px;
+  padding: 10px;
   background: #f8fafc;
 }
 
-.gameMeta {
+.gameMeta{
   font-size: 11px;
   color: var(--muted);
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
 
-.gameTeams {
+.gameTeams{
   font-weight: 900;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
 
-.gameStatus {
+.gameStatus{
   font-size: 12px;
   color: #334155;
 }
 
-.finalBadge {
+.finalBadge{
   display: inline-block;
   font-size: 10px;
-  padding: 2px 7px;
+  padding: 2px 8px;
   border-radius: 999px;
   background: var(--royal);
-  color: white;
-  margin-left: 6px;
+  color: #fff;
+  margin-left: 8px;
   font-weight: 800;
-}
-
-/* Connector lines */
-.connectorRight::after {
-  content: "";
-  position: absolute;
-  right: -14px;
-  top: 50%;
-  width: 14px;
-  height: 2px;
-  background: #94a3b8;
-}
-
-.connectorMid::before {
-  content: "";
-  position: absolute;
-  left: -14px;
-  top: 50%;
-  width: 14px;
-  height: 2px;
-  background: #94a3b8;
 }
 
 /* =========================
    Champion Styling
 ========================= */
 
-.championCard {
-  border-color: #f5c542 !important;
-  background: linear-gradient(180deg, #fff7d1, #fff) !important;
-  box-shadow: 0 0 0 2px rgba(245, 197, 66, 0.35), 0 10px 24px rgba(0,0,0,0.10);
+.championCard{
+  border: 1px solid rgba(234,179,8,0.55);
+  background: linear-gradient(180deg, rgba(234,179,8,0.14), rgba(255,255,255,0.86));
+  box-shadow: 0 14px 34px rgba(234,179,8,0.18);
   position: relative;
-  animation: championGlow 2.2s ease-in-out infinite;
+  overflow: hidden;
 }
 
-.championBadge {
-  display: inline-block;
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: #f5c542;
-  color: #111827;
-  margin-left: 8px;
-  font-weight: 900;
-  border: 1px solid rgba(0,0,0,0.15);
+.championCard::after{
+  content: "";
+  position: absolute;
+  inset: -40% -30%;
+  background: radial-gradient(circle, rgba(255,255,255,0.35), transparent 55%);
+  transform: rotate(12deg);
+  pointer-events: none;
 }
 
-@keyframes championGlow {
-  0%, 100% {
-    transform: translateY(0);
-    box-shadow: 0 0 0 2px rgba(245, 197, 66, 0.30), 0 10px 22px rgba(0,0,0,0.10);
-  }
-  50% {
-    transform: translateY(-1px);
-    box-shadow: 0 0 0 2px rgba(245, 197, 66, 0.50), 0 12px 28px rgba(0,0,0,0.14);
-  }
+.championPulse{
+  animation: champPulse 2.6s ease-in-out infinite;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .championCard { animation: none; }
-}
-
-/* =========================
-   Responsive
-========================= */
-
-@media (max-width: 760px) {
-  .cols2 { columns: 1; }
-  .grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-/* iPhone / narrow mobile */
-@media (max-width: 520px) {
-
-  .siteHeader {
-    padding: 8px 0 10px;
-  }
-
-  /* Make nav a normal row and ensure it's clickable */
-  .nav {
-    position: relative;
-    z-index: 10;
-    top: auto;
-    right: auto;
-    justify-content: center;
-    padding: 6px 10px 6px;
-    gap: 10px;
-  }
-
-  .nav a {
-    font-size: 12px;
-    padding: 8px 10px;
-  }
-
-  /* Brand sits below nav and can't block taps */
-  .brandCenter {
-    position: relative;
-    z-index: 1;
-    padding: 0 10px;
-    margin-top: 6px;
-  }
-
-  .logoImage {
-    width: 78px;
-    margin-bottom: 2px;
-  }
-
-  .brandCenter h1 {
-    font-size: 22px;
-    line-height: 1.05;
-  }
-
-  .brandCenter .tagline {
-    font-size: 10px;
-    margin-top: 1px;
-  }
-
-  .wrap {
-    padding: 16px 12px 28px;
-  }
-
-  /* Bracket: stack columns */
-  .bracketGrid {
-    grid-template-columns: 1fr !important;
-  }
-
-  /* Tables: allow horizontal scroll */
-  table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-
-  /* Gallery: single column tiles */
-  .grid {
-    grid-template-columns: 1fr;
-  }
+@keyframes champPulse{
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
 }
 
 /* =========================
    Teams: roster grid + modal profiles
 ========================= */
 
-.teamChips{
-  display: flex;
-  gap: 8px;
+.rosterTopRow{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 12px;
   flex-wrap: wrap;
-}
-
-.chip{
-  display: inline-flex;
-  align-items: center;
-  padding: 8px 12px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: #f8fafc;
-  text-decoration: none;
-  color: var(--text);
-  font-weight: 900;
-  font-size: 12px;
-}
-
-.chip.active{
-  background: rgba(37,99,235,0.15);
-  border-color: rgba(37,99,235,0.35);
 }
 
 .rosterGrid{
@@ -596,7 +357,7 @@ th {
   gap: 12px;
 }
 
-/* Button cards (instead of <a>) */
+/* Button cards */
 .playerCardBtn{
   width: 100%;
   text-align: left;
@@ -607,6 +368,7 @@ th {
   padding: 12px;
   color: var(--text);
   transition: transform 0.15s ease, border-color 0.15s ease;
+  overflow: hidden; /* prevents spill */
 }
 
 .playerCardBtn:hover{
@@ -618,6 +380,36 @@ th {
   transform: translateY(0);
 }
 
+/* Player card row w/ thumbnail */
+.playerCardRow{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.playerThumb{
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: #0f172a;
+  flex: 0 0 auto;
+}
+
+.playerThumb img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.playerCardMain{
+  flex: 1;
+  min-width: 0;
+}
+
 .playerTop{
   display: flex;
   justify-content: space-between;
@@ -625,13 +417,26 @@ th {
   gap: 10px;
 }
 
-.playerName{ font-weight: 900; }
-.playerNum{ font-weight: 900; color: #334155; }
+.playerName{
+  font-weight: 900;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.playerNum{
+  font-weight: 900;
+  color: #334155;
+  flex: 0 0 auto;
+}
 
 .playerMeta{
   margin-top: 6px;
   font-size: 12px;
   color: #475569;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .playerLink{
@@ -655,13 +460,11 @@ th {
   z-index: 9999;
 }
 
-.modalOverlay.open{
-  display: flex;
-}
+.modalOverlay.open{ display: flex; }
 
 .modalCard{
   width: min(760px, 100%);
-  background: white;
+  background: #fff;
   border-radius: 14px;
   border: 1px solid rgba(0,0,0,0.08);
   box-shadow: 0 18px 60px rgba(0,0,0,0.28);
@@ -670,7 +473,7 @@ th {
   animation: modalIn 180ms ease-out;
 }
 
-@keyframes modalIn {
+@keyframes modalIn{
   from { transform: translateY(8px); opacity: 0; }
   to   { transform: translateY(0); opacity: 1; }
 }
@@ -716,189 +519,111 @@ th {
   display: block;
 }
 
-.profilePhotoPlaceholder{
-  width: 100%;
-  height: 100%;
-  display: grid;
-  place-items: center;
-  color: #cbd5e1;
-  font-size: 12px;
-  font-weight: 900;
-}
-
 .profileName{
   margin: 0 0 6px;
   font-size: 22px;
+  font-weight: 900;
 }
 
-/* Mobile */
-@media (max-width: 760px){
-  .rosterGrid{ grid-template-columns: repeat(2, 1fr); }
-  .profileHeader{ grid-template-columns: 1fr; }
-  .profilePhoto{ width: 100%; height: 220px; }
+.profileLines{
+  display: grid;
+  gap: 8px;
 }
 
-@media (max-width: 520px){
-  .rosterGrid{ grid-template-columns: 1fr; }
+.profileLine{
+  display:flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
 }
+
+.profileKey{ color: var(--muted); font-weight: 800; }
+.profileVal{ color: var(--text); font-weight: 900; text-align: right; }
 
 /* =========================
    Teams Directory Page
 ========================= */
 
-.teamsGrid{
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-}
-
-.teamTile{
-  display: block;
-  text-decoration: none;
-  background: #f8fafc;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px;
-  color: var(--text);
-  transition: transform 0.15s ease, border-color 0.15s ease;
-}
-
-.teamTile:hover{
-  transform: translateY(-2px);
-  border-color: rgba(37,99,235,0.45);
-}
-
-.teamTileTop{
+.teamChips{
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.teamTileName{
+.chip{
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  text-decoration: none;
+  color: var(--text);
   font-weight: 900;
-}
-
-.teamTileSeed{
   font-size: 12px;
-  font-weight: 900;
-  color: #334155;
 }
 
-.teamTileMeta{
-  margin-top: 8px;
-  font-size: 12px;
-  font-weight: 900;
-  color: var(--royal);
-}
-
-@media (max-width: 760px){
-  .teamsGrid{ grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 520px){
-  .teamsGrid{ grid-template-columns: 1fr; }
+.chip.active{
+  background: rgba(37,99,235,0.15);
+  border-color: rgba(37,99,235,0.35);
 }
 
 /* =========================
-   Team Page Header Block
+   Team Page Header Block (side-by-side)
 ========================= */
 
-.teamHeaderCard{
-  display: grid;
-  grid-template-columns: 1.25fr 0.75fr;
-  gap: 12px;
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px;
+.teamHeaderBlock{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: nowrap; /* desktop side-by-side */
 }
 
 .teamHeaderLeft{
   display: flex;
+  align-items: center;
   gap: 12px;
-  align-items: center;
-}
-
-.teamLogo{
-  width: 72px;
-  height: 72px;
-  border-radius: 14px;
-  object-fit: cover;
-  border: 1px solid var(--border);
-  background: #0f172a;
-}
-
-.teamKicker{
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.35px;
-  color: #475569;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-
-.teamTitle{
-  margin: 0;
-  font-size: 22px;
-  font-weight: 900;
-}
-
-.teamMetaRow{
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 8px;
-}
-
-.teamPill{
-  display: inline-flex;
-  align-items: center;
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: #f8fafc;
-  font-weight: 900;
-  font-size: 12px;
-  color: var(--text);
-}
-
-.linkPill{
-  text-decoration: none;
-  color: var(--royal);
-  border-color: rgba(37,99,235,0.35);
-}
-
-.linkPill:hover{
-  border-color: rgba(37,99,235,0.55);
+  min-width: 320px;
 }
 
 .teamHeaderRight{
   display: flex;
-  align-items: stretch;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.teamHeaderLogo{
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: #0f172a;
+  object-fit: contain;
+  padding: 8px;
 }
 
 .coachCard{
-  width: 100%;
+  min-width: 260px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
+  padding: 10px 12px;
   background: #f8fafc;
-  padding: 12px;
 }
 
 .coachLabel{
   font-size: 11px;
+  color: var(--muted);
   font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.35px;
-  color: #475569;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .coachName{
   font-weight: 900;
-  font-size: 16px;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
 .coachLinks{
@@ -910,46 +635,15 @@ th {
 .coachLink{
   display: inline-flex;
   align-items: center;
-  padding: 7px 10px;
-  border-radius: 10px;
-  background: white;
-  border: 1px solid var(--border);
-  text-decoration: none;
-  font-weight: 900;
+  gap: 6px;
   font-size: 12px;
+  font-weight: 900;
   color: var(--royal);
+  text-decoration: none;
 }
 
 .coachLink:hover{
-  border-color: rgba(37,99,235,0.45);
-}
-
-@media (max-width: 760px){
-  .teamHeaderCard{ grid-template-columns: 1fr; }
-}
-
-/* =========================
-   Player card thumbnails
-========================= */
-
-.playerCardWithThumb{
-  display: grid;
-  grid-template-columns: 44px 1fr;
-  gap: 12px;
-  align-items: center;
-}
-
-.playerThumb{
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
-  object-fit: cover;
-  border: 1px solid var(--border);
-  background: white;
-}
-
-.playerCardText{
-  min-width: 0;
+  text-decoration: underline;
 }
 
 /* =========================
@@ -958,33 +652,38 @@ th {
 
 .galleryGrid{
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
-  margin-top: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 12px;
 }
 
-.galleryCard{
-  background: white;
+.galleryItem{
+  background: #fff;
   border: 1px solid var(--border);
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
 }
 
-.galleryMedia img{
+.galleryMedia{
   width: 100%;
-  height: 220px;
-  object-fit: cover;
-  display: block;
+  aspect-ratio: 16 / 9;
+  background: #0f172a;
+  display: grid;
+  place-items: center;
 }
 
+.galleryMedia img,
+.galleryMedia video,
 .galleryMedia iframe{
   width: 100%;
-  height: 220px;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border: 0;
 }
 
-.galleryContent{
-  padding: 12px;
+.galleryMeta{
+  padding: 10px 12px;
 }
 
 .galleryTitle{
@@ -992,429 +691,100 @@ th {
   margin-bottom: 4px;
 }
 
-.galleryMeta{
+.gallerySub{
   font-size: 12px;
-  color: #475569;
+  color: var(--muted);
 }
 
-.galleryCredit{
-  font-size: 11px;
-  margin-top: 6px;
-  color: #64748b;
-}
-
-/* =========================
-   Gallery Filters
-========================= */
-
+/* Gallery filters */
 .galleryFilters{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: end;
-  margin-top: 14px;
-  margin-bottom: 12px;
-}
-
-.filterGroup{
-  display: grid;
-  gap: 6px;
-}
-
-.filterGrow{
-  flex: 1;
-  min-width: 160px;
-}
-
-.filterLabel{
-  font-size: 12px;
-  font-weight: 900;
-  color: #334155;
-}
-
-.filterSelect{
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: white;
-  padding: 10px 12px;
-  font-weight: 800;
-  color: var(--text);
-}
-
-.filterHint{
-  font-size: 12px;
-  color: #475569;
-  padding: 10px 0;
-}
-
-/* =========================
-   Gallery Chip Filters
-========================= */
-
-.galleryFilterBar{
-  margin-top: 14px;
-  margin-bottom: 10px;
-  padding: 12px;
-  background: rgba(255,255,255,0.75);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  backdrop-filter: blur(6px);
-}
-
-.filterRow{
-  display: flex;
+  display:flex;
   gap: 10px;
+  flex-wrap: wrap;
   align-items: center;
-  flex-wrap: wrap;
-  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
-.filterLabelInline{
+.galleryFilters label{
   font-size: 12px;
   font-weight: 900;
-  color: #334155;
-  min-width: 42px;
-}
-
-.chipRow{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.filterChip{
-  border: 1px solid var(--border);
-  background: #f8fafc;
   color: var(--text);
-  font-weight: 900;
-  font-size: 12px;
-  padding: 8px 12px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
 }
 
-.filterChip:hover{
-  transform: translateY(-1px);
-  border-color: rgba(37,99,235,0.45);
+.galleryFilters select,
+.galleryFilters input{
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  padding: 0 10px;
+  background: #fff;
+  color: var(--text);
+  font-weight: 700;
 }
 
-.filterChip.active{
-  background: rgba(37,99,235,0.18);
-  border-color: rgba(37,99,235,0.55);
-  color: #0b1220;
-}
-
-.filterMetaRow{
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 2px;
-}
-
-/* Mobile: reduce chip padding a touch */
-@media (max-width: 520px){
-  .filterChip{
-    padding: 7px 10px;
-    font-size: 11px;
-  }
-  .filterMetaRow{
-    justify-content: flex-start;
-  }
+/* Gallery chip filters */
+.galleryChips{
+  display:flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 /* =========================
    Stats (GameChanger)
 ========================= */
 
-.statsTopRow{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-.statsTopBtn{
-  display: flex;
-  justify-content: flex-end;
-}
-
-.statsEmbedHeader{
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 10px;
-}
-
-.gcEmbed{
+.gcWidgetWrap{
   border: 1px solid var(--border);
   border-radius: 14px;
-  background: rgba(255,255,255,0.85);
-  padding: 12px;
   overflow: hidden;
-}
-
-/* Make sure the GC widget has room */
-#gc-scoreboard-widget-yi4k{
-  min-height: 520px;
+  background: #fff;
 }
 
 /* =========================
-   Team page: roster cards tighten + prevent spill
+   Responsive
 ========================= */
 
-.playerCardRow{
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
+/* Tablet */
+@media (max-width: 900px){
+  .bracketGrid{ grid-template-columns: 1fr; }
+  .galleryGrid{ grid-template-columns: repeat(2, 1fr); }
 }
-
-.playerCardMain{
-  flex: 1;
-  min-width: 0;
-}
-
-.playerName{
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.playerMeta{
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* MLB logo + favorite team in modal */
-.mlbFav{
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  justify-content: flex-end;
-}
-
-.mlbLogo{
-  width: 20px;
-  height: 20px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: white;
-  object-fit: cover;
-  flex: 0 0 auto;
-}
-
-/* =========================================================
-   TEAM PAGE RESTORE PATCH
-   (Paste at bottom of styles.css)
-========================================================= */
-
-/* Ensure watermark behavior is consistent */
-.watermarkPage{
-  position: relative;
-  background: #f4f6fa;
-}
-
-.watermarkPage::before{
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: url("./logo.png") no-repeat center;
-  background-size: min(900px, 92vw);
-  opacity: 0.07;                 /* adjust if watermark feels off */
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Make sure the page content sits above watermark */
-.watermarkPage .siteHeader,
-.watermarkPage .wrap{
-  position: relative;
-  z-index: 1;
-}
-
-/* Roster grid should be a clean grid */
-.rosterGrid{
-  display: grid !important;
-  grid-template-columns: repeat(3, 1fr) !important;
-  gap: 12px !important;
-}
-
-/* Player card button layout restore */
-.playerCardBtn{
-  width: 100% !important;
-  text-align: left !important;
-  cursor: pointer !important;
-  border: 1px solid var(--border) !important;
-  background: #f8fafc !important;
-  border-radius: 12px !important;
-  padding: 12px !important;
-  color: var(--text) !important;
-  transition: transform 0.15s ease, border-color 0.15s ease !important;
-  overflow: hidden !important;         /* prevents spill */
-}
-
-.playerCardBtn:hover{
-  transform: translateY(-2px) !important;
-  border-color: rgba(37,99,235,0.45) !important;
-}
-
-/* Card internal row */
-.playerCardRow{
-  display: flex !important;
-  gap: 12px !important;
-  align-items: center !important;
-  min-width: 0 !important;
-}
-
-/* Thumbnail */
-.playerThumb{
-  width: 44px !important;
-  height: 44px !important;
-  border-radius: 999px !important;
-  border: 1px solid var(--border) !important;
-  overflow: hidden !important;
-  background: #0f172a !important;
-  flex: 0 0 auto !important;
-}
-
-.playerThumb img{
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  display: block !important;
-}
-
-/* Main text area */
-.playerCardMain{
-  flex: 1 !important;
-  min-width: 0 !important;  /* critical: prevents text overflow */
-}
-
-/* Name + number row */
-.playerTop{
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: baseline !important;
-  gap: 10px !important;
-}
-
-.playerName{
-  font-weight: 900 !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
-}
-
-.playerNum{
-  font-weight: 900 !important;
-  color: #334155 !important;
-  flex: 0 0 auto !important;
-}
-
-.playerMeta{
-  margin-top: 6px !important;
-  font-size: 12px !important;
-  color: #475569 !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
-}
-
-.playerLink{
-  margin-top: 10px !important;
-  font-size: 12px !important;
-  font-weight: 900 !important;
-  color: var(--royal) !important;
-}
-
-/* Modal profile lines (keep clean) */
-.profileLines{ display: grid !important; gap: 8px !important; }
-
-.profileLine{
-  display:flex !important;
-  justify-content: space-between !important;
-  gap: 12px !important;
-  padding: 8px 0 !important;
-  border-bottom: 1px solid var(--border) !important;
-  font-weight: 800 !important;
-  font-size: 13px !important;
-}
-
-.profileKey{ color:#64748b !important; font-weight: 700 !important; }
-.profileVal{ color:#0f172a !important; text-align:right !important; }
 
 /* Mobile */
 @media (max-width: 760px){
-  .rosterGrid{ grid-template-columns: repeat(2, 1fr) !important; }
-}
+  .rosterGrid{ grid-template-columns: repeat(2, 1fr); }
+  .profileHeader{ grid-template-columns: 1fr; }
+  .profilePhoto{ width: 100%; height: 220px; }
 
-@media (max-width: 520px){
-  .rosterGrid{ grid-template-columns: 1fr !important; }
-}
-
-/* =========================================================
-   TEAM HEADER RESTORE PATCH
-   (Paste at bottom of styles.css)
-========================================================= */
-
-.teamHeaderBlock{
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 16px !important;
-  flex-wrap: nowrap !important;   /* keep side-by-side on desktop */
-}
-
-.teamHeaderLeft{
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-  min-width: 320px !important;
-}
-
-.teamHeaderRight{
-  display: flex !important;
-  justify-content: flex-end !important;
-  align-items: center !important;
-  flex: 0 0 auto !important;
-}
-
-/* Make the team logo sane again */
-.teamHeaderLogo{
-  width: 72px !important;
-  height: 72px !important;
-  border-radius: 14px !important;
-  border: 1px solid var(--border) !important;
-  background: #0f172a !important;
-  object-fit: contain !important; /* prevents stretched logos */
-  padding: 8px !important;
-  box-sizing: border-box !important;
-}
-
-/* Coach card sizing */
-.coachCard{
-  min-width: 260px !important;
-  border: 1px solid var(--border) !important;
-  border-radius: 14px !important;
-  padding: 10px 12px !important;
-  background: #f8fafc !important;
-}
-
-/* Mobile: allow stacking */
-@media (max-width: 760px){
-  .teamHeaderBlock{
-    flex-wrap: wrap !important;
-  }
+  /* Team header can stack on mobile */
+  .teamHeaderBlock{ flex-wrap: wrap; }
   .teamHeaderRight{
-    width: 100% !important;
-    justify-content: flex-start !important;
+    width: 100%;
+    justify-content: flex-start;
   }
   .coachCard{
-    width: 100% !important;
-    min-width: 0 !important;
+    width: 100%;
+    min-width: 0;
   }
+
+  /* Header: allow nav to be clickable and not block */
+  .nav{
+    position: relative;
+    top: auto;
+    right: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px 10px 0;
+  }
+}
+
+/* iPhone / narrow */
+@media (max-width: 520px){
+  .siteHeader{ padding: 8px 0 10px; }
+  .rosterGrid{ grid-template-columns: 1fr; }
+  .galleryGrid{ grid-template-columns: 1fr; }
+
+  .logoImage{ width: 86px; }
+  .brandCenter h1{ font-size: 30px; }
 }

@@ -74,11 +74,18 @@
         .replace(/(^-|-$)/g, "");
     }
 
+    function pickLogoForSlug(slug){
+      // Prefer TEAM_INFO logo if provided, otherwise fallback to default logo
+      const info = window.TEAM_INFO && window.TEAM_INFO[slug];
+      const candidate = info && info.logo ? String(info.logo).trim() : "";
+      return candidate || (window.DEFAULT_TEAM_LOGO || "./logo.png");
+    }
+
     function renderTeams(teamRows) {
       const grid = document.getElementById("teamsGrid");
       grid.innerHTML = "";
 
-      // Expecting headers: Seed, TeamName (Seed is used only for sorting, not displayed)
+      // Expecting headers: Seed, TeamName (Seed used only for sorting)
       const teams = teamRows
         .map(r => ({ seed: Number(r.Seed), name: safe(r.TeamName) }))
         .filter(t => t.name)
@@ -86,15 +93,26 @@
 
       for (const t of teams) {
         const slug = teamSlug(t.name);
+        const logoUrl = pickLogoForSlug(slug);
 
         const a = document.createElement("a");
         a.className = "teamTile";
         a.href = `./team.html?team=${encodeURIComponent(slug)}`;
 
-        // No seed displayed
         a.innerHTML = `
-          <div class="teamName">${t.name}</div>
-          <div class="teamCta">View roster →</div>
+          <span class="teamAccent" aria-hidden="true"></span>
+
+          <div class="teamTileRow">
+            <div class="teamTileLogoWrap">
+              <img class="teamTileLogo" src="${logoUrl}" alt="${t.name} logo"
+                   onerror="this.onerror=null; this.src='./logo.png';">
+            </div>
+
+            <div class="teamTileText">
+              <div class="teamName">${t.name}</div>
+              <div class="teamCta">View roster →</div>
+            </div>
+          </div>
         `;
 
         grid.appendChild(a);
@@ -114,6 +132,7 @@
   </script>
 </body>
 </html>
+
 
 
 

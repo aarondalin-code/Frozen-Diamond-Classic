@@ -1921,3 +1921,27 @@ th {
   font-weight: 800;
   margin: 0 6px;
 }
+
+/* GameChanger link under team name */
+.gcLinkWrapLeft{
+  margin-top: 8px;
+}
+
+.gcBtnInline{
+  font-size: 12px;
+  font-weight: 900;
+  text-decoration: none;
+  color: var(--royal);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gcBtnInline::before{
+  content: "⚾";
+  font-size: 12px;
+}
+
+.gcBtnInline:hover{
+  text-decoration: underline;
+}

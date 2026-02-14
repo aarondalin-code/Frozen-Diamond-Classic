@@ -1727,22 +1727,6 @@ th {
   }
 }
 
-/* Teams page: centered record line (no tile resizing) */
-.teamsPage .teamRecord{
-  font-size: 12px;
-  font-weight: 900;
-  color: #334155;
-  text-align: center;
-  line-height: 1.1;
-  margin-top: -2px;
-}
 
-/* Teams tile record line (centered, compact, does NOT affect tile size) */
-.teamsPage .teamRecord{
-  font-size: 11px;
-  font-weight: 900;
-  color: #334155;
-  text-align: center;
-  line-height: 1.05;
-  margin: -2px 0 0; /* keeps it tight */
-}
+
+

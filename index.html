@@ -30,34 +30,45 @@
 
   <main class="wrap">
 
-    <!-- HERO: Countdown + Quick Actions -->
-    <section class="docSection">
-      <div class="countdownCard">
-        <div class="countdownTopRow">
-          <div>
-            <div class="countdownLabel">Tournament Day</div>
-            <div id="countdown" class="countdownValue"></div>
-            <div id="championBanner" class="countdownValue" style="display:none;"></div>
-            <div class="muted small">Saturday, March 21, 2026 • CenterCourt Lawrence</div>
-          </div>
+<!-- HERO: Countdown (Centered) -->
+<section class="docSection">
+  <div class="countdownCard centeredHero">
 
-          <div class="quickActions" aria-label="Quick actions">
-            <a class="qaBtn primary" href="./schedule.html">Schedule / Scores</a>
-            <a class="qaBtn" href="./standings.html">Standings</a>
-            <a class="qaBtn" href="./teams.html">Teams</a>
-            <a class="qaBtn" href="./uploads.html">Upload Media</a>
-          </div>
-        </div>
+    <div class="countdownLabel">Tournament Day</div>
 
-        <!-- At-a-glance strip -->
-        <div class="glanceStrip" aria-label="Tournament at a glance">
-          <div class="glancePill"><span class="glanceNum">8</span><span class="glanceLbl">Teams</span></div>
-          <div class="glancePill"><span class="glanceNum">12</span><span class="glanceLbl">Games</span></div>
-          <div class="glancePill"><span class="glanceNum">2</span><span class="glanceLbl">Fields</span></div>
-          <div class="glancePill"><span class="glanceNum">3</span><span class="glanceLbl">Games Guaranteed</span></div>
-        </div>
+    <div id="countdown" class="countdownValue"></div>
+    <div id="championBanner" class="countdownValue" style="display:none;"></div>
+
+    <div class="muted small" style="margin-top:4px;">
+      Saturday, March 21, 2026 • CenterCourt Lawrence
+    </div>
+
+    <!-- At-a-glance strip -->
+    <div class="glanceStrip centeredGlance" aria-label="Tournament at a glance">
+      <div class="glancePill">
+        <span class="glanceNum">8</span>
+        <span class="glanceLbl">Teams</span>
       </div>
-    </section>
+
+      <div class="glancePill">
+        <span class="glanceNum">12</span>
+        <span class="glanceLbl">Games</span>
+      </div>
+
+      <div class="glancePill">
+        <span class="glanceNum">2</span>
+        <span class="glanceLbl">Fields</span>
+      </div>
+
+      <div class="glancePill">
+        <span class="glanceNum">3</span>
+        <span class="glanceLbl">Games Guaranteed</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 
     <!-- Overview (tightened) -->
     <section class="docSection">

@@ -18,7 +18,6 @@
       <a href="./contacts.html">Contacts</a>
       <a href="./gallery.html" class="active">Gallery</a>
       <a href="./uploads.html">Uploads</a>
-      
     </nav>
 
     <div class="brandCenter">
@@ -113,6 +112,16 @@
       return "";
     }
 
+    function isImageUrl(url){
+      const u = safe(url).toLowerCase();
+      return u.match(/\.(jpg|jpeg|png|gif|webp)(\?|#|$)/);
+    }
+
+    function isVideoUrl(url){
+      const u = safe(url).toLowerCase();
+      return u.match(/\.(mp4|mov|webm)(\?|#|$)/);
+    }
+
     function youtubeEmbed(url){
       const u = safe(url);
       let m = u.match(/youtu\.be\/([^?&]+)/);
@@ -124,20 +133,112 @@
       return null;
     }
 
+    // ---- Google Drive support ----
+    // Accepts:
+    // - https://drive.google.com/file/d/FILEID/view?...
+    // - https://drive.google.com/open?id=FILEID
+    // - https://drive.google.com/uc?id=FILEID&export=download
+    function driveFileId(url){
+      const u = safe(url);
+      let m = u.match(/\/file\/d\/([^/]+)/);
+      if (m) return m[1];
+
+      m = u.match(/[?&]id=([^&]+)/);
+      if (m) return m[1];
+
+      m = u.match(/\/uc\?id=([^&]+)/);
+      if (m) return m[1];
+
+      return null;
+    }
+
+    function driveImageDirect(url){
+      const id = driveFileId(url);
+      if (!id) return null;
+      // This works for many images if permissions are public
+      return `https://drive.google.com/uc?export=view&id=${id}`;
+    }
+
+    function driveVideoPreview(url){
+      const id = driveFileId(url);
+      if (!id) return null;
+      // Preview player (best for videos)
+      return `https://drive.google.com/file/d/${id}/preview`;
+    }
+
+    function openButton(url, label="Open media"){
+      const u = safe(url);
+      return `
+        <div style="padding:12px;">
+          <a href="${u}" target="_blank" rel="noopener"
+             style="display:inline-block; padding:10px 14px; border-radius:999px; border:1px solid rgba(0,0,0,0.12); text-decoration:none; font-weight:900;">
+            ${label}
+          </a>
+          <div class="muted small" style="margin-top:8px;">
+            (This link can’t be embedded — it will open in a new tab.)
+          </div>
+        </div>
+      `;
+    }
+
+    function makeMediaHTML(item){
+      const url = item.MediaURL;
+
+      // Photos
+      if (item.Type === "photo") {
+        // direct image url
+        if (isImageUrl(url)) {
+          return `<img src="${url}" alt="${item.Title || "Photo"}" loading="lazy"
+            onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'muted\\' style=\\'padding:12px;\\'>Image failed to load</div>';">`;
+        }
+
+        // Drive image
+        const driveImg = driveImageDirect(url);
+        if (driveImg) {
+          return `<img src="${driveImg}" alt="${item.Title || "Photo"}" loading="lazy"
+            onerror="this.style.display='none'; this.parentElement.innerHTML=${JSON.stringify(openButton(url,'Open photo'))};">`;
+        }
+
+        // Unknown link type -> open button
+        return openButton(url, "Open photo");
+      }
+
+      // Videos
+      if (item.Type === "video") {
+        // YouTube
+        const yt = youtubeEmbed(url);
+        if (yt) {
+          return `<iframe src="${yt}" frameborder="0" allowfullscreen></iframe>`;
+        }
+
+        // Direct mp4/webm
+        if (isVideoUrl(url)) {
+          return `
+            <video controls playsinline preload="metadata" style="width:100%; height:100%; display:block;">
+              <source src="${url}">
+              ${openButton(url, "Open video")}
+            </video>
+          `;
+        }
+
+        // Drive video preview
+        const drivePrev = driveVideoPreview(url);
+        if (drivePrev) {
+          return `<iframe src="${drivePrev}" frameborder="0" allow="autoplay" allowfullscreen></iframe>`;
+        }
+
+        // Unknown -> open
+        return openButton(url, "Open video");
+      }
+
+      return `<div class="muted" style="padding:12px;">Missing or invalid media type.</div>`;
+    }
+
     function makeCard(item){
       const card = document.createElement("div");
       card.className = "galleryCard";
 
-      let mediaHTML = "";
-      if (item.Type === "photo") {
-        mediaHTML = `<img src="${item.MediaURL}" alt="${item.Title || "Photo"}" loading="lazy"
-                       onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'muted\\' style=\\'padding:12px;\\'>Image failed to load</div>';">`;
-      } else if (item.Type === "video") {
-        const embed = youtubeEmbed(item.MediaURL);
-        mediaHTML = embed
-          ? `<iframe src="${embed}" frameborder="0" allowfullscreen></iframe>`
-          : `<div class="muted" style="padding:12px;">Video link not recognized. Use a YouTube URL.</div>`;
-      }
+      const mediaHTML = makeMediaHTML(item);
 
       card.innerHTML = `
         <div class="galleryMedia">${mediaHTML}</div>
@@ -214,7 +315,6 @@
         typeWrap.appendChild(b);
       }
 
-      // Set initial active styling
       setActiveChip(teamWrap, ACTIVE_TEAM);
       setActiveChip(typeWrap, ACTIVE_TYPE);
     }
@@ -267,5 +367,6 @@
   </script>
 </body>
 </html>
+
 
 

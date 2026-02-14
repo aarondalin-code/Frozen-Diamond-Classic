@@ -8,7 +8,7 @@
 </head>
 
 <body class="watermarkPage teamsPage">
- <header class="siteHeader">
+  <header class="siteHeader">
     <nav class="nav">
       <a href="./">Home</a>
       <a href="./schedule.html">Schedule/Scores</a>
@@ -18,7 +18,6 @@
       <a href="./contacts.html">Contacts</a>
       <a href="./gallery.html">Gallery</a>
       <a href="./uploads.html">Uploads</a>
-     
     </nav>
 
     <div class="brandCenter">
@@ -36,6 +35,7 @@
       <div class="card">
         <div class="cardBody">
           <div id="teamsGrid" class="teamsGrid"></div>
+
           <p class="muted small" style="margin-top:12px;">
             This page pulls team names from your Google Sheet “Teams” CSV.
           </p>
@@ -67,7 +67,6 @@
     function safe(v){ return String(v || "").trim(); }
 
     function teamSlug(name) {
-      // URL-friendly identifier
       return safe(name)
         .toLowerCase()
         .replace(/&/g, "and")
@@ -79,7 +78,7 @@
       const grid = document.getElementById("teamsGrid");
       grid.innerHTML = "";
 
-      // Expecting headers: Seed, TeamName
+      // Expecting headers: Seed, TeamName (Seed is used only for sorting, not displayed)
       const teams = teamRows
         .map(r => ({ seed: Number(r.Seed), name: safe(r.TeamName) }))
         .filter(t => t.name)
@@ -92,12 +91,10 @@
         a.className = "teamTile";
         a.href = `./team.html?team=${encodeURIComponent(slug)}`;
 
+        // No seed displayed
         a.innerHTML = `
-          <div class="teamTileTop">
-            <div class="teamTileName">${t.name}</div>
-            <div class="teamTileSeed">${Number.isFinite(t.seed) ? "Seed " + t.seed : ""}</div>
-          </div>
-          <div class="teamTileMeta">View roster →</div>
+          <div class="teamName">${t.name}</div>
+          <div class="teamCta">View roster →</div>
         `;
 
         grid.appendChild(a);

@@ -1727,6 +1727,41 @@ th {
   }
 }
 
+/* Centered Tile Layout */
+
+.teamsPage .teamTile{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 12px;
+  min-height: 110px; /* small, controlled height */
+}
+
+.teamsPage .teamTileCenter{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.teamsPage .teamTileLogo{
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.teamsPage .teamName{
+  font-weight: 900;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+.teamsPage .teamRecord{
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--royal);
+}
 
 
 

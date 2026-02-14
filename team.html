@@ -12,13 +12,12 @@
     <nav class="nav">
       <a href="./">Home</a>
       <a href="./schedule.html">Schedule/Scores</a>
-      <a href="./stats.html">Stats</a>
       <a href="./teams.html">Teams</a>
       <a href="./rules.html">Rules</a>
       <a href="./contacts.html">Contacts</a>
-      <a href="./gallery.html">Gallery</a>
       <a href="./uploads.html">Uploads</a>
-      
+      <a href="./gallery.html">Gallery</a>
+      <a href="./stats.html">Stats</a>
     </nav>
 
     <div class="brandCenter">
@@ -84,12 +83,11 @@
     // Helpers
     // -----------------------------
     function safe(v){ return String(v ?? "").trim(); }
+    function isBlank(v){ return safe(v) === ""; }
 
     function normalizePhoneForTel(phone) {
       return safe(phone).replace(/[^\d+]/g, "");
     }
-
-    function isBlank(v){ return safe(v) === ""; }
 
     function slugToPretty(slug){
       return safe(slug)
@@ -152,7 +150,61 @@
     }
 
     // -----------------------------
-    // Page setup (team info + coach + logo)
+    // MLB Team Logo lookup
+    // Uses ESPN's public team logo assets by code (e.g., nyy, nym, bos)
+    // If not recognized, returns null.
+    // -----------------------------
+    function normTeamName(s){
+      return safe(s)
+        .toLowerCase()
+        .replace(/\./g, "")
+        .replace(/&/g, "and")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    const MLB_TEAM_CODES = {
+      "arizona diamondbacks":"ari", "diamondbacks":"ari", "dbacks":"ari", "ari":"ari",
+      "atlanta braves":"atl", "braves":"atl", "atl":"atl",
+      "baltimore orioles":"bal", "orioles":"bal", "bal":"bal",
+      "boston red sox":"bos", "red sox":"bos", "bos":"bos",
+      "chicago cubs":"chc", "cubs":"chc", "chc":"chc",
+      "chicago white sox":"cws", "white sox":"cws", "cws":"cws",
+      "cincinnati reds":"cin", "reds":"cin", "cin":"cin",
+      "cleveland guardians":"cle", "guardians":"cle", "cle":"cle",
+      "colorado rockies":"col", "rockies":"col", "col":"col",
+      "detroit tigers":"det", "tigers":"det", "det":"det",
+      "houston astros":"hou", "astros":"hou", "hou":"hou",
+      "kansas city royals":"kc", "royals":"kc", "kc":"kc", "kcr":"kc",
+      "los angeles angels":"laa", "angels":"laa", "laa":"laa",
+      "los angeles dodgers":"lad", "dodgers":"lad", "lad":"lad",
+      "miami marlins":"mia", "marlins":"mia", "mia":"mia",
+      "milwaukee brewers":"mil", "brewers":"mil", "mil":"mil",
+      "minnesota twins":"min", "twins":"min", "min":"min",
+      "new york mets":"nym", "mets":"nym", "nym":"nym",
+      "new york yankees":"nyy", "yankees":"nyy", "nyy":"nyy",
+      "oakland athletics":"oak", "athletics":"oak", "as":"oak", "a's":"oak", "oak":"oak",
+      "philadelphia phillies":"phi", "phillies":"phi", "phi":"phi",
+      "pittsburgh pirates":"pit", "pirates":"pit", "pit":"pit",
+      "san diego padres":"sd", "padres":"sd", "sd":"sd",
+      "san francisco giants":"sf", "giants":"sf", "sf":"sf",
+      "seattle mariners":"sea", "mariners":"sea", "sea":"sea",
+      "st louis cardinals":"stl", "cardinals":"stl", "stl":"stl",
+      "tampa bay rays":"tb", "rays":"tb", "tb":"tb",
+      "texas rangers":"tex", "rangers":"tex", "tex":"tex",
+      "toronto blue jays":"tor", "blue jays":"tor", "jays":"tor", "tor":"tor",
+      "washington nationals":"wsh", "nationals":"wsh", "nats":"wsh", "wsh":"wsh"
+    };
+
+    function mlbLogoUrl(favoriteTeam){
+      const key = normTeamName(favoriteTeam);
+      const code = MLB_TEAM_CODES[key];
+      if (!code) return null;
+      return `https://a.espncdn.com/i/teamlogos/mlb/500/${code}.png`;
+    }
+
+    // -----------------------------
+    // Team header + coach + logo
     // -----------------------------
     function setTeamHeader(slug){
       const teamNameEl = document.getElementById("teamName");
@@ -165,12 +217,10 @@
       teamNameEl.textContent = name;
       document.title = `${name} • Frozen Diamond Classic`;
 
-      // Logo (with fallback)
       const logoPath = info.logo || window.DEFAULT_TEAM_LOGO || "./logo.png";
       logoEl.src = logoPath;
       logoEl.onerror = () => { logoEl.src = window.DEFAULT_TEAM_LOGO || "./logo.png"; };
 
-      // Optional subtitle (you can add later if you want)
       subEl.textContent = "";
     }
 
@@ -226,12 +276,8 @@
     }
 
     closeBtn.addEventListener("click", closeModal);
-    overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) closeModal();
-    });
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeModal();
-    });
+    overlay.addEventListener("click", (e) => { if (e.target === overlay) closeModal(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
 
     // -----------------------------
     // Roster render
@@ -241,20 +287,49 @@
       return url ? url : "./logo.png";
     }
 
+    function formatBT(bats, throws){
+      const b = safe(bats).toUpperCase();
+      const t = safe(throws).toUpperCase();
+      if (!b && !t) return "";
+      if (b && t) return `${b}/${t}`;
+      return `${b || "?"}/${t || "?"}`;
+    }
+
+    function profileLineHTML(label, valueHtml){
+      return `
+        <div class="profileLine">
+          <span class="profileKey">${label}</span>
+          <span class="profileVal">${valueHtml}</span>
+        </div>
+      `;
+    }
+
     function renderPlayerModal(player, teamDisplayName){
       const name = safe(player.PlayerName || player.Name || "Player");
       const num = safe(player.Number);
       const pos = safe(player.Position);
+
+      const bt = formatBT(player.Bats, player.Throws); // COMBINED B/T
+      const fav = safe(player.FavoriteTeam);
       const fun = safe(player.FunFact);
-      const fav = safe(player.FavoriteTeam); // NEW FIELD
       const photo = getPhotoSrc(player);
 
       const infoLines = [];
 
-      if (num) infoLines.push(`<div class="profileLine"><span class="profileKey">Number</span><span class="profileVal">#${num}</span></div>`);
-      if (pos) infoLines.push(`<div class="profileLine"><span class="profileKey">Position</span><span class="profileVal">${pos}</span></div>`);
-      if (fav) infoLines.push(`<div class="profileLine"><span class="profileKey">Favorite MLB Team</span><span class="profileVal">${fav}</span></div>`);
-      if (fun) infoLines.push(`<div class="profileLine"><span class="profileKey">Fun Fact</span><span class="profileVal">${fun}</span></div>`);
+      if (num) infoLines.push(profileLineHTML("Number", `#${num}`));
+      if (pos) infoLines.push(profileLineHTML("Position", pos));
+      if (bt) infoLines.push(profileLineHTML("B/T", bt));
+
+      if (fav) {
+        const logo = mlbLogoUrl(fav);
+        const favHtml = logo
+          ? `<span class="mlbFav"><img class="mlbLogo" src="${logo}" alt="${fav} logo" onerror="this.style.display='none';" /><span>${fav}</span></span>`
+          : fav;
+
+        infoLines.push(profileLineHTML("Favorite MLB Team", favHtml));
+      }
+
+      if (fun) infoLines.push(profileLineHTML("Fun Fact", fun));
 
       const html = `
         <div class="profileHeader">
@@ -264,12 +339,14 @@
           <div>
             <h3 id="modalTitle" class="profileName">${name}</h3>
             <div class="muted">${teamDisplayName}${num ? ` • #${num}` : ""}</div>
+
             <div class="profileLines" style="margin-top:12px;">
               ${infoLines.length ? infoLines.join("") : `<div class="muted small">No additional details yet.</div>`}
             </div>
           </div>
         </div>
       `;
+
       openModal(html);
     }
 
@@ -289,7 +366,6 @@
 
       msg.textContent = "";
 
-      // sort by Number (if numeric), then name
       players.sort((a,b) => {
         const na = Number(safe(a.Number));
         const nb = Number(safe(b.Number));
@@ -344,11 +420,9 @@
       setTeamHeader(slug);
       setCoachInfo(slug);
 
-      // Determine team display name for matching roster rows
       const teamDisplayName = safe(window.TEAM_INFO?.[slug]?.name) || slugToPretty(slug);
       const teamKey = normalizeTeamNameForMatch(teamDisplayName);
 
-      // Load roster CSV
       let rosterRows = [];
       try{
         const csv = await fetchCsv(window.SHEET?.ROSTER_CSV_URL);
@@ -359,7 +433,6 @@
         return;
       }
 
-      // Filter for this team
       const players = rosterRows.filter(r => {
         const t = normalizeTeamNameForMatch(r.Team);
         return t && t === teamKey;
@@ -371,127 +444,27 @@
     init();
   </script>
 
-  <!-- Optional: minimal styles if your styles.css doesn't already have these -->
+  <!-- Only the NEW styles needed for MLB logo line -->
   <style>
-    /* These are safe and only apply if your main CSS doesn't already define them */
-    .card{
-      background: #fff;
-      border: 1px solid var(--border, #e2e8f0);
-      border-radius: 14px;
-      overflow: hidden;
-    }
-    .cardBody{ padding: 14px; }
-
-    .btnSecondary{
+    .mlbFav{
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 12px;
+      justify-content: flex-end;
+    }
+    .mlbLogo{
+      width: 20px;
+      height: 20px;
       border-radius: 999px;
-      border: 1px solid var(--border, #e2e8f0);
-      background: rgba(255,255,255,0.75);
-      text-decoration: none;
-      color: inherit;
-      font-weight: 900;
-      font-size: 12px;
-    }
-
-    .teamHeaderBlock{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-    .teamHeaderLeft{
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 260px;
-    }
-    .teamHeaderLogo{
-      width: 64px;
-      height: 64px;
-      border-radius: 14px;
-      border: 1px solid var(--border, #e2e8f0);
-      background: #0f172a;
+      border: 1px solid rgba(226,232,240,1);
+      background: white;
       object-fit: cover;
-      padding: 6px;
-      box-sizing: border-box;
-    }
-
-    .coachCard{
-      border: 1px solid var(--border, #e2e8f0);
-      border-radius: 14px;
-      padding: 10px 12px;
-      background: #f8fafc;
-      min-width: 240px;
-    }
-    .coachLabel{ font-size: 11px; color: #64748b; font-weight: 900; }
-    .coachName{ font-weight: 900; margin-top: 4px; }
-    .coachLinks{ display:flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-    .coachLink{
-      display:inline-flex;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--border, #e2e8f0);
-      text-decoration:none;
-      font-weight: 900;
-      font-size: 12px;
-      color: inherit;
-      background: #fff;
-    }
-
-    .rosterTopRow{
-      display:flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .playerCardRow{
-      display:flex;
-      gap: 12px;
-      align-items: center;
-    }
-    .playerThumb{
-      width: 44px;
-      height: 44px;
-      border-radius: 999px;
-      border: 1px solid var(--border, #e2e8f0);
-      overflow: hidden;
-      background: #0f172a;
       flex: 0 0 auto;
-    }
-    .playerThumb img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .playerCardMain{ flex: 1; min-width: 0; }
-
-    .profileLines{ display:grid; gap: 8px; }
-    .profileLine{
-      display:flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 8px 0;
-      border-bottom: 1px solid var(--border, #e2e8f0);
-      font-weight: 800;
-      font-size: 13px;
-    }
-    .profileKey{ color:#64748b; font-weight: 700; }
-    .profileVal{ color:#0f172a; text-align: right; }
-
-    @media (max-width: 520px){
-      .teamHeaderLogo{ width: 56px; height: 56px; }
-      .profileLine{ font-size: 12px; }
     }
   </style>
 </body>
 </html>
+
 
 
 

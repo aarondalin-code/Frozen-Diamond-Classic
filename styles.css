@@ -1160,3 +1160,49 @@ th {
 #gc-scoreboard-widget-yi4k{
   min-height: 520px;
 }
+
+/* =========================
+   Team page: roster cards tighten + prevent spill
+========================= */
+
+.playerCardRow{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.playerCardMain{
+  flex: 1;
+  min-width: 0;
+}
+
+.playerName{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.playerMeta{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* MLB logo + favorite team in modal */
+.mlbFav{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.mlbLogo{
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: white;
+  object-fit: cover;
+  flex: 0 0 auto;
+}

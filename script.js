@@ -4,11 +4,16 @@
   const tbody = document.querySelector("#scheduleTable tbody");
 
   function setLastUpdated() {
-    if (lastUpdatedEl) lastUpdatedEl.textContent = `Last updated: ${new Date().toLocaleString()}`;
+    if (!lastUpdatedEl) return;
+    lastUpdatedEl.textContent = `Last updated: ${new Date().toLocaleString()}`;
+  }
+
+  function safe(v) {
+    return String(v ?? "").trim();
   }
 
   function isFinal(status) {
-    return String(status || "").trim().toLowerCase() === "final";
+    return safe(status).toLowerCase() === "final";
   }
 
   async function fetchCsv(url) {
@@ -19,20 +24,63 @@
     return await res.text();
   }
 
+  // Robust CSV parser (handles quoted commas)
   function parseCsv(text) {
-    const lines = text.trim().split(/\r?\n/);
-    const rows = lines.map(line => line.split(","));
-    const headers = (rows.shift() || []).map(h => String(h).trim().replace(/\s+/g, ""));
+    const rows = [];
+    let row = [];
+    let cur = "";
+    let inQuotes = false;
+
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      const next = text[i + 1];
+
+      if (ch === '"') {
+        if (inQuotes && next === '"') {
+          cur += '"';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+        continue;
+      }
+
+      if (!inQuotes && ch === ",") {
+        row.push(cur);
+        cur = "";
+        continue;
+      }
+
+      if (!inQuotes && (ch === "\n" || ch === "\r")) {
+        if (ch === "\r" && next === "\n") i++;
+        row.push(cur);
+        cur = "";
+        if (row.some(v => safe(v) !== "")) rows.push(row);
+        row = [];
+        continue;
+      }
+
+      cur += ch;
+    }
+
+    row.push(cur);
+    if (row.some(v => safe(v) !== "")) rows.push(row);
+
+    const headers = (rows.shift() || []).map(h => safe(h).replace(/\s+/g, ""));
     return rows
-      .filter(r => r.some(x => String(x).trim() !== ""))
-      .map(r => Object.fromEntries(headers.map((h, i) => [h, String(r[i] ?? "").trim()])));
+      .map(r => {
+        const obj = {};
+        headers.forEach((h, idx) => (obj[h] = safe(r[idx])));
+        return obj;
+      })
+      .filter(o => Object.values(o).some(v => safe(v) !== ""));
   }
 
   function winnerLoser(game) {
     if (!isFinal(game.Status)) return null;
 
-    const aStr = String(game.ScoreA ?? "").trim();
-    const bStr = String(game.ScoreB ?? "").trim();
+    const aStr = safe(game.ScoreA);
+    const bStr = safe(game.ScoreB);
     if (aStr === "" || bStr === "") return null;
 
     const a = Number(aStr);
@@ -45,7 +93,7 @@
 
   function resolveTeam(ref, teamsBySeed, gamesById) {
     if (!ref) return "TBD";
-    ref = String(ref).trim().toUpperCase();
+    ref = safe(ref).toUpperCase();
     if (!ref) return "TBD";
 
     const type = ref[0];
@@ -64,30 +112,30 @@
   }
 
   function gameCardHTML(g, teamsBySeed, gamesById) {
-    if (!g) return `<div class="gameCard"><div class="gameTeams">TBD vs TBD</div><div class="gameStatus">Scheduled</div></div>`;
+    if (!g) {
+      return `
+        <div class="gameCard">
+          <div class="gameTeams">TBD vs TBD</div>
+          <div class="gameStatus">Scheduled</div>
+        </div>
+      `;
+    }
 
     const teamA = resolveTeam(g.TeamA, teamsBySeed, gamesById);
     const teamB = resolveTeam(g.TeamB, teamsBySeed, gamesById);
 
     const final = isFinal(g.Status);
-    const sA = String(g.ScoreA ?? "").trim();
-    const sB = String(g.ScoreB ?? "").trim();
+    const sA = safe(g.ScoreA);
+    const sB = safe(g.ScoreB);
     const score = (final && sA !== "" && sB !== "") ? `${sA}-${sB}` : "";
 
-    const isChampGame = Number(g.Game) === 12;
-    const isChampionComplete = isChampGame && final;
-
-    const cardClass = `gameCard${isChampionComplete ? " championCard" : ""}`;
-
-    const championTag = isChampionComplete
-      ? ` <span class="championBadge">🏆 CHAMPION</span>`
-      : "";
-
     return `
-      <div class="${cardClass}">
-        <div class="gameMeta">Game ${g.Game} • ${g.Time} • ${g.Field}</div>
-        <div class="gameTeams">${teamA} vs ${teamB}${final ? `<span class="finalBadge">FINAL</span>` : ""}${championTag}</div>
-        <div class="gameStatus">${final ? (score ? `Final: ${score}` : "Final") : `Status: ${String(g.Status || "Scheduled").trim() || "Scheduled"}`}</div>
+      <div class="gameCard">
+        <div class="gameMeta">Game ${safe(g.Game)} • ${safe(g.Time)} • ${safe(g.Field)}</div>
+        <div class="gameTeams">${teamA} vs ${teamB}${final ? `<span class="finalBadge">FINAL</span>` : ""}</div>
+        <div class="gameStatus">
+          ${final ? (score ? `Final: ${score}` : "Final") : `Status: ${safe(g.Status || "Scheduled") || "Scheduled"}`}
+        </div>
       </div>
     `;
   }
@@ -118,7 +166,7 @@
           </div>
 
           <div class="col">
-            <div class="colTitle">Round 3</div>
+            <div class="colTitle">Championship</div>
             <div class="slot connectorMid">${gameCardHTML(g12, teamsBySeed, gamesById)}</div>
           </div>
         </div>
@@ -134,13 +182,13 @@
           </div>
 
           <div class="col">
-            <div class="colTitle">Round 3 (Placement)</div>
+            <div class="colTitle">Placement</div>
             <div class="slot connectorMid">${gameCardHTML(g9, teamsBySeed, gamesById)}</div>
             <div class="slot connectorMid">${gameCardHTML(g10, teamsBySeed, gamesById)}</div>
           </div>
 
           <div class="col">
-            <div class="colTitle">Round 3</div>
+            <div class="colTitle">Game 11</div>
             <div class="slot connectorMid">${gameCardHTML(g11, teamsBySeed, gamesById)}</div>
           </div>
         </div>
@@ -148,7 +196,8 @@
     `;
   }
 
-  function renderSchedule(gameRows, teamsBySeed, gamesById) {
+  // Desktop table
+  function renderScheduleTable(gameRows, teamsBySeed, gamesById) {
     if (!tbody) return;
     tbody.innerHTML = "";
 
@@ -159,18 +208,20 @@
       const teamB = resolveTeam(g.TeamB, teamsBySeed, gamesById);
 
       const final = isFinal(g.Status);
-      const sA = String(g.ScoreA ?? "").trim();
-      const sB = String(g.ScoreB ?? "").trim();
+      const sA = safe(g.ScoreA);
+      const sB = safe(g.ScoreB);
       const score = (final && sA !== "" && sB !== "") ? `${sA}-${sB}` : "";
 
       const tr = document.createElement("tr");
+      if (final) tr.classList.add("finalRow");
+
       const cells = [
-        g.Time || "",
-        g.Field || "",
-        `Game ${g.Game || ""}`,
+        safe(g.Time),
+        safe(g.Field),
+        `Game ${safe(g.Game)}`,
         `${teamA} vs ${teamB}`,
         score,
-        final ? "Final" : (String(g.Status || "Scheduled").trim() || "Scheduled"),
+        final ? "Final" : (safe(g.Status || "Scheduled") || "Scheduled"),
       ];
 
       for (const text of cells) {
@@ -178,7 +229,49 @@
         td.textContent = text;
         tr.appendChild(td);
       }
+
       tbody.appendChild(tr);
+    }
+  }
+
+  // Mobile/modern cards
+  function renderScheduleCards(gameRows, teamsBySeed, gamesById) {
+    const wrap = document.getElementById("scheduleCards");
+    if (!wrap) return;
+
+    wrap.innerHTML = "";
+
+    const sorted = [...gameRows].sort((a, b) => Number(a.Game) - Number(b.Game));
+
+    for (const g of sorted) {
+      const teamA = resolveTeam(g.TeamA, teamsBySeed, gamesById);
+      const teamB = resolveTeam(g.TeamB, teamsBySeed, gamesById);
+
+      const final = isFinal(g.Status);
+      const sA = safe(g.ScoreA);
+      const sB = safe(g.ScoreB);
+      const score = (final && sA !== "" && sB !== "") ? `${sA}-${sB}` : "";
+
+      const statusText = final ? "Final" : (safe(g.Status || "Scheduled") || "Scheduled");
+
+      const card = document.createElement("div");
+      card.className = "scheduleCard" + (final ? " final" : "");
+
+      card.innerHTML = `
+        <div class="scheduleCardTop">
+          <div class="scheduleCardMeta">Game ${safe(g.Game)} • ${safe(g.Time)}</div>
+          <div class="scheduleCardStatus">${statusText}</div>
+        </div>
+        <div class="scheduleCardBody">
+          <div class="scheduleMatchup">${teamA} vs ${teamB}</div>
+          <div class="scheduleScoreRow">
+            <div class="scheduleScore">${final ? score : ""}</div>
+            <div class="scheduleField">${safe(g.Field)}</div>
+          </div>
+        </div>
+      `;
+
+      wrap.appendChild(card);
     }
   }
 
@@ -190,18 +283,24 @@
     const gameRows = parseCsv(gamesCsv);
 
     const teamsBySeed = new Map(
-      teamRows.map(r => [Number(r.Seed), r.TeamName]).filter(([s, n]) => Number.isFinite(s) && n)
+      teamRows
+        .map(r => [Number(r.Seed), safe(r.TeamName)])
+        .filter(([s, n]) => Number.isFinite(s) && n)
     );
 
     const gamesById = new Map(
-      gameRows.map(r => [Number(r.Game), r]).filter(([id]) => Number.isFinite(id))
+      gameRows
+        .map(r => [Number(r.Game), r])
+        .filter(([id]) => Number.isFinite(id))
     );
 
     renderBracket(gamesById, teamsBySeed);
-    renderSchedule(gameRows, teamsBySeed, gamesById);
+    renderScheduleTable(gameRows, teamsBySeed, gamesById);
+    renderScheduleCards(gameRows, teamsBySeed, gamesById);
     setLastUpdated();
   }
 
+  // Initial load
   try {
     await loadAndRender();
   } catch (err) {
@@ -210,14 +309,17 @@
     return;
   }
 
+  // Auto-refresh every 60s (no page reload)
   setInterval(async () => {
     try {
       await loadAndRender();
     } catch (err) {
       console.error(err);
+      // no repeated alerts for spectators
     }
   }, 60000);
 })();
+
 
 
 

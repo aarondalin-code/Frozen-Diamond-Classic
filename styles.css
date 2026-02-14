@@ -1427,3 +1427,41 @@ th {
   text-align: center;
   margin-bottom: 8px;
 }
+
+/* =========================
+   Participating Teams Grid
+========================= */
+
+.teamsGrid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.teamTile{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  font-weight: 900;
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  text-align: center;
+}
+
+.teamTile:hover{
+  transform: translateY(-2px);
+  border-color: rgba(37,99,235,0.45);
+  background: rgba(37,99,235,0.06);
+}
+
+/* Mobile */
+@media (max-width: 600px){
+  .teamsGrid{
+    grid-template-columns: 1fr;
+  }
+}

@@ -20,7 +20,7 @@ window.TEAM_INFO = {
     coachName: "Aaron Dalin",
     coachEmail: "aarondalin@gmail.com",
     coachPhone: "(917) 922-9847"
-    gcUrl: "https://web.gc.com/teams/6SioN5qtszsQ/2026-spring-westfield-9u-blue"
+
   },
   "branchburg": {
     name: "Branchburg",
@@ -28,7 +28,7 @@ window.TEAM_INFO = {
     coachName: "Tom Sharples",
     coachEmail: "trsjr12@gmail.com",
     coachPhone: "(908) 361-6332"
-    gcUrl: "PASTE_TEAM_GAMECHANGER_LINK_HERE"
+   
   },
   "ridge": {
     name: "Ridge",
@@ -36,7 +36,7 @@ window.TEAM_INFO = {
     coachName: "Greg Brunner",
     coachEmail: "gregbrunner@ridgebaseballclub.com",
     coachPhone: "(267) 475-9516"
-    gcUrl: "PASTE_TEAM_GAMECHANGER_LINK_HERE"
+   
   },
   "scotch-plains-fanwood": {
     name: "Scotch Plains Fanwood",
@@ -44,7 +44,7 @@ window.TEAM_INFO = {
     coachName: "Ross Alpert",
     coachEmail: "ross.alpert2@gmail.com",
     coachPhone: "(732) 535-1077"
-    gcUrl: "PASTE_TEAM_GAMECHANGER_LINK_HERE"
+  
   },
   "hillsborough": {
     name: "Hillsborough",
@@ -52,7 +52,7 @@ window.TEAM_INFO = {
     coachName: "Blair Dameron",
     coachEmail: "blaird@hillsboroughbaseball.org",
     coachPhone: "(215) 593-5207"
-    gcUrl: "PASTE_TEAM_GAMECHANGER_LINK_HERE"
+    
   },
   "westfield-white": {
     name: "Westfield White",
@@ -60,7 +60,7 @@ window.TEAM_INFO = {
     coachName: "Danny Lallis",
     coachEmail: "danny.lallis@gmail.com",
     coachPhone: "(898) 698-3012"
-    gcUrl: "PASTE_TEAM_GAMECHANGER_LINK_HERE"
+   
   },
   "south-orange-maplewood": {
     name: "South Orange Maplewood",
@@ -68,7 +68,7 @@ window.TEAM_INFO = {
     coachName: "Jeremy Wintroub",
     coachEmail: "jwintroub@gmail.com",
     coachPhone: "(215) 370-8975"
-    gcUrl: "PASTE_TEAM_GAMECHANGER_LINK_HERE"
+    
   },
   "watchung-hills": {
     name: "Watchung Hills",
@@ -76,7 +76,7 @@ window.TEAM_INFO = {
     coachName: "Steven Freitas",
     coachEmail: "freitas.steven@gmail.com",
     coachPhone: "(201) 744-6063"
-    gcUrl: "PASTE_TEAM_GAMECHANGER_LINK_HERE"
+   
   }
 };
 

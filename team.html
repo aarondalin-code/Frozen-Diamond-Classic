@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Team • Frozen Diamond Classic</title>
+  <title>Team Roster • Frozen Diamond Classic</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 
@@ -28,7 +28,7 @@
   </header>
 
   <main class="wrap">
-    <!-- Team header -->
+    <!-- Team header block -->
     <section class="card" style="margin-top:12px;">
       <div class="cardBody">
         <div class="teamHeaderBlock">
@@ -69,7 +69,7 @@
     </section>
   </main>
 
-  <!-- Modal -->
+  <!-- Player modal -->
   <div id="modalOverlay" class="modalOverlay" aria-hidden="true">
     <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <button class="modalClose" id="modalCloseBtn" type="button">✕</button>
@@ -84,6 +84,10 @@
     // -----------------------------
     function safe(v){ return String(v ?? "").trim(); }
 
+    function normalizePhoneForTel(phone) {
+      return safe(phone).replace(/[^\d+]/g, "");
+    }
+
     function slugToPretty(slug){
       return safe(slug)
         .split("-")
@@ -93,10 +97,6 @@
 
     function getParam(name){
       return new URLSearchParams(window.location.search).get(name) || "";
-    }
-
-    function normalizePhoneForTel(phone) {
-      return safe(phone).replace(/[^\d+]/g, "");
     }
 
     async function fetchCsv(url) {
@@ -149,59 +149,7 @@
     }
 
     // -----------------------------
-    // MLB logo mapping (ESPN assets)
-    // -----------------------------
-    function normTeamName(s){
-      return safe(s)
-        .toLowerCase()
-        .replace(/\./g, "")
-        .replace(/&/g, "and")
-        .replace(/\s+/g, " ")
-        .trim();
-    }
-
-    const MLB_TEAM_CODES = {
-      "arizona diamondbacks":"ari","diamondbacks":"ari","dbacks":"ari","ari":"ari",
-      "atlanta braves":"atl","braves":"atl","atl":"atl",
-      "baltimore orioles":"bal","orioles":"bal","bal":"bal",
-      "boston red sox":"bos","red sox":"bos","bos":"bos",
-      "chicago cubs":"chc","cubs":"chc","chc":"chc",
-      "chicago white sox":"cws","white sox":"cws","cws":"cws",
-      "cincinnati reds":"cin","reds":"cin","cin":"cin",
-      "cleveland guardians":"cle","guardians":"cle","cle":"cle",
-      "colorado rockies":"col","rockies":"col","col":"col",
-      "detroit tigers":"det","tigers":"det","det":"det",
-      "houston astros":"hou","astros":"hou","hou":"hou",
-      "kansas city royals":"kc","royals":"kc","kc":"kc","kcr":"kc",
-      "los angeles angels":"laa","angels":"laa","laa":"laa",
-      "los angeles dodgers":"lad","dodgers":"lad","lad":"lad",
-      "miami marlins":"mia","marlins":"mia","mia":"mia",
-      "milwaukee brewers":"mil","brewers":"mil","mil":"mil",
-      "minnesota twins":"min","twins":"min","min":"min",
-      "new york mets":"nym","mets":"nym","nym":"nym",
-      "new york yankees":"nyy","yankees":"nyy","nyy":"nyy",
-      "oakland athletics":"oak","athletics":"oak","as":"oak","a's":"oak","oak":"oak",
-      "philadelphia phillies":"phi","phillies":"phi","phi":"phi",
-      "pittsburgh pirates":"pit","pirates":"pit","pit":"pit",
-      "san diego padres":"sd","padres":"sd","sd":"sd",
-      "san francisco giants":"sf","giants":"sf","sf":"sf",
-      "seattle mariners":"sea","mariners":"sea","sea":"sea",
-      "st louis cardinals":"stl","cardinals":"stl","stl":"stl",
-      "tampa bay rays":"tb","rays":"tb","tb":"tb",
-      "texas rangers":"tex","rangers":"tex","tex":"tex",
-      "toronto blue jays":"tor","blue jays":"tor","jays":"tor","tor":"tor",
-      "washington nationals":"wsh","nationals":"wsh","nats":"wsh","wsh":"wsh"
-    };
-
-    function mlbLogoUrl(favoriteTeam){
-      const key = normTeamName(favoriteTeam);
-      const code = MLB_TEAM_CODES[key];
-      if (!code) return null;
-      return `https://a.espncdn.com/i/teamlogos/mlb/500/${code}.png`;
-    }
-
-    // -----------------------------
-    // Team header + coach
+    // Page setup (team info + coach + logo)
     // -----------------------------
     function setTeamHeader(slug){
       const teamNameEl = document.getElementById("teamName");
@@ -238,21 +186,17 @@
         coachEmailEl.style.display = "inline-flex";
         coachEmailEl.textContent = coachEmail;
         coachEmailEl.href = `mailto:${coachEmail}`;
-      } else {
-        coachEmailEl.style.display = "none";
-      }
+      } else coachEmailEl.style.display = "none";
 
       if (coachPhone && coachPhone.toLowerCase() !== "tbd") {
         coachPhoneEl.style.display = "inline-flex";
         coachPhoneEl.textContent = coachPhone;
         coachPhoneEl.href = `tel:${normalizePhoneForTel(coachPhone)}`;
-      } else {
-        coachPhoneEl.style.display = "none";
-      }
+      } else coachPhoneEl.style.display = "none";
     }
 
     // -----------------------------
-    // Modal controls
+    // Modal
     // -----------------------------
     const overlay = document.getElementById("modalOverlay");
     const modalContent = document.getElementById("modalContent");
@@ -277,25 +221,18 @@
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
 
     // -----------------------------
-    // Roster + modal rendering
+    // Roster render
     // -----------------------------
     function getPhotoSrc(player){
       const url = safe(player.PhotoURL);
       return url ? url : "./logo.png";
     }
 
-    function formatBT(bats, throws){
-      const b = safe(bats).toUpperCase();
-      const t = safe(throws).toUpperCase();
-      if (!b && !t) return "";
-      return `${b || "?"}/${t || "?"}`;
-    }
-
-    function profileLine(label, valueHtml){
+    function line(label, value){
       return `
         <div class="profileLine">
           <span class="profileKey">${label}</span>
-          <span class="profileVal">${valueHtml}</span>
+          <span class="profileVal">${value}</span>
         </div>
       `;
     }
@@ -304,28 +241,19 @@
       const name = safe(player.PlayerName || player.Name || "Player");
       const num = safe(player.Number);
       const pos = safe(player.Position);
-
-      const bt = formatBT(player.Bats, player.Throws);
-      const fav = safe(player.FavoriteTeam);
+      const bats = safe(player.Bats);
+      const throws = safe(player.Throws);
       const fun = safe(player.FunFact);
       const photo = getPhotoSrc(player);
 
       const lines = [];
-      if (num) lines.push(profileLine("Number", `#${num}`));
-      if (pos) lines.push(profileLine("Position", pos));
-      if (bt)  lines.push(profileLine("B/T", bt));
+      if (num) lines.push(line("Number", `#${num}`));
+      if (pos) lines.push(line("Position", pos));
+      if (bats) lines.push(line("Bats", bats));
+      if (throws) lines.push(line("Throws", throws));
+      if (fun) lines.push(line("Fun Fact", fun));
 
-      if (fav) {
-        const logo = mlbLogoUrl(fav);
-        const favHtml = logo
-          ? `<span class="mlbFav"><img class="mlbLogo" src="${logo}" alt="${fav} logo" onerror="this.style.display='none';" /><span>${fav}</span></span>`
-          : fav;
-        lines.push(profileLine("Favorite MLB Team", favHtml));
-      }
-
-      if (fun) lines.push(profileLine("Fun Fact", fun));
-
-      const html = `
+      openModal(`
         <div class="profileHeader">
           <div class="profilePhoto">
             <img src="${photo}" alt="${name}" onerror="this.onerror=null; this.src='./logo.png';">
@@ -333,14 +261,12 @@
           <div>
             <h3 id="modalTitle" class="profileName">${name}</h3>
             <div class="muted">${teamDisplayName}${num ? ` • #${num}` : ""}</div>
-
             <div class="profileLines" style="margin-top:12px;">
               ${lines.length ? lines.join("") : `<div class="muted small">No additional details yet.</div>`}
             </div>
           </div>
         </div>
-      `;
-      openModal(html);
+      `);
     }
 
     function normalizeTeamNameForMatch(s){
@@ -358,7 +284,6 @@
       }
       msg.textContent = "";
 
-      // Sort by Number then name
       players.sort((a,b) => {
         const na = Number(safe(a.Number));
         const nb = Number(safe(b.Number));
@@ -380,13 +305,11 @@
         const pos = safe(p.Position);
         const photo = getPhotoSrc(p);
 
-        // This structure matches your existing CSS expectations:
         btn.innerHTML = `
           <div class="playerCardRow">
             <div class="playerThumb">
               <img src="${photo}" alt="${name}" onerror="this.onerror=null; this.src='./logo.png';">
             </div>
-
             <div class="playerCardMain">
               <div class="playerTop">
                 <div class="playerName">${name}</div>
@@ -426,11 +349,7 @@
         return;
       }
 
-      const players = rosterRows.filter(r => {
-        const t = normalizeTeamNameForMatch(r.Team);
-        return t && t === teamKey;
-      });
-
+      const players = rosterRows.filter(r => normalizeTeamNameForMatch(r.Team) === teamKey);
       buildRosterGrid(players, teamDisplayName);
     }
 
@@ -438,6 +357,7 @@
   </script>
 </body>
 </html>
+
 
 
 

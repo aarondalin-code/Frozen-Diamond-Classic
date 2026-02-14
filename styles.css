@@ -1506,9 +1506,10 @@ th {
 }
 
 .teamsPage .teamCta{
-  font-size: 13px;
+  font-size: 12px;     /* slightly smaller */
   font-weight: 900;
   color: var(--royal);
+  margin-top: 4px;     /* tighter */
 }
 
 /* Mobile */

@@ -1726,3 +1726,13 @@ th {
     grid-template-columns: 1fr !important;
   }
 }
+
+/* Teams page: centered record line (no tile resizing) */
+.teamsPage .teamRecord{
+  font-size: 12px;
+  font-weight: 900;
+  color: #334155;
+  text-align: center;
+  line-height: 1.1;
+  margin-top: -2px;
+}

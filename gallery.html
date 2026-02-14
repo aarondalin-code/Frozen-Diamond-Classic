@@ -152,17 +152,10 @@
       return null;
     }
 
-    function driveImageDirect(url){
+    // Reliable Drive embed for BOTH photos + videos
+    function drivePreview(url){
       const id = driveFileId(url);
       if (!id) return null;
-      // This works for many images if permissions are public
-      return `https://drive.google.com/uc?export=view&id=${id}`;
-    }
-
-    function driveVideoPreview(url){
-      const id = driveFileId(url);
-      if (!id) return null;
-      // Preview player (best for videos)
       return `https://drive.google.com/file/d/${id}/preview`;
     }
 
@@ -184,7 +177,7 @@
     function makeMediaHTML(item){
       const url = item.MediaURL;
 
-      // Photos
+      // ----- PHOTOS -----
       if (item.Type === "photo") {
         // direct image url
         if (isImageUrl(url)) {
@@ -192,18 +185,17 @@
             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'muted\\' style=\\'padding:12px;\\'>Image failed to load</div>';">`;
         }
 
-        // Drive image
-        const driveImg = driveImageDirect(url);
-        if (driveImg) {
-          return `<img src="${driveImg}" alt="${item.Title || "Photo"}" loading="lazy"
-            onerror="this.style.display='none'; this.parentElement.innerHTML=${JSON.stringify(openButton(url,'Open photo'))};">`;
+        // Drive photo -> use /preview iframe (most reliable)
+        const dp = drivePreview(url);
+        if (dp) {
+          return `<iframe src="${dp}" frameborder="0" allowfullscreen></iframe>`;
         }
 
         // Unknown link type -> open button
         return openButton(url, "Open photo");
       }
 
-      // Videos
+      // ----- VIDEOS -----
       if (item.Type === "video") {
         // YouTube
         const yt = youtubeEmbed(url);
@@ -221,10 +213,10 @@
           `;
         }
 
-        // Drive video preview
-        const drivePrev = driveVideoPreview(url);
-        if (drivePrev) {
-          return `<iframe src="${drivePrev}" frameborder="0" allow="autoplay" allowfullscreen></iframe>`;
+        // Drive video -> preview iframe
+        const dp = drivePreview(url);
+        if (dp) {
+          return `<iframe src="${dp}" frameborder="0" allow="autoplay" allowfullscreen></iframe>`;
         }
 
         // Unknown -> open

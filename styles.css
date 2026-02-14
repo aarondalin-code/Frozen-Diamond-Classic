@@ -1418,3 +1418,12 @@ th {
     min-width: 0 !important;
   }
 }
+
+/* =========================
+   Coach title centered only (keep links as-is)
+========================= */
+
+.coachTitleCenter{
+  text-align: center;
+  margin-bottom: 8px;
+}

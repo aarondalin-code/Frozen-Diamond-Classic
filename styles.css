@@ -1922,3 +1922,172 @@ th {
   margin: 0 6px;
 }
 
+/* =========================
+   Rules Page Premium Overhaul
+========================= */
+
+.rulesHero{
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.rulesHero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(90deg, rgba(37,99,235,0.10), rgba(37,99,235,0));
+  pointer-events:none;
+}
+
+.rulesHeroTop{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.rulesHeroTitle{
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.2px;
+}
+
+.rulesHeroNotes{
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.rulesNote{
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.rulesNoteKicker{
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #0f172a;
+  opacity: 0.75;
+}
+
+.rulesNoteValue{
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.rulesGrid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.rulesSection{
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  position: relative;
+}
+
+.rulesSection::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:12px;
+  bottom:12px;
+  width: 4px;
+  background: var(--royal);
+  border-radius: 999px;
+  opacity: 0.85;
+}
+
+.rulesSectionHeader{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-left: 10px; /* offset for the accent bar */
+}
+
+.rulesSectionIcon{
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(37,99,235,0.10);
+  border: 1px solid rgba(37,99,235,0.18);
+  font-size: 16px;
+}
+
+.rulesSectionTitle{
+  font-weight: 900;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.rulesSectionSub{
+  margin-top: 2px;
+}
+
+.ruleCard{
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-left: 10px; /* align with header offset */
+  margin-bottom: 10px;
+}
+
+.ruleTitle{
+  font-weight: 900;
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: #0f172a;
+}
+
+.ruleBody{
+  font-size: 13px;
+  line-height: 1.45;
+  color: #0f172a;
+}
+
+.ruleImportant{
+  background: rgba(37,99,235,0.08);
+  border-color: rgba(37,99,235,0.25);
+}
+
+.rulesSectionWide{
+  grid-column: 1 / -1;
+}
+
+.rulesFooterNote{
+  margin-left: 10px;
+  margin-top: 6px;
+}
+
+.rulesFooterLine{
+  height: 1px;
+  background: var(--border);
+  margin: 10px 0;
+}
+
+/* Mobile: 1 column */
+@media (max-width: 820px){
+  .rulesHeroNotes{ grid-template-columns: 1fr; }
+  .rulesGrid{ grid-template-columns: 1fr; }
+}

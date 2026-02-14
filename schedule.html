@@ -6,7 +6,8 @@
   <title>Schedule & Scores • Frozen Diamond Classic</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
-<body>
+
+<body class="watermarkPage schedulePage">
 
   <header class="siteHeader">
     <nav class="nav">
@@ -14,12 +15,11 @@
       <a href="./schedule.html" class="active">Schedule/Scores</a>
       <a href="./standings.html">Standings</a>
       <a href="./stats.html">Stats</a>
-       <a href="./teams.html">Teams</a>
+      <a href="./teams.html">Teams</a>
       <a href="./rules.html">Rules</a>
       <a href="./contacts.html">Contacts</a>
       <a href="./gallery.html">Gallery</a>
       <a href="./uploads.html">Uploads</a>
-
     </nav>
 
     <div class="brandCenter">
@@ -30,29 +30,57 @@
   </header>
 
   <main class="wrap">
-    <p class="muted">Schedule updates after games are marked Final.</p>
-    <p class="muted small" id="lastUpdated"></p>
 
-    <h2>Bracket</h2>
-    <div id="bracket" class="bracket"></div>
+    <!-- ESPN-style centered header block -->
+    <section class="docSection">
+      <div class="scheduleHero">
+        <h2>Schedule & Scores</h2>
+        <div class="scheduleMeta">
+          <span>📍 CenterCourt Lawrence</span>
+          <span>📅 March 21, 2026</span>
+          <span>⚾ 12 Games • 2 Fields</span>
+        </div>
+        <div class="muted small" id="lastUpdated"></div>
+      </div>
+    </section>
 
-    <h2>Schedule & Scores</h2>
-    <table id="scheduleTable">
-      <thead>
-        <tr>
-          <th>Time</th>
-          <th>Field</th>
-          <th>Game</th>
-          <th>Matchup</th>
-          <th>Score</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <!-- Bracket stays the feature -->
+    <section class="docSection">
+      <h2>Bracket</h2>
+      <p class="muted">Bracket updates automatically when games are marked Final.</p>
+      <div id="bracket" class="bracket"></div>
+    </section>
+
+    <!-- Schedule: modern cards (mobile-first) + table (desktop) -->
+    <section class="docSection">
+      <h2>Full Schedule</h2>
+      <p class="muted">Tap a game to quickly scan teams, field, and score.</p>
+
+      <!-- Cards (mobile/modern) -->
+      <div id="scheduleCards" class="scheduleCards"></div>
+
+      <!-- Table (desktop/scan) -->
+      <div class="scheduleTableWrap">
+        <table id="scheduleTable" class="scheduleTable">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Field</th>
+              <th>Game</th>
+              <th>Matchup</th>
+              <th>Score</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
   </main>
 
   <script src="./data.js"></script>
   <script src="./script.js"></script>
 </body>
 </html>
+

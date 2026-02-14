@@ -36,10 +36,6 @@
       <div class="card">
         <div class="cardBody">
           <div id="teamsGrid" class="teamsGrid"></div>
-
-          <p class="muted small" style="margin-top:12px;">
-            This page pulls team names from your Google Sheet “Teams” CSV.
-          </p>
         </div>
       </div>
     </section>
@@ -48,71 +44,107 @@
   <script src="./data.js"></script>
 
   <script>
+    function safe(v){ return String(v || "").trim(); }
+
     async function fetchCsv(url) {
-      if (!url) throw new Error("Missing TEAMS_CSV_URL in data.js");
+      if (!url) throw new Error("Missing CSV URL in data.js");
       const bust = (url.includes("?") ? "&" : "?") + "t=" + Date.now();
       const res = await fetch(url + bust, { cache: "no-store" });
-      if (!res.ok) throw new Error("Failed to fetch teams CSV");
+      if (!res.ok) throw new Error("Failed to fetch CSV");
       return await res.text();
     }
 
     function parseCsv(text) {
       const lines = text.trim().split(/\r?\n/);
       const rows = lines.map(line => line.split(","));
-      const headers = (rows.shift() || []).map(h => String(h).trim().replace(/\s+/g, ""));
+      const headers = (rows.shift() || []).map(h => safe(h).replace(/\s+/g,""));
       return rows
-        .filter(r => r.some(x => String(x).trim() !== ""))
-        .map(r => Object.fromEntries(headers.map((h, i) => [h, String(r[i] ?? "").trim()])));
+        .filter(r => r.some(x => safe(x) !== ""))
+        .map(r => Object.fromEntries(headers.map((h,i)=>[h,safe(r[i])])));
     }
-
-    function safe(v){ return String(v || "").trim(); }
 
     function teamSlug(name) {
       return safe(name)
         .toLowerCase()
-        .replace(/&/g, "and")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "");
+        .replace(/&/g,"and")
+        .replace(/[^a-z0-9]+/g,"-")
+        .replace(/(^-|-$)/g,"");
     }
 
     function pickLogoForSlug(slug){
-      // Prefer TEAM_INFO logo if provided, otherwise fallback to default logo
       const info = window.TEAM_INFO && window.TEAM_INFO[slug];
-      const candidate = info && info.logo ? String(info.logo).trim() : "";
-      return candidate || (window.DEFAULT_TEAM_LOGO || "./logo.png");
+      return (info && info.logo) ? info.logo : (window.DEFAULT_TEAM_LOGO || "./logo.png");
     }
 
-    function renderTeams(teamRows) {
+    function computeRecords(gameRows){
+      const records = new Map();
+
+      function ensure(team){
+        if (!records.has(team)){
+          records.set(team,{W:0,L:0,T:0});
+        }
+      }
+
+      for (const g of gameRows){
+        if (safe(g.Status).toLowerCase() !== "final") continue;
+
+        const a = safe(g.TeamA);
+        const b = safe(g.TeamB);
+        const sa = Number(g.ScoreA);
+        const sb = Number(g.ScoreB);
+
+        if (!a || !b) continue;
+
+        ensure(a);
+        ensure(b);
+
+        if (sa === sb){
+          records.get(a).T++;
+          records.get(b).T++;
+        } else if (sa > sb){
+          records.get(a).W++;
+          records.get(b).L++;
+        } else {
+          records.get(b).W++;
+          records.get(a).L++;
+        }
+      }
+
+      return records;
+    }
+
+    function renderTeams(teamRows, recordMap){
       const grid = document.getElementById("teamsGrid");
       grid.innerHTML = "";
 
-      // Expecting headers: Seed, TeamName (Seed used only for sorting)
       const teams = teamRows
         .map(r => ({ seed: Number(r.Seed), name: safe(r.TeamName) }))
         .filter(t => t.name)
-        .sort((a,b) => (a.seed || 999) - (b.seed || 999));
+        .sort((a,b)=> (a.seed||999)-(b.seed||999));
 
-      for (const t of teams) {
+      for (const t of teams){
         const slug = teamSlug(t.name);
         const logoUrl = pickLogoForSlug(slug);
+
+        const r = recordMap.get(t.name);
+        const recText = r ? `${r.W}-${r.L}-${r.T}` : "0-0-0";
 
         const a = document.createElement("a");
         a.className = "teamTile";
         a.href = `./team.html?team=${encodeURIComponent(slug)}`;
 
         a.innerHTML = `
-          <span class="teamAccent" aria-hidden="true"></span>
+          <span class="teamAccent"></span>
 
-          <div class="teamTileRow">
-            <div class="teamTileLogoWrap">
-              <img class="teamTileLogo" src="${logoUrl}" alt="${t.name} logo"
-                   onerror="this.onerror=null; this.src='./logo.png';">
-            </div>
+          <div class="teamTileCenter">
+            <img class="teamTileLogo"
+                 src="${logoUrl}"
+                 alt="${t.name} logo"
+                 onerror="this.onerror=null; this.src='./logo.png';">
 
-            <div class="teamTileText">
-              <div class="teamName">${t.name}</div>
-              <div class="teamCta">View roster →</div>
-            </div>
+            <div class="teamName">${t.name}</div>
+
+            <div class="teamRecord">${recText}</div>
           </div>
         `;
 
@@ -121,13 +153,20 @@
     }
 
     (async function init(){
-      try {
-        const csv = await fetchCsv(window.SHEET?.TEAMS_CSV_URL);
-        const rows = parseCsv(csv);
-        renderTeams(rows);
-      } catch (err) {
+      try{
+        const teamsCsv = await fetchCsv(window.SHEET?.TEAMS_CSV_URL);
+        const gamesCsv = await fetchCsv(window.SHEET?.GAMES_CSV_URL);
+
+        const teamRows = parseCsv(teamsCsv);
+        const gameRows = parseCsv(gamesCsv);
+
+        const recordMap = computeRecords(gameRows);
+
+        renderTeams(teamRows, recordMap);
+
+      } catch(err){
         console.error(err);
-        alert("Teams page error: check TEAMS_CSV_URL in data.js and make sure Teams tab is published to CSV.");
+        alert("Teams page error: check TEAMS_CSV_URL and GAMES_CSV_URL.");
       }
     })();
   </script>

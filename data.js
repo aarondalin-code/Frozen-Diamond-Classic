@@ -3,6 +3,7 @@ window.SHEET = {
   GAMES_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUAMNn59O8EtC8ti5EwfRQlwRo4OPrgqt_0GfmVAZA1GcbavFtXD8HQrCxSW04IGSQ_aOvcMl7Pi4Q/pub?gid=1840682925&single=true&output=csv",
   ROSTER_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUAMNn59O8EtC8ti5EwfRQlwRo4OPrgqt_0GfmVAZA1GcbavFtXD8HQrCxSW04IGSQ_aOvcMl7Pi4Q/pub?gid=519716329&single=true&output=csv",
   GALLERY_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQYW5rWZcHbgZQsQARclimQqSoI-zcI1vDbLeHKhx64ODu6uSh_r0E0zbgADcHrRndw7CC6S6vFSCsk/pub?gid=2098794520&single=true&output=csv"
+
 };
 
 /**

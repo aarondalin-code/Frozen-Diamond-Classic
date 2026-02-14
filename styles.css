@@ -1465,3 +1465,74 @@ th {
     grid-template-columns: 1fr;
   }
 }
+
+/* =========================
+   Teams Page Tile Layout (fix seed + CTA)
+   Applies only on teams.html by using body class
+========================= */
+
+/* Add this class to <body> in teams.html: class="teamsPage watermarkPage" */
+.teamsPage .teamsGrid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.teamsPage .teamTile{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  min-height: 92px;
+}
+
+.teamsPage .teamTile:hover{
+  transform: translateY(-2px);
+  border-color: rgba(37,99,235,0.45);
+  background: rgba(37,99,235,0.06);
+}
+
+/* Top row: Seed badge */
+.teamsPage .teamSeed,
+.teamsPage .seedBadge{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 900;
+  color: #0f172a;
+  background: rgba(37,99,235,0.12);
+  border: 1px solid rgba(37,99,235,0.25);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+/* Team name */
+.teamsPage .teamName{
+  font-weight: 900;
+  font-size: 15px;
+  line-height: 1.15;
+}
+
+/* Bottom CTA */
+.teamsPage .teamCta,
+.teamsPage .teamLink,
+.teamsPage .viewRoster{
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--royal);
+}
+
+/* Mobile */
+@media (max-width: 600px){
+  .teamsPage .teamsGrid{ grid-template-columns: 1fr; }
+}

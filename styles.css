@@ -2682,3 +2682,73 @@ th {
     overflow: hidden;
   }
 }
+
+
+/* =========================
+   iOS Chrome/Safari: scrollable hamburger menu overlay
+========================= */
+@media (max-width: 820px){
+
+  /* When menu is open, lock the page and allow the menu to scroll */
+  body.noScroll{
+    position: fixed;   /* prevents background scroll on iOS */
+    width: 100%;
+  }
+
+  .nav.open{
+    height: 100vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain; /* prevents rubber-band from leaking */
+    padding-bottom: 34px; /* room for iPhone home indicator */
+  }
+}
+
+/* =========================
+   Mobile hamburger overlay – stronger separation
+   (Safe override)
+========================= */
+@media (max-width: 820px){
+
+  /* Make sure the overlay is truly on top */
+  .nav.open{
+    z-index: 999999; /* above countdown, iframes, etc */
+    background: rgba(2, 6, 23, 0.96); /* darker, less see-through */
+  }
+
+  /* Add a centered panel so links don't blend into background */
+  .nav.open{
+    padding: 90px 18px 18px; /* keep links away from top */
+  }
+
+  .nav.open::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 20%, rgba(37,99,235,0.18), transparent 55%);
+    pointer-events: none;
+  }
+
+  /* Panel container feel (links) */
+  .nav.open a{
+    width: min(360px, 86vw);
+    text-align: center;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.16);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+  }
+
+  .nav.open a:hover{
+    background: rgba(37,99,235,0.22);
+    border-color: rgba(37,99,235,0.35);
+  }
+
+  /* Keep the hamburger button above the overlay so it's always tappable */
+  .navWrap{
+    z-index: 1000000;
+  }
+
+  .navToggle{
+    z-index: 1000001;
+  }
+}

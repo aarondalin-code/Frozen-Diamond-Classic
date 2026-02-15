@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="./styles.css" />
 </head>
 
-<body class="watermarkPage">
+<body class="watermarkPage contactsPage">
   <header class="siteHeader">
     <nav class="nav">
       <a href="./">Home</a>
@@ -30,85 +30,96 @@
 
   <main class="wrap">
     <section class="docSection">
-      <h2>Team Contacts</h2>
+      <h2>Contacts</h2>
+      <p class="muted">Head coaches + GameChanger links.</p>
+
       <div class="card">
         <div class="cardBody">
-          <div id="contactsList"></div>
+          <div id="contactsGrid" class="contactsGrid"></div>
+          <p class="muted small" style="margin-top:12px;">
+            Tip: Team names link to rosters. GameChanger links open in a new tab.
+          </p>
         </div>
       </div>
     </section>
   </main>
 
   <script src="./data.js"></script>
-
   <script>
-    function slugify(name){
-      return String(name || "")
-        .toLowerCase()
-        .replace(/&/g,"and")
-        .replace(/[^a-z0-9]+/g,"-")
-        .replace(/(^-|-$)/g,"");
+    function safe(v){ return String(v ?? "").trim(); }
+
+    function phoneDigits(phone){
+      return safe(phone).replace(/\D/g, "");
     }
 
-    function buildContacts(){
-      const container = document.getElementById("contactsList");
-      container.innerHTML = "";
+    function buildCard(slug, info){
+      const teamName = safe(info.name) || slug;
+      const teamHref = `./team.html?team=${encodeURIComponent(slug)}`;
 
-      const teams = Object.keys(window.TEAM_INFO || {});
+      const coachName  = safe(info.coachName);
+      const coachEmail = safe(info.coachEmail);
+      const coachPhone = safe(info.coachPhone);
 
-      teams.forEach(slug => {
-        const info = window.TEAM_INFO[slug];
-        if (!info) return;
+      const gcUrl  = safe(info.gcUrl);
+      const gcName = safe(info.gcName) || (gcUrl ? "GameChanger" : "");
 
-        const teamLink = `./team.html?team=${encodeURIComponent(slug)}`;
-        const gcUrl = info.gcUrl || "";
+      const logo = safe(info.logo) || (window.DEFAULT_TEAM_LOGO || "./logo.png");
 
-        const block = document.createElement("div");
-        block.className = "contactTeamBlock";
+      const el = document.createElement("div");
+      el.className = "contactTile";
 
-        block.innerHTML = `
-          <div class="contactTeamName">
-            <a href="${teamLink}" class="contactTeamLink">
-              ${info.name}
-            </a>
+      el.innerHTML = `
+        <span class="contactAccent" aria-hidden="true"></span>
+
+        <div class="contactTop">
+          <img class="contactLogo" src="${logo}" alt="${teamName} logo"
+               onerror="this.onerror=null; this.src='./logo.png';">
+          <div class="contactTopText">
+            <a class="contactTeamLink" href="${teamHref}">${teamName}</a>
+            <div class="contactSub muted small">Head Coach</div>
           </div>
+        </div>
 
-          <div class="contactRow">
-            <div class="contactLabel">Head Coach:</div>
-            <div>${info.coachName || "TBD"}</div>
+        <div class="contactBody">
+          <div class="contactCoachName">${coachName || "TBD"}</div>
+
+          <div class="contactLinks">
+            ${coachPhone ? `<a class="contactLink" href="tel:${phoneDigits(coachPhone)}">${coachPhone}</a>` : ""}
+            ${coachEmail ? `<a class="contactLink" href="mailto:${coachEmail}">${coachEmail}</a>` : ""}
           </div>
-
-          ${info.coachEmail ? `
-            <div class="contactRow">
-              <div class="contactLabel">Email:</div>
-              <div><a href="mailto:${info.coachEmail}" class="contactLink">${info.coachEmail}</a></div>
-            </div>
-          ` : ""}
-
-          ${info.coachPhone ? `
-            <div class="contactRow">
-              <div class="contactLabel">Phone:</div>
-              <div><a href="tel:${info.coachPhone.replace(/\D/g,"")}" class="contactLink">${info.coachPhone}</a></div>
-            </div>
-          ` : ""}
 
           ${gcUrl ? `
-            <div class="contactRow">
-              <div class="contactLabel">GameChanger:</div>
-              <div>
-                <a href="${gcUrl}" target="_blank" rel="noopener" class="gcContactLink">
-                  View Team on GameChanger →
-                </a>
-              </div>
+            <div class="contactGCRow">
+              <a class="gcLink" href="${gcUrl}" target="_blank" rel="noopener">
+                ${gcName} →
+              </a>
             </div>
           ` : ""}
-        `;
+        </div>
+      `;
 
-        container.appendChild(block);
-      });
+      return el;
     }
 
-    buildContacts();
+    (function init(){
+      const grid = document.getElementById("contactsGrid");
+      grid.innerHTML = "";
+
+      const infoObj = window.TEAM_INFO || {};
+      const entries = Object.entries(infoObj);
+
+      // Sort by team name (or keep your insertion order; change if you prefer)
+      entries.sort((a,b) => safe(a[1].name).localeCompare(safe(b[1].name)));
+
+      for (const [slug, info] of entries){
+        if (!info) continue;
+        grid.appendChild(buildCard(slug, info));
+      }
+
+      if (!entries.length){
+        grid.innerHTML = `<div class="muted">No TEAM_INFO found in data.js.</div>`;
+      }
+    })();
   </script>
 </body>
 </html>

@@ -21,7 +21,7 @@ window.TEAM_INFO = {
     coachEmail: "aarondalin@gmail.com",
     coachPhone: "(917) 922-9847",
     gcName: "GameChanger - Westfield 9U Blue",
-    gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
+    gcUrl: "https://web.gc.com/teams/6SioN5qtszsQ/2026-spring-westfield-9u-blue"
 
   },
   "branchburg": {

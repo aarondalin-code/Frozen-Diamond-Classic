@@ -20,7 +20,7 @@ window.TEAM_INFO = {
     coachName: "Aaron Dalin",
     coachEmail: "aarondalin@gmail.com",
     coachPhone: "(917) 922-9847",
-    gcName: "Westfield 9U Blue",
+    gcName: "GameChanger - Westfield 9U Blue",
     gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
 
   },

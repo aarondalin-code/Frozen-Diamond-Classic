@@ -71,7 +71,7 @@ window.TEAM_INFO = {
     coachEmail: "danny.lallis@gmail.com",
     coachPhone: "(898) 698-3012",
     gcName: "GameChanger - Westfield 9U White",
-  gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
+  gcUrl: "https://web.gc.com/teams/kkw80OKjld3E"
 
   },
   "south-orange-maplewood": {

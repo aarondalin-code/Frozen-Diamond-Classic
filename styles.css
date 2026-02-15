@@ -2475,3 +2475,89 @@ th {
 @media (max-width: 720px){
   .contactsPage .contactsGrid{ grid-template-columns: 1fr; }
 }
+
+/* =========================
+   Standings: safe cosmetic polish
+========================= */
+
+.standingsHeaderCard{
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 14px;
+  margin: 12px 0 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.standingsHeaderCard::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(90deg, rgba(37,99,235,0.10), rgba(37,99,235,0));
+  pointer-events:none;
+}
+
+.standingsHeaderTitle{
+  position: relative;
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: 0.2px;
+}
+
+.standingsHeaderSub{
+  position: relative;
+  margin-top: 4px;
+  font-size: 13px;
+}
+
+.standingsHeaderMeta{
+  position: relative;
+  margin-top: 8px;
+}
+
+/* Mobile-safe table wrapper */
+.tableScroll{
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Table polish */
+.standingsTable tbody tr:nth-child(even){
+  background: #f8fafc;
+}
+
+@media (hover:hover){
+  .standingsTable tbody tr:hover{
+    background: rgba(37,99,235,0.06);
+  }
+}
+
+.standingsTable th.num,
+.standingsTable td.num{
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.standingsTable td.rd{
+  font-weight: 900;
+}
+
+/* Subtle highlights for top rows */
+.standingsTop1{
+  box-shadow: inset 4px 0 0 rgba(212,175,55,0.95);
+}
+
+.standingsTop2{
+  box-shadow: inset 4px 0 0 rgba(37,99,235,0.55);
+}
+
+/* Team links */
+.teamLink{
+  color: var(--royal);
+  font-weight: 900;
+  text-decoration: none;
+}
+.teamLink:hover{
+  text-decoration: underline;
+}

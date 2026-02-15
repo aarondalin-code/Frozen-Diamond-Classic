@@ -2583,3 +2583,7 @@ th {
   border-color: rgba(255,255,255,0.22);
   box-shadow: 0 8px 18px rgba(0,0,0,0.20);
 }
+
+.siteHeader{
+  box-shadow: 0 10px 28px rgba(0,0,0,0.25);
+}

@@ -2561,3 +2561,25 @@ th {
 .teamLink:hover{
   text-decoration: underline;
 }
+
+/* =========================
+   Nav polish (safe, CSS-only)
+========================= */
+
+.nav{
+  gap: 10px;                 /* tighter + consistent */
+  flex-wrap: wrap;           /* prevents overflow */
+  max-width: min(980px, calc(100% - 40px));
+}
+
+.nav a{
+  padding: 7px 12px;         /* slightly larger click target */
+  font-size: 12px;
+  letter-spacing: 0.2px;
+  backdrop-filter: blur(6px);
+}
+
+.nav a.active{
+  border-color: rgba(255,255,255,0.22);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.20);
+}

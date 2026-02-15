@@ -30,7 +30,7 @@ window.TEAM_INFO = {
     coachName: "Tom Sharples",
     coachEmail: "trsjr12@gmail.com",
     coachPhone: "(908) 361-6332",
-    gcName: "Branchburg Bulldogs 9U",
+    gcName: "GameChanger - Branchburg Bulldogs 9U",
   gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
    
   },
@@ -40,7 +40,7 @@ window.TEAM_INFO = {
     coachName: "Greg Brunner",
     coachEmail: "gregbrunner@ridgebaseballclub.com",
     coachPhone: "(267) 475-9516",
-    gcName: "Ridge Green 9U",
+    gcName: "GameChanger - Ridge Green 9U",
   gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
    
   },
@@ -50,7 +50,7 @@ window.TEAM_INFO = {
     coachName: "Ross Alpert",
     coachEmail: "ross.alpert2@gmail.com",
     coachPhone: "(732) 535-1077",
-    gcName: "SPF Raiders Futures 9U",
+    gcName: "GameChanger - SPF Raiders Futures 9U",
     gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
   
   },
@@ -60,7 +60,7 @@ window.TEAM_INFO = {
     coachName: "Blair Dameron",
     coachEmail: "blaird@hillsboroughbaseball.org",
     coachPhone: "(215) 593-5207",
-    gcName: "Hillsborough Raiders 9U",
+    gcName: "GameChanger - Hillsborough Raiders 9U",
   gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
     
   },
@@ -70,7 +70,7 @@ window.TEAM_INFO = {
     coachName: "Danny Lallis",
     coachEmail: "danny.lallis@gmail.com",
     coachPhone: "(898) 698-3012",
-    gcName: "Westfield 9U White",
+    gcName: "GameChanger - Westfield 9U White",
   gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
 
   },
@@ -80,7 +80,7 @@ window.TEAM_INFO = {
     coachName: "Jeremy Wintroub",
     coachEmail: "jwintroub@gmail.com",
     coachPhone: "(215) 370-8975",
-    gcName: "SOM Cougars Red 9U",
+    gcName: "GameChanger - SOM Cougars Red 9U",
   gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
     
   },
@@ -90,7 +90,7 @@ window.TEAM_INFO = {
     coachName: "Steven Freitas",
     coachEmail: "freitas.steven@gmail.com",
     coachPhone: "(201) 744-6063",
-    gcName: "Watchung Hills Blue 9U",
+    gcName: "GameChanger - Watchung Hills Blue 9U",
   gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
    
   }

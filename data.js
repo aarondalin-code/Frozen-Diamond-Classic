@@ -31,7 +31,7 @@ window.TEAM_INFO = {
     coachEmail: "trsjr12@gmail.com",
     coachPhone: "(908) 361-6332",
     gcName: "GameChanger - Branchburg Bulldogs 9U",
-  gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
+  gcUrl: "https://web.gc.com/teams/7ViI77aKKYJ6"
    
   },
   "ridge": {

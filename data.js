@@ -19,7 +19,7 @@ window.TEAM_INFO = {
     logo: "./team-logos/westfield-blue.jpg",
     coachName: "Aaron Dalin",
     coachEmail: "aarondalin@gmail.com",
-    coachPhone: "(917) 922-9847"
+    coachPhone: "(917) 922-9847",
     gcName: "Westfield 9U Blue",
     gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
 
@@ -29,7 +29,7 @@ window.TEAM_INFO = {
     logo: "./team-logos/branchburg.png",
     coachName: "Tom Sharples",
     coachEmail: "trsjr12@gmail.com",
-    coachPhone: "(908) 361-6332"
+    coachPhone: "(908) 361-6332",
     gcName: "Branchburg Bulldogs 9U",
   gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
    
@@ -39,7 +39,7 @@ window.TEAM_INFO = {
     logo: "./team-logos/ridge.png",
     coachName: "Greg Brunner",
     coachEmail: "gregbrunner@ridgebaseballclub.com",
-    coachPhone: "(267) 475-9516"
+    coachPhone: "(267) 475-9516",
     gcName: "Ridge Green 9U",
   gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
    
@@ -49,7 +49,7 @@ window.TEAM_INFO = {
     logo: "./team-logos/scotch-plains-fanwood.png",
     coachName: "Ross Alpert",
     coachEmail: "ross.alpert2@gmail.com",
-    coachPhone: "(732) 535-1077"
+    coachPhone: "(732) 535-1077",
     gcName: "SPF Raiders Futures 9U",
     gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
   
@@ -59,7 +59,7 @@ window.TEAM_INFO = {
     logo: "./team-logos/hillsborough.png",
     coachName: "Blair Dameron",
     coachEmail: "blaird@hillsboroughbaseball.org",
-    coachPhone: "(215) 593-5207"
+    coachPhone: "(215) 593-5207",
     gcName: "Hillsborough Raiders 9U",
   gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
     
@@ -69,7 +69,7 @@ window.TEAM_INFO = {
     logo: "./team-logos/westfield-blue.jpg",
     coachName: "Danny Lallis",
     coachEmail: "danny.lallis@gmail.com",
-    coachPhone: "(898) 698-3012"
+    coachPhone: "(898) 698-3012",
     gcName: "Westfield 9U White",
   gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
 
@@ -79,7 +79,7 @@ window.TEAM_INFO = {
     logo: "./team-logos/south-orange-maplewood.png",
     coachName: "Jeremy Wintroub",
     coachEmail: "jwintroub@gmail.com",
-    coachPhone: "(215) 370-8975"
+    coachPhone: "(215) 370-8975",
     gcName: "SOM Cougars Red 9U",
   gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
     
@@ -89,7 +89,7 @@ window.TEAM_INFO = {
     logo: "./team-logos/watchung-hills.png",
     coachName: "Steven Freitas",
     coachEmail: "freitas.steven@gmail.com",
-    coachPhone: "(201) 744-6063"
+    coachPhone: "(201) 744-6063",
     gcName: "Watchung Hills Blue 9U",
   gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
    

@@ -41,7 +41,7 @@ window.TEAM_INFO = {
     coachEmail: "gregbrunner@ridgebaseballclub.com",
     coachPhone: "(267) 475-9516",
     gcName: "GameChanger - Ridge Green 9U",
-  gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
+  gcUrl: "https://web.gc.com/teams/OtUd6NiDC2Ws"
    
   },
   "scotch-plains-fanwood": {
@@ -51,7 +51,7 @@ window.TEAM_INFO = {
     coachEmail: "ross.alpert2@gmail.com",
     coachPhone: "(732) 535-1077",
     gcName: "GameChanger - SPF Raiders Futures 9U",
-    gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
+    gcUrl: "https://web.gc.com/teams/PLqSPuzC0m2l"
   
   },
   "hillsborough": {
@@ -61,7 +61,7 @@ window.TEAM_INFO = {
     coachEmail: "blaird@hillsboroughbaseball.org",
     coachPhone: "(215) 593-5207",
     gcName: "GameChanger - Hillsborough Raiders 9U",
-  gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
+  gcUrl: "https://web.gc.com/teams/36CaB2E3yedN"
     
   },
   "westfield-white": {
@@ -81,7 +81,7 @@ window.TEAM_INFO = {
     coachEmail: "jwintroub@gmail.com",
     coachPhone: "(215) 370-8975",
     gcName: "GameChanger - SOM Cougars Red 9U",
-  gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
+  gcUrl: "https://web.gc.com/teams/EnOFUckyQlzR"
     
   },
   "watchung-hills": {
@@ -91,7 +91,7 @@ window.TEAM_INFO = {
     coachEmail: "freitas.steven@gmail.com",
     coachPhone: "(201) 744-6063",
     gcName: "GameChanger - Watchung Hills Blue 9U",
-  gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
+  gcUrl: "https://web.gc.com/teams/TXT5ecToGD1h"
    
   }
 };

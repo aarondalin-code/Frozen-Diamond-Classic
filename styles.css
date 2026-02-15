@@ -2352,3 +2352,126 @@ th {
 .gcContactLink:hover{
   text-decoration: underline;
 }
+
+/* =========================
+   Contacts: 2-column grid + royal accents
+========================= */
+
+.contactsPage .contactsGrid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.contactsPage .contactTile{
+  position: relative;
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 14px;
+  padding: 12px;
+  overflow: hidden;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.contactsPage .contactTile:hover{
+  transform: translateY(-2px);
+  border-color: rgba(37,99,235,0.35);
+  box-shadow: 0 10px 24px rgba(2,6,23,0.10);
+}
+
+.contactsPage .contactAccent{
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 4px;
+  background: var(--royal);
+  border-radius: 999px;
+  opacity: 0.85;
+}
+
+.contactsPage .contactTop{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 8px; /* space for accent bar */
+}
+
+.contactsPage .contactLogo{
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  background: #0f172a;
+  flex: 0 0 auto;
+}
+
+.contactsPage .contactTopText{
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.contactsPage .contactTeamLink{
+  font-weight: 900;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.15;
+}
+
+.contactsPage .contactTeamLink:hover{
+  color: var(--royal);
+}
+
+.contactsPage .contactBody{
+  margin-top: 10px;
+  padding-left: 8px; /* align with top */
+}
+
+.contactsPage .contactCoachName{
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.contactsPage .contactLinks{
+  display: grid;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.contactsPage .contactLink{
+  text-decoration: none;
+  color: var(--royal);
+  font-weight: 800;
+  font-size: 13px;
+  word-break: break-word;
+}
+
+.contactsPage .contactLink:hover{
+  text-decoration: underline;
+}
+
+.contactsPage .contactGCRow{
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+
+.contactsPage .gcLink{
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 900;
+  color: var(--royal);
+  font-size: 13px;
+}
+
+.contactsPage .gcLink:hover{
+  text-decoration: underline;
+}
+
+/* Mobile */
+@media (max-width: 720px){
+  .contactsPage .contactsGrid{ grid-template-columns: 1fr; }
+}

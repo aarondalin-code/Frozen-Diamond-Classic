@@ -2587,3 +2587,78 @@ th {
 .siteHeader{
   box-shadow: 0 10px 28px rgba(0,0,0,0.25);
 }
+
+/* =========================
+   MOBILE HAMBURGER NAV
+   Safe – affects mobile only
+========================= */
+
+/* Wrapper for nav + button */
+.navWrap{
+  position: absolute;
+  top: 16px;
+  right: 30px;
+}
+
+/* Hide hamburger on desktop */
+.navToggle{
+  display: none;
+}
+
+/* =========================
+   Mobile behavior
+========================= */
+@media (max-width: 820px){
+
+  /* Show hamburger button */
+  .navToggle{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 10001;
+  }
+
+  .navToggle span{
+    display: block;
+    height: 2px;
+    background: white;
+    width: 18px;
+    margin: 0 auto;
+  }
+
+  /* Hide normal nav */
+  .nav{
+    display: none;
+  }
+
+  /* Full-screen mobile menu */
+  .nav.open{
+    display: flex;
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(180deg,#0b1220,#0a1020);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    z-index: 10000;
+  }
+
+  .nav.open a{
+    font-size: 20px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+  }
+
+  body.noScroll{
+    overflow: hidden;
+  }
+}

@@ -2091,3 +2091,190 @@ th {
   .rulesHeroNotes{ grid-template-columns: 1fr; }
   .rulesGrid{ grid-template-columns: 1fr; }
 }
+
+/* =========================
+   Rules Page Elite Accordion
+========================= */
+
+.rulesHeroElite{
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.rulesHeroElite::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(90deg, rgba(37,99,235,0.10), rgba(37,99,235,0));
+  pointer-events:none;
+}
+
+.rulesHeroTitleElite{
+  position: relative;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.2px;
+}
+
+.rulesHeroSubElite{
+  position: relative;
+  margin-top: 4px;
+}
+
+.rulesHeroPills{
+  position: relative;
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rulesPill{
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  font-size: 12px;
+  font-weight: 900;
+  color: #0f172a;
+}
+
+.rulesPillStrong{
+  border-color: rgba(37,99,235,0.28);
+  background: rgba(37,99,235,0.10);
+}
+
+.rulesAccordions{
+  display: grid;
+  gap: 12px;
+}
+
+.rulesAcc{
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.rulesAccSummary{
+  list-style: none;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 42px 1fr 26px;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 12px;
+  background: linear-gradient(180deg, #ffffff, #fbfdff);
+  border-bottom: 1px solid var(--border);
+}
+
+.rulesAccSummary::-webkit-details-marker{ display:none; }
+
+.rulesAccIcon{
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(37,99,235,0.10);
+  border: 1px solid rgba(37,99,235,0.18);
+  font-size: 16px;
+}
+
+.rulesAccTitle{
+  font-weight: 900;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #0f172a;
+}
+
+.rulesAccSub{
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+}
+
+.rulesAccChevron{
+  font-weight: 900;
+  color: #0f172a;
+  opacity: 0.55;
+  transition: transform 0.15s ease;
+  text-align: right;
+}
+
+.rulesAcc[open] .rulesAccChevron{
+  transform: rotate(180deg);
+}
+
+.rulesAccBody{
+  padding: 12px;
+  display: grid;
+  gap: 10px;
+  position: relative;
+}
+
+.rulesAccBody::before{
+  content:"";
+  position:absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 4px;
+  background: var(--royal);
+  border-radius: 999px;
+  opacity: 0.85;
+}
+
+.ruleCardElite{
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-left: 10px; /* align with accent bar */
+}
+
+.ruleTitleElite{
+  font-weight: 900;
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: #0f172a;
+}
+
+.ruleBodyElite{
+  font-size: 13px;
+  line-height: 1.45;
+  color: #0f172a;
+}
+
+.ruleImportantElite{
+  background: rgba(37,99,235,0.08);
+  border-color: rgba(37,99,235,0.25);
+}
+
+.rulesFooterNoteElite{
+  margin-left: 10px;
+  margin-top: 6px;
+}
+
+.rulesFooterLineElite{
+  height: 1px;
+  background: var(--border);
+  margin: 10px 0;
+}
+
+/* Mobile polish */
+@media (max-width: 520px){
+  .rulesAccSummary{
+    grid-template-columns: 40px 1fr 22px;
+    padding: 11px 11px;
+  }
+  .rulesAccIcon{ width: 32px; height: 32px; }
+}
+

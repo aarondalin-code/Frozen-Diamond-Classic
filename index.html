@@ -9,17 +9,24 @@
 <body class="watermarkPage">
 
   <header class="siteHeader">
-    <nav class="nav">
-      <a href="./" class="active">Home</a>
-      <a href="./schedule.html">Schedule/Scores</a>
-      <a href="./standings.html">Standings</a>
-      <a href="./stats.html">Stats</a>
-      <a href="./teams.html">Teams</a>
-      <a href="./rules.html">Rules</a>
-      <a href="./contacts.html">Contacts</a>
-      <a href="./gallery.html">Gallery</a>
-      <a href="./uploads.html">Uploads</a>
-    </nav>
+    <!-- NEW: Hamburger wrapper (index only for now) -->
+    <div class="navWrap">
+      <button class="navToggle" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav" id="siteNav">
+        <a href="./" class="active">Home</a>
+        <a href="./schedule.html">Schedule/Scores</a>
+        <a href="./standings.html">Standings</a>
+        <a href="./stats.html">Stats</a>
+        <a href="./teams.html">Teams</a>
+        <a href="./rules.html">Rules</a>
+        <a href="./contacts.html">Contacts</a>
+        <a href="./gallery.html">Gallery</a>
+        <a href="./uploads.html">Uploads</a>
+      </nav>
+    </div>
 
     <div class="brandCenter">
       <img src="./logo.png" alt="Frozen Diamond Classic Logo" class="logoImage">
@@ -30,115 +37,48 @@
 
   <main class="wrap">
 
-<!-- HERO: Countdown (Centered) -->
-<section class="docSection">
-  <div class="countdownCard centeredHero">
-
-    <div class="countdownLabel">Tournament Day</div>
-
-    <div id="countdown" class="countdownValue"></div>
-    <div id="championBanner" class="countdownValue" style="display:none;"></div>
-
-    <div class="muted small" style="margin-top:4px;">
-      Saturday, March 21, 2026 • CenterCourt Lawrence
-    </div>
-
-    <!-- At-a-glance strip -->
-    <div class="glanceStrip centeredGlance" aria-label="Tournament at a glance">
-      <div class="glancePill">
-        <span class="glanceNum">8</span>
-        <span class="glanceLbl">Teams</span>
-      </div>
-
-      <div class="glancePill">
-        <span class="glanceNum">12</span>
-        <span class="glanceLbl">Games</span>
-      </div>
-
-      <div class="glancePill">
-        <span class="glanceNum">2</span>
-        <span class="glanceLbl">Fields</span>
-      </div>
-
-      <div class="glancePill">
-        <span class="glanceNum">3</span>
-        <span class="glanceLbl">Games Guaranteed</span>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-
-    <!-- Overview (tightened) -->
+    <!-- Countdown -->
     <section class="docSection">
-      <h2>Tournament Overview</h2>
-      <div class="card">
-        <div class="cardBody">
-          <p style="margin-top:0;">
-            The Frozen Diamond Classic is a one-day 9U baseball tournament designed to provide a competitive and fun indoor
-            experience during the winter. Teams are encouraged to socialize between games. All teams are guaranteed three games, win or lose.
-          </p>
-        </div>
+      <div class="countdownCard">
+        <div class="countdownLabel">Tournament Day</div>
+        <div id="countdown" class="countdownValue"></div>
+        <div class="muted small">Saturday, March 21, 2026</div>
       </div>
     </section>
 
-    <!-- Tournament Details (2-column) -->
+    <section class="docSection">
+      <h2>Tournament Overview</h2>
+      <p>
+        The Frozen Diamond Classic is a one-day 9U baseball tournament designed to provide a competitive and fun indoor
+        experience during the winter. Teams are encouraged to hang between games. All teams are guaranteed three games.
+      </p>
+    </section>
+
     <section class="docSection">
       <h2>Tournament Details</h2>
       <div class="card">
         <div class="cardBody">
-          <div class="detailsGrid">
-            <ul class="bullets" style="margin:0;">
-              <li><strong>Date:</strong> Saturday, March 21, 2026</li>
-              <li><strong>Location:</strong> CenterCourt – 1080 Spruce Street, Lawrence</li>
-              <li>
-                <a class="link" href="https://centercourtacademy.com/locations/lawrence/" target="_blank" rel="noopener">
-                  CenterCourt Lawrence Venue Page
-                </a>
-              </li>
-              <li>
-  <a class="link" href="./rules.html">
-    <strong>Rules:</strong> Standard 9U
-  </a>
-</li>
-
-            </ul>
-
-            <ul class="bullets" style="margin:0;">
-              <li>
-                <a class="link" href="https://docs.google.com/forms/d/e/1FAIpQLSdFvmyPqP_S-59jUxF18mxD0cQtGeV9ZeFhptzh0bym8pTPnQ/viewform" target="_blank" rel="noopener">
-                  Tournament T-Shirt Order Form
-                </a>
-              </li>
-              <li><strong>Teams:</strong> Invite only — Town level A or strong B</li>
-              <li><strong>Scoring:</strong> GameChanger Tournament — “Frozen Diamond Classic 2026”</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Rules highlights (fast scan) -->
-    <section class="docSection">
-      <h2>Rules Highlights</h2>
-      <div class="card">
-        <div class="cardBody">
           <ul class="bullets">
-            <li><strong>Time Limit:</strong> No new inning after 1:40, hard stop at 1:55 (revert to last completed inning)</li>
-            <li><strong>Pitching:</strong> 75 total pitches per day/tournament (avoid back-to-back games)</li>
-            <li><strong>Stealing:</strong> All bases allowed; pitcher pickoffs not allowed; catcher pickoffs allowed</li>
-            <li><strong>Sliding:</strong> Feet-first only</li>
-            <li><strong>Dropped 3rd strike:</strong> Not in effect</li>
+            <li><strong>Date:</strong> Saturday, March 21, 2026</li>
+            <li><strong>Location:</strong> CenterCourt – 1080 Spruce Street, Lawrence</li>
+            <li>
+              <a class="link" href="https://centercourtacademy.com/locations/lawrence/" target="_blank">
+                CenterCourt Lawrence Venue Page
+              </a>
+            </li>
+            <li>
+              <a class="link" href="https://docs.google.com/forms/d/e/1FAIpQLSdFvmyPqP_S-59jUxF18mxD0cQtGeV9ZeFhptzh0bym8pTPnQ/viewform" target="_blank">
+                Tournament T-Shirt Order Form
+              </a>
+            </li>
+            <li><strong>Teams:</strong> 8 teams, invite only — Town level A or strong B</li>
+            <li><strong>Rules:</strong> Standard 9U (see Rules page)</li>
+            <li><strong>Scoring:</strong> GameChanger Tournament — “Frozen Diamond Classic 2026”</li>
           </ul>
-          <p style="margin-bottom:0;">
-            <a class="link" href="./rules.html">View full rules →</a>
-          </p>
         </div>
       </div>
     </section>
 
-    <!-- Participating Teams -->
     <section class="docSection">
       <h2>Participating Teams</h2>
       <div class="card">
@@ -157,7 +97,6 @@
       </div>
     </section>
 
-    <!-- Directions -->
     <section class="docSection">
       <h2>Directions</h2>
       <div class="card">
@@ -176,20 +115,20 @@
             </iframe>
           </div>
 
-          <div class="dirActions">
-            <a class="qaBtn primary" href="https://www.google.com/maps/dir/?api=1&destination=Centercourt+Lawrence" target="_blank" rel="noopener">
-              Get Directions
+          <p style="margin-bottom:0;">
+            <a
+              class="link"
+              href="https://www.google.com/maps/dir/?api=1&destination=Centercourt+Lawrence"
+              target="_blank"
+              rel="noopener">
+              Get Directions in Google Maps
             </a>
-            <button class="qaBtn" type="button" id="copyAddressBtn">
-              Copy Address
-            </button>
-          </div>
+          </p>
 
         </div>
       </div>
     </section>
 
-    <!-- Facility Information -->
     <section class="docSection">
       <h2>Facility Information</h2>
       <div class="card">
@@ -204,14 +143,13 @@
       </div>
     </section>
 
-    <!-- Food -->
     <section class="docSection">
       <h2>Food</h2>
       <div class="card">
         <div class="cardBody">
           <ul class="bullets">
-            <li>Food trucks + vending machines + water refill station available </li>
-            <li>Delivery Availble - Ruben’s Pizza — 2191 Spruce Street — (609) 883-6637 </li>
+            <li>Food trucks + vending machines + water refill station available.</li>
+            <li>Ruben’s Pizza — 2191 Spruce Street — (609) 883-6637 (delivery available)</li>
             <li>Wendy’s • Burger King • McDonald’s • WingStop • QuickChek (≈ 5 minutes away)</li>
           </ul>
         </div>
@@ -220,9 +158,7 @@
 
   </main>
 
-  <script src="./data.js"></script>
-
-  <!-- Countdown Script (your original) -->
+  <!-- Countdown Script -->
   <script>
     const targetDate = new Date("March 21, 2026 08:00:00").getTime();
     const countdownEl = document.getElementById("countdown");
@@ -247,285 +183,37 @@
     setInterval(updateCountdown, 60000);
   </script>
 
-  <!-- Champion Swap Script (replaces countdown after all games Final) -->
+  <!-- NEW: Mobile hamburger toggle (index only) -->
   <script>
-    (async function(){
-      const championEl = document.getElementById("championBanner");
-      const countdownEl = document.getElementById("countdown");
-
-      function safe(v){ return String(v ?? "").trim(); }
-      function isFinal(s){ return safe(s).toLowerCase() === "final"; }
-      function toNum(x){ const n = Number(safe(x)); return Number.isFinite(n) ? n : null; }
-
-      async function fetchCsv(url){
-        if (!url) throw new Error("Missing CSV URL in data.js");
-        const bust = (url.includes("?") ? "&" : "?") + "t=" + Date.now();
-        const res = await fetch(url + bust, { cache: "no-store" });
-        if (!res.ok) throw new Error(`Failed to fetch CSV (${res.status})`);
-        return await res.text();
-      }
-
-      // Robust CSV parser (handles quoted commas)
-      function parseCsv(text) {
-        const rows = [];
-        let row = [];
-        let cur = "";
-        let inQuotes = false;
-
-        for (let i = 0; i < text.length; i++) {
-          const ch = text[i];
-          const next = text[i + 1];
-
-          if (ch === '"') {
-            if (inQuotes && next === '"') { cur += '"'; i++; }
-            else inQuotes = !inQuotes;
-            continue;
-          }
-
-          if (!inQuotes && ch === ",") { row.push(cur); cur = ""; continue; }
-
-          if (!inQuotes && (ch === "\n" || ch === "\r")) {
-            if (ch === "\r" && next === "\n") i++;
-            row.push(cur); cur = "";
-            if (row.some(v => safe(v) !== "")) rows.push(row);
-            row = [];
-            continue;
-          }
-
-          cur += ch;
-        }
-
-        row.push(cur);
-        if (row.some(v => safe(v) !== "")) rows.push(row);
-
-        const headers = (rows.shift() || []).map(h => safe(h).replace(/\s+/g,""));
-        return rows.map(r => {
-          const obj = {};
-          headers.forEach((h, idx) => obj[h] = safe(r[idx]));
-          return obj;
-        });
-      }
-
-      function allGamesFinal(gameRows){
-        const withIds = gameRows.filter(g => safe(g.Game) !== "");
-        return withIds.length >= 12 && withIds.every(g =>
-          isFinal(g.Status) && toNum(g.ScoreA) !== null && toNum(g.ScoreB) !== null
-        );
-      }
-
-      function winnerLoser(game) {
-        if (!isFinal(game.Status)) return null;
-        const a = toNum(game.ScoreA);
-        const b = toNum(game.ScoreB);
-        if (a === null || b === null) return null;
-        if (a === b) return null;
-        return a > b ? { W: game.TeamA, L: game.TeamB } : { W: game.TeamB, L: game.TeamA };
-      }
-
-      function resolveTeamRef(ref, teamsBySeed, gamesById) {
-        if (!ref) return "TBD";
-        ref = safe(ref).toUpperCase();
-        if (!ref) return "TBD";
-
-        const type = ref[0];
-        const num = Number(ref.slice(1));
-        if (!Number.isFinite(num)) return "TBD";
-
-        if (type === "S") return teamsBySeed.get(num) || "TBD";
-
-        const g = gamesById.get(num);
-        if (!g) return "TBD";
-
-        const wl = winnerLoser(g);
-        if (!wl) return "TBD";
-
-        return resolveTeamRef(type === "W" ? wl.W : wl.L, teamsBySeed, gamesById);
-      }
-
-      try {
-        const [teamsText, gamesText] = await Promise.all([
-          fetchCsv(window.SHEET?.TEAMS_CSV_URL),
-          fetchCsv(window.SHEET?.GAMES_CSV_URL)
-        ]);
-
-        const teamRows = parseCsv(teamsText);
-        const gameRows = parseCsv(gamesText);
-
-        if (!allGamesFinal(gameRows)) return;
-
-        const teamsBySeed = new Map(
-          teamRows
-            .map(r => [Number(r.Seed), safe(r.TeamName)])
-            .filter(([s,n]) => Number.isFinite(s) && n)
-        );
-
-        const gamesById = new Map(
-          gameRows
-            .map(r => [Number(r.Game), r])
-            .filter(([id]) => Number.isFinite(id))
-        );
-
-        const g12 = gamesById.get(12);
-        if (!g12) return;
-
-        const a = toNum(g12.ScoreA);
-        const b = toNum(g12.ScoreB);
-        if (a === null || b === null || a === b) return;
-
-        const teamAName = resolveTeamRef(g12.TeamA, teamsBySeed, gamesById);
-        const teamBName = resolveTeamRef(g12.TeamB, teamsBySeed, gamesById);
-
-        const championName = a > b ? teamAName : teamBName;
-
-        if (countdownEl) countdownEl.style.display = "none";
-        if (championEl){
-          championEl.style.display = "block";
-          championEl.innerHTML = `🏆 Champion: ${championName}`;
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    })();
-  </script>
-
-  <!-- Small, isolated polish CSS (safe: only new classes) -->
-  <style>
-    .countdownTopRow{
-      display:flex;
-      gap:14px;
-      align-items:flex-start;
-      justify-content:space-between;
-    }
-    .quickActions{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap:8px;
-      min-width: 280px;
-    }
-    .qaBtn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      text-decoration:none;
-      border:1px solid rgba(0,0,0,0.10);
-      background:#fff;
-      padding:10px 12px;
-      border-radius:12px;
-      font-weight:900;
-      font-size:13px;
-      color: var(--text, #0f172a);
-      transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
-      cursor:pointer;
-      white-space:nowrap;
-    }
-    .qaBtn:hover{
-      transform: translateY(-1px);
-      border-color: rgba(37,99,235,0.35);
-      box-shadow: 0 10px 24px rgba(2,6,23,0.10);
-    }
-    .qaBtn.primary{
-      background: rgba(37,99,235,0.14);
-      border-color: rgba(37,99,235,0.30);
-    }
-
-    .glanceStrip{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-top:12px;
-    }
-    .glancePill{
-      display:flex;
-      align-items:baseline;
-      gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid rgba(0,0,0,0.10);
-      background: rgba(255,255,255,0.85);
-    }
-    .glanceNum{
-      font-weight: 900;
-      font-size: 14px;
-      color: var(--text, #0f172a);
-    }
-    .glanceLbl{
-      font-weight: 800;
-      font-size: 12px;
-      color: var(--muted, #64748b);
-    }
-
-    .detailsGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .contactGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .contactCard{
-      border: 1px solid rgba(0,0,0,0.08);
-      background: rgba(255,255,255,0.85);
-      border-radius: 14px;
-      padding: 12px;
-    }
-    .contactTitle{
-      font-size: 12px;
-      font-weight: 900;
-      color: var(--muted, #64748b);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .contactName{
-      margin-top: 4px;
-      font-size: 16px;
-      font-weight: 900;
-      color: var(--text, #0f172a);
-    }
-    .contactMeta{
-      margin-top: 6px;
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--text, #0f172a);
-    }
-    .dotSep{ margin: 0 8px; color: var(--muted, #64748b); }
-
-    .dirActions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top: 12px;
-    }
-
-    /* Mobile: keep buttons usable */
-    @media (max-width: 820px){
-      .countdownTopRow{ flex-direction: column; }
-      .quickActions{ min-width: unset; width: 100%; grid-template-columns: repeat(2, 1fr); }
-      .detailsGrid{ grid-template-columns: 1fr; }
-      .contactGrid{ grid-template-columns: 1fr; }
-    }
-  </style>
-
-  <script>
-    // Copy address button
     (function(){
-      const btn = document.getElementById("copyAddressBtn");
-      if (!btn) return;
-      btn.addEventListener("click", async () => {
-        try{
-          await navigator.clipboard.writeText("CenterCourt – 1080 Spruce Street, Lawrence");
-          btn.textContent = "Copied ✓";
-          setTimeout(()=> btn.textContent = "Copy Address", 1500);
-        } catch(e){
-          alert("Copy failed. You can manually copy: 1080 Spruce Street, Lawrence");
-        }
+      const btn = document.querySelector(".navToggle");
+      const nav = document.getElementById("siteNav");
+      if (!btn || !nav) return;
+
+      function setOpen(open){
+        nav.classList.toggle("open", open);
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+        document.body.classList.toggle("noScroll", open);
+      }
+
+      btn.addEventListener("click", () => {
+        setOpen(!nav.classList.contains("open"));
+      });
+
+      nav.addEventListener("click", (e) => {
+        if (e.target && e.target.tagName === "A") setOpen(false);
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") setOpen(false);
       });
     })();
   </script>
 
 </body>
 </html>
+
+
+
 
 

@@ -30,26 +30,30 @@
 
   <main class="wrap">
     <section class="docSection">
-      <h2>Standings</h2>
-      <p class="muted">Auto-calculated from games marked <strong>Final</strong> in the Google Sheet.</p>
+
+      <!-- Premium header card -->
+      <div class="standingsHeaderCard">
+        <div class="standingsHeaderTitle">Standings</div>
+        <div class="standingsHeaderSub muted">
+          Auto-calculated from games marked <strong>Final</strong> in the Google Sheet.
+        </div>
+        <div class="standingsHeaderMeta muted small" id="standingsUpdated"></div>
+      </div>
 
       <div class="card">
         <div class="cardBody">
-          <div class="standingsMeta">
-            <div id="standingsUpdated" class="muted small"></div>
-          </div>
 
-          <div class="tableWrap">
-            <table id="standingsTable">
+          <div class="tableScroll">
+            <table id="standingsTable" class="standingsTable">
               <thead>
                 <tr>
                   <th>Team</th>
-                  <th>Wins</th>
-                  <th>Losses</th>
-                  <th>Ties</th>
-                  <th>Runs For</th>
-                  <th>Runs Against</th>
-                  <th>Run Diff</th>
+                  <th class="num">Wins</th>
+                  <th class="num">Losses</th>
+                  <th class="num">Ties</th>
+                  <th class="num">Runs For</th>
+                  <th class="num">Runs Against</th>
+                  <th class="num">Run Diff</th>
                 </tr>
               </thead>
               <tbody></tbody>
@@ -70,6 +74,14 @@
 
     function safe(v){ return String(v ?? "").trim(); }
     function isFinal(status){ return safe(status).toLowerCase() === "final"; }
+
+    function teamSlug(name) {
+      return safe(name)
+        .toLowerCase()
+        .replace(/&/g, "and")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
+    }
 
     async function fetchCsv(url) {
       if (!url) throw new Error("Missing GAMES_CSV_URL in data.js");
@@ -152,7 +164,7 @@
       const wl = winnerLoser(g);
       if (!wl) return null;
 
-      // If the referenced prior game is a tie, downstream is undefined — return null so it shows TBD.
+      // If referenced prior game is a tie, downstream is undefined — return null so it shows TBD.
       if (wl.T) return null;
 
       return resolveTeamRef(type === "W" ? wl.W : wl.L, teamsBySeed, gamesById);
@@ -178,24 +190,38 @@
 
     function renderRows(rows) {
       tbody.innerHTML = "";
-      for (const r of rows) {
+
+      rows.forEach((r, idx) => {
         const tr = document.createElement("tr");
+
+        // Subtle highlight for top 2 (cosmetic only)
+        if (idx === 0) tr.classList.add("standingsTop1");
+        if (idx === 1) tr.classList.add("standingsTop2");
+
+        // Team cell as link
+        const tdTeam = document.createElement("td");
+        tdTeam.innerHTML = `<a class="teamLink" href="./team.html?team=${encodeURIComponent(teamSlug(r.team))}">${r.team}</a>`;
+        tr.appendChild(tdTeam);
+
+        // Numeric cells
         const cells = [
-          r.team,
-          r.W,
-          r.L,
-          r.T,
-          r.RF,
-          r.RA,
-          (r.RD > 0 ? "+" : "") + r.RD
+          { v: r.W, cls: "num" },
+          { v: r.L, cls: "num" },
+          { v: r.T, cls: "num" },
+          { v: r.RF, cls: "num" },
+          { v: r.RA, cls: "num" },
+          { v: (r.RD > 0 ? "+" : "") + r.RD, cls: "num rd" }
         ];
+
         for (const c of cells) {
           const td = document.createElement("td");
-          td.textContent = c;
+          td.className = c.cls;
+          td.textContent = c.v;
           tr.appendChild(td);
         }
+
         tbody.appendChild(tr);
-      }
+      });
     }
 
     async function init() {
@@ -241,7 +267,7 @@
         const bName = resolveTeamRef(g.TeamB, teamsBySeed, gamesById);
         if (!aName || !bName) continue;
 
-        // Ensure entries exist (just in case)
+        // Ensure entries exist
         if (!standings.has(aName)) standings.set(aName, { team: aName, W:0, L:0, T:0, RF:0, RA:0, RD:0 });
         if (!standings.has(bName)) standings.set(bName, { team: bName, W:0, L:0, T:0, RF:0, RA:0, RD:0 });
 
@@ -279,3 +305,4 @@
   </script>
 </body>
 </html>
+

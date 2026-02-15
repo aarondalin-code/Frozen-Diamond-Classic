@@ -2684,3 +2684,9 @@ th {
 body.menuOpen{
   overflow: hidden;
 }
+
+/* DEBUG: make hamburger unmistakable */
+@media (max-width: 820px){
+  .navToggle{ background: red !important; border: 2px solid yellow !important; }
+  .navToggle span{ background: #fff !important; }
+}

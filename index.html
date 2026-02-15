@@ -8,30 +8,40 @@
 </head>
 <body class="watermarkPage">
 <header class="siteHeader">
-<nav class="nav" id="siteNav">
-<button class="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
-  <span></span><span></span><span></span>
-</button>
-  
-  <a href="./" class="active">Home</a>
-  <a href="./schedule.html">Schedule/Scores</a>
-  <a href="./standings.html">Standings</a>
-  <a href="./stats.html">Stats</a>
-  <a href="./teams.html">Teams</a>
-  <a href="./rules.html">Rules</a>
-  <a href="./contacts.html">Contacts</a>
-  <a href="./gallery.html">Gallery</a>
-  <a href="./uploads.html">Uploads</a>
-</nav>
+  <!-- Mobile-only hamburger + overlay -->
+  <div class="navWrap">
+    <button
+      class="navToggle"
+      type="button"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="siteNav"
+    >
+      <span></span><span></span><span></span>
+    </button>
 
+    <div class="navOverlay" aria-hidden="true"></div>
+
+    <nav class="nav" id="siteNav">
+      <a href="./" class="active">Home</a>
+      <a href="./schedule.html">Schedule/Scores</a>
+      <a href="./standings.html">Standings</a>
+      <a href="./stats.html">Stats</a>
+      <a href="./teams.html">Teams</a>
+      <a href="./rules.html">Rules</a>
+      <a href="./contacts.html">Contacts</a>
+      <a href="./gallery.html">Gallery</a>
+      <a href="./uploads.html">Uploads</a>
+    </nav>
   </div>
 
-    <div class="brandCenter">
-      <img src="./logo.png" alt="Frozen Diamond Classic Logo" class="logoImage">
-      <h1>Frozen Diamond Classic</h1>
-      <div class="tagline">Tournament Central</div>
-    </div>
-  </header>
+  <div class="brandCenter">
+    <img src="./logo.png" alt="Frozen Diamond Classic Logo" class="logoImage" />
+    <h1>Frozen Diamond Classic</h1>
+    <div class="tagline">Tournament Central</div>
+  </div>
+</header>
+
 
   <main class="wrap">
 

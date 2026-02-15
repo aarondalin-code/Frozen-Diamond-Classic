@@ -2296,3 +2296,59 @@ th {
   letter-spacing: 0.3px;
 }
 
+/* Contacts page polish */
+
+.contactTeamBlock{
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0;
+}
+
+.contactTeamBlock:last-child{
+  border-bottom: none;
+}
+
+.contactTeamName{
+  font-size: 16px;
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+
+.contactTeamLink{
+  text-decoration: none;
+  color: var(--royal);
+}
+
+.contactTeamLink:hover{
+  text-decoration: underline;
+}
+
+.contactRow{
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.contactLabel{
+  font-weight: 900;
+  min-width: 95px;
+}
+
+.contactLink{
+  text-decoration: none;
+  color: var(--royal);
+}
+
+.contactLink:hover{
+  text-decoration: underline;
+}
+
+.gcContactLink{
+  font-weight: 900;
+  text-decoration: none;
+  color: var(--royal);
+}
+
+.gcContactLink:hover{
+  text-decoration: underline;
+}

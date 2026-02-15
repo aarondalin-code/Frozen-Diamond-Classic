@@ -30,263 +30,275 @@
 
   <main class="wrap">
 
-    <!-- Premium Rules Header -->
+    <!-- Premium Rules Header (clean) -->
     <section class="docSection">
-      <div class="rulesHero">
-        <div class="rulesHeroTop">
-          <div class="rulesHeroTitle">Official Tournament Rules</div>
-          <div class="rulesHeroSub muted">9U • Indoor • One-day format</div>
-        </div>
+      <div class="rulesHeroElite">
+        <div class="rulesHeroTitleElite">Official Tournament Rules</div>
+        <div class="rulesHeroSubElite muted">9U • Indoor • One-day format</div>
 
-        <div class="rulesHeroNotes">
-          <div class="rulesNote">
-            <div class="rulesNoteKicker">Applies to</div>
-            <div class="rulesNoteValue">Frozen Diamond Classic • March 21, 2026</div>
-          </div>
-          <div class="rulesNote">
-            <div class="rulesNoteKicker">Quick reference</div>
-            <div class="rulesNoteValue">Time limits, pitching limits, and safety rules highlighted below.</div>
-          </div>
+        <div class="rulesHeroPills">
+          <span class="rulesPill">Field: 46x60</span>
+          <span class="rulesPill rulesPillStrong">Time: 1:40 no new inning • 1:55 hard stop</span>
+          <span class="rulesPill rulesPillStrong">Pitching: 75 pitches max</span>
+          <span class="rulesPill">USA bats only</span>
+          <span class="rulesPill">No metal cleats</span>
         </div>
       </div>
     </section>
 
-    <!-- Two-column Rules Grid -->
+    <!-- Elite Accordions -->
     <section class="docSection">
-      <div class="rulesGrid">
+      <div class="rulesAccordions">
 
         <!-- GAME FORMAT -->
-        <div class="rulesSection">
-          <div class="rulesSectionHeader">
-            <div class="rulesSectionIcon">⚾</div>
-            <div>
-              <div class="rulesSectionTitle">Game Format</div>
-              <div class="rulesSectionSub muted small">Core structure and scoring rules.</div>
+        <details class="rulesAcc" open>
+          <summary class="rulesAccSummary">
+            <span class="rulesAccIcon">⚾</span>
+            <span class="rulesAccText">
+              <span class="rulesAccTitle">Game Format</span>
+              <span class="rulesAccSub muted">Core structure, scoring, time limits.</span>
+            </span>
+            <span class="rulesAccChevron" aria-hidden="true">▾</span>
+          </summary>
+
+          <div class="rulesAccBody">
+            <div class="ruleCardElite ruleImportantElite">
+              <div class="ruleTitleElite">Time Limit</div>
+              <div class="ruleBodyElite">
+                No new inning can start after <strong>1:40</strong>. Hard stop at <strong>1:55</strong>.
+                Score reverts to the <strong>last completed inning</strong>.
+              </div>
+            </div>
+
+            <div class="ruleCardElite">
+              <div class="ruleTitleElite">Innings</div>
+              <div class="ruleBodyElite">All games are <strong>6 innings</strong> unless shortened by time limit or run rule.</div>
+            </div>
+
+            <div class="ruleCardElite">
+              <div class="ruleTitleElite">Home Team</div>
+              <div class="ruleBodyElite">Pre-game <strong>coin flip</strong>.</div>
+            </div>
+
+            <div class="ruleCardElite">
+              <div class="ruleTitleElite">Mercy Rule</div>
+              <div class="ruleBodyElite"><strong>10-run</strong> mercy rule after losing team bats in the <strong>4th inning</strong>.</div>
+            </div>
+
+            <div class="ruleCardElite">
+              <div class="ruleTitleElite">Max Runs per Inning</div>
+              <div class="ruleBodyElite">No max (subject to discussion).</div>
+            </div>
+
+            <div class="ruleCardElite">
+              <div class="ruleTitleElite">Field Size</div>
+              <div class="ruleBodyElite">46x60.</div>
             </div>
           </div>
+        </details>
 
-          <div class="ruleCard ruleImportant">
-            <div class="ruleTitle">Time Limit</div>
-            <div class="ruleBody">
-              No new inning can start after <strong>1:40</strong>. Hard stop at <strong>1:55</strong>.
-              Score reverts to the <strong>last completed inning</strong>.
+        <!-- ROSTERS + LINEUPS -->
+        <details class="rulesAcc">
+          <summary class="rulesAccSummary">
+            <span class="rulesAccIcon">🧢</span>
+            <span class="rulesAccText">
+              <span class="rulesAccTitle">Rosters & Lineups</span>
+              <span class="rulesAccSub muted">Eligibility, batting, substitutions.</span>
+            </span>
+            <span class="rulesAccChevron" aria-hidden="true">▾</span>
+          </summary>
+
+          <div class="rulesAccBody">
+            <div class="ruleCardElite ruleImportantElite">
+              <div class="ruleTitleElite">Roster Size / Eligibility</div>
+              <div class="ruleBodyElite">
+                Teams may expand roster with other <strong>9U travel players</strong> from the same town/organization (if applicable),
+                if concerned about pitching limits. <strong>10U players are strictly prohibited.</strong>
+                Pre-approval from league director required.
+              </div>
+            </div>
+
+            <div class="ruleCardElite">
+              <div class="ruleTitleElite">Lineup / Batting</div>
+              <div class="ruleBodyElite">
+                <strong>Roster batting</strong> — all uniform players must bat. Late arrival goes to the <strong>bottom</strong> of the order.
+              </div>
+            </div>
+
+            <div class="ruleCardElite">
+              <div class="ruleTitleElite">Batting Out of Order</div>
+              <div class="ruleBodyElite">Batter is out after <strong>1 pitch</strong>. No penalty for injury or early departure.</div>
+            </div>
+
+            <div class="ruleCardElite">
+              <div class="ruleTitleElite">Defensive Substitutions</div>
+              <div class="ruleBodyElite">Standard rules apply. <strong>Unlimited re-entry</strong>.</div>
+            </div>
+
+            <div class="ruleCardElite">
+              <div class="ruleTitleElite">Courtesy Runner</div>
+              <div class="ruleBodyElite">
+                May be used for catcher or pitcher of record at any time. Runner must be the player who made the <strong>last batted out</strong>.
+              </div>
             </div>
           </div>
-
-          <div class="ruleCard">
-            <div class="ruleTitle">Innings</div>
-            <div class="ruleBody">All games are <strong>6 innings</strong> unless shortened by time limit or run rule.</div>
-          </div>
-
-          <div class="ruleCard">
-            <div class="ruleTitle">Home Team</div>
-            <div class="ruleBody">Pre-game <strong>coin flip</strong>.</div>
-          </div>
-
-          <div class="ruleCard">
-            <div class="ruleTitle">Mercy Rule</div>
-            <div class="ruleBody"><strong>10-run</strong> mercy rule after losing team bats in the <strong>4th inning</strong>.</div>
-          </div>
-
-          <div class="ruleCard">
-            <div class="ruleTitle">Max Runs per Inning</div>
-            <div class="ruleBody">No max (subject to discussion).</div>
-          </div>
-
-          <div class="ruleCard">
-            <div class="ruleTitle">Field Size</div>
-            <div class="ruleBody">46x60.</div>
-          </div>
-        </div>
-
-        <!-- ROSTER + LINEUP -->
-        <div class="rulesSection">
-          <div class="rulesSectionHeader">
-            <div class="rulesSectionIcon">🧢</div>
-            <div>
-              <div class="rulesSectionTitle">Rosters & Lineups</div>
-              <div class="rulesSectionSub muted small">Eligibility, batting, and substitution rules.</div>
-            </div>
-          </div>
-
-          <div class="ruleCard ruleImportant">
-            <div class="ruleTitle">Roster Size / Eligibility</div>
-            <div class="ruleBody">
-              If teams are concerned about pitching limits, teams can expand roster size with other <strong>9U travel players</strong>
-              from the same town/organization (if applicable). <strong>10U players are strictly prohibited.</strong>
-              Pre-approval from league director required.
-            </div>
-          </div>
-
-          <div class="ruleCard">
-            <div class="ruleTitle">Lineup / Batting</div>
-            <div class="ruleBody">
-              <strong>Roster batting</strong> — all uniform players must bat. Late arrival goes to the <strong>bottom</strong> of the order.
-            </div>
-          </div>
-
-          <div class="ruleCard">
-            <div class="ruleTitle">Batting Out of Order</div>
-            <div class="ruleBody">Batter is out after <strong>1 pitch</strong>. No penalty for injury or early departure.</div>
-          </div>
-
-          <div class="ruleCard">
-            <div class="ruleTitle">Defensive Substitutions</div>
-            <div class="ruleBody">Standard rules apply. <strong>Unlimited re-entry</strong>.</div>
-          </div>
-
-          <div class="ruleCard">
-            <div class="ruleTitle">Courtesy Runner</div>
-            <div class="ruleBody">
-              May be used for catcher or pitcher of record at any time.
-              Runner must be the player who made the <strong>last batted out</strong>.
-            </div>
-          </div>
-        </div>
+        </details>
 
         <!-- PITCHING -->
-        <div class="rulesSection">
-          <div class="rulesSectionHeader">
-            <div class="rulesSectionIcon">🎯</div>
-            <div>
-              <div class="rulesSectionTitle">Pitching</div>
-              <div class="rulesSectionSub muted small">Limits, mound visits, and player safety.</div>
+        <details class="rulesAcc">
+          <summary class="rulesAccSummary">
+            <span class="rulesAccIcon">🎯</span>
+            <span class="rulesAccText">
+              <span class="rulesAccTitle">Pitching</span>
+              <span class="rulesAccSub muted">Limits, mound visits, safety.</span>
+            </span>
+            <span class="rulesAccChevron" aria-hidden="true">▾</span>
+          </summary>
+
+          <div class="rulesAccBody">
+            <div class="ruleCardElite ruleImportantElite">
+              <div class="ruleTitleElite">Pitch Count Limit</div>
+              <div class="ruleBodyElite">
+                Pitchers are limited to <strong>75 total pitches</strong> for the day/tournament.
+                Strongly encouraged to not pitch the same pitcher in <strong>back-to-back games</strong>.
+              </div>
+            </div>
+
+            <div class="ruleCardElite">
+              <div class="ruleTitleElite">Mound Visits</div>
+              <div class="ruleBodyElite">2 per pitcher. Pitcher must be replaced on the <strong>2nd visit</strong>.</div>
             </div>
           </div>
+        </details>
 
-          <div class="ruleCard ruleImportant">
-            <div class="ruleTitle">Pitch Count Limit</div>
-            <div class="ruleBody">
-              Pitchers are limited to <strong>75 total pitches</strong> for the day/tournament.
-              Strongly encouraged to not pitch the same pitcher in <strong>back-to-back games</strong>.
+        <!-- BASE RUNNING -->
+        <details class="rulesAcc">
+          <summary class="rulesAccSummary">
+            <span class="rulesAccIcon">🏃</span>
+            <span class="rulesAccText">
+              <span class="rulesAccTitle">Base Running</span>
+              <span class="rulesAccSub muted">Lead-offs, stealing, sliding.</span>
+            </span>
+            <span class="rulesAccChevron" aria-hidden="true">▾</span>
+          </summary>
+
+          <div class="rulesAccBody">
+            <div class="ruleCardElite ruleImportantElite">
+              <div class="ruleTitleElite">Lead-Offs</div>
+              <div class="ruleBodyElite">
+                No leading off until pitched ball has reached or passed the batter.
+                One warning per team; subsequent violations = runner is <strong>out</strong>.
+              </div>
+            </div>
+
+            <div class="ruleCardElite">
+              <div class="ruleTitleElite">Stealing / Pickoffs</div>
+              <div class="ruleBodyElite">
+                All bases allowed. Pitcher pickoffs <strong>not allowed</strong>. Catcher pickoffs <strong>allowed</strong>.
+              </div>
+            </div>
+
+            <div class="ruleCardElite">
+              <div class="ruleTitleElite">Sliding</div>
+              <div class="ruleBodyElite"><strong>Feet first only</strong>.</div>
             </div>
           </div>
-
-          <div class="ruleCard">
-            <div class="ruleTitle">Mound Visits</div>
-            <div class="ruleBody">2 per pitcher. Pitcher must be replaced on the <strong>2nd visit</strong>.</div>
-          </div>
-        </div>
-
-        <!-- BASERUNNING -->
-        <div class="rulesSection">
-          <div class="rulesSectionHeader">
-            <div class="rulesSectionIcon">🏃</div>
-            <div>
-              <div class="rulesSectionTitle">Base Running</div>
-              <div class="rulesSectionSub muted small">Lead-offs, stealing, and sliding.</div>
-            </div>
-          </div>
-
-          <div class="ruleCard ruleImportant">
-            <div class="ruleTitle">Lead-Offs</div>
-            <div class="ruleBody">
-              No leading off until pitched ball has reached or passed the batter.
-              One warning per team; subsequent violations = runner is <strong>out</strong>.
-            </div>
-          </div>
-
-          <div class="ruleCard">
-            <div class="ruleTitle">Stealing / Pickoffs</div>
-            <div class="ruleBody">
-              All bases allowed. Pitcher pickoffs <strong>not allowed</strong>.
-              Catcher pickoffs <strong>allowed</strong>.
-            </div>
-          </div>
-
-          <div class="ruleCard">
-            <div class="ruleTitle">Sliding</div>
-            <div class="ruleBody"><strong>Feet first only</strong>.</div>
-          </div>
-        </div>
+        </details>
 
         <!-- SPECIAL RULES -->
-        <div class="rulesSection">
-          <div class="rulesSectionHeader">
-            <div class="rulesSectionIcon">⚖️</div>
-            <div>
-              <div class="rulesSectionTitle">Special Rules</div>
-              <div class="rulesSectionSub muted small">Tournament-specific rules and exceptions.</div>
+        <details class="rulesAcc">
+          <summary class="rulesAccSummary">
+            <span class="rulesAccIcon">⚖️</span>
+            <span class="rulesAccText">
+              <span class="rulesAccTitle">Special Rules</span>
+              <span class="rulesAccSub muted">Tournament exceptions & equipment.</span>
+            </span>
+            <span class="rulesAccChevron" aria-hidden="true">▾</span>
+          </summary>
+
+          <div class="rulesAccBody">
+            <div class="ruleCardElite">
+              <div class="ruleTitleElite">Bunting</div>
+              <div class="ruleBodyElite">Allowed. No fake bunt slash hitting allowed.</div>
+            </div>
+
+            <div class="ruleCardElite">
+              <div class="ruleTitleElite">Dropped Third Strike</div>
+              <div class="ruleBodyElite">NOT in effect.</div>
+            </div>
+
+            <div class="ruleCardElite">
+              <div class="ruleTitleElite">Infield Fly Rule</div>
+              <div class="ruleBodyElite">Not in effect.</div>
+            </div>
+
+            <div class="ruleCardElite">
+              <div class="ruleTitleElite">Bats</div>
+              <div class="ruleBodyElite"><strong>USA bats only.</strong> No USSSA or BBCOR allowed.</div>
+            </div>
+
+            <div class="ruleCardElite ruleImportantElite">
+              <div class="ruleTitleElite">Cleats</div>
+              <div class="ruleBodyElite"><strong>Metal cleats are not permitted.</strong> Rubber cleats allowed.</div>
+            </div>
+
+            <div class="ruleCardElite ruleImportantElite">
+              <div class="ruleTitleElite">Required Equipment</div>
+              <div class="ruleBodyElite"><strong>Protective cup and heart guard</strong> required.</div>
+            </div>
+
+            <div class="ruleCardElite">
+              <div class="ruleTitleElite">Dome Rules</div>
+              <div class="ruleBodyElite">Local house rules — TBD.</div>
             </div>
           </div>
-
-          <div class="ruleCard">
-            <div class="ruleTitle">Bunting</div>
-            <div class="ruleBody">Allowed. No fake bunt slash hitting allowed.</div>
-          </div>
-
-          <div class="ruleCard">
-            <div class="ruleTitle">Dropped Third Strike</div>
-            <div class="ruleBody">NOT in effect.</div>
-          </div>
-
-          <div class="ruleCard">
-            <div class="ruleTitle">Infield Fly Rule</div>
-            <div class="ruleBody">Not in effect.</div>
-          </div>
-
-          <div class="ruleCard">
-            <div class="ruleTitle">Bats</div>
-            <div class="ruleBody"><strong>USA bats only.</strong> No USSSA or BBCOR allowed.</div>
-          </div>
-        </div>
-
-        <!-- EQUIPMENT + SAFETY -->
-        <div class="rulesSection">
-          <div class="rulesSectionHeader">
-            <div class="rulesSectionIcon">🛡️</div>
-            <div>
-              <div class="rulesSectionTitle">Equipment & Safety</div>
-              <div class="rulesSectionSub muted small">Cleats, required equipment, and dome rules.</div>
-            </div>
-          </div>
-
-          <div class="ruleCard ruleImportant">
-            <div class="ruleTitle">Cleats</div>
-            <div class="ruleBody"><strong>Metal cleats are not permitted.</strong> Rubber cleats allowed.</div>
-          </div>
-
-          <div class="ruleCard ruleImportant">
-            <div class="ruleTitle">Required Equipment</div>
-            <div class="ruleBody"><strong>Protective cup and heart guard</strong> required.</div>
-          </div>
-
-          <div class="ruleCard">
-            <div class="ruleTitle">Dome Rules</div>
-            <div class="ruleBody">Local house rules — TBD.</div>
-          </div>
-        </div>
+        </details>
 
         <!-- SPORTSMANSHIP -->
-        <div class="rulesSection rulesSectionWide">
-          <div class="rulesSectionHeader">
-            <div class="rulesSectionIcon">🤝</div>
-            <div>
-              <div class="rulesSectionTitle">Sportsmanship</div>
-              <div class="rulesSectionSub muted small">Conduct expectations for players and fans.</div>
+        <details class="rulesAcc">
+          <summary class="rulesAccSummary">
+            <span class="rulesAccIcon">🤝</span>
+            <span class="rulesAccText">
+              <span class="rulesAccTitle">Sportsmanship</span>
+              <span class="rulesAccSub muted">Conduct expectations.</span>
+            </span>
+            <span class="rulesAccChevron" aria-hidden="true">▾</span>
+          </summary>
+
+          <div class="rulesAccBody">
+            <div class="ruleCardElite">
+              <div class="ruleTitleElite">Chanting</div>
+              <div class="ruleBodyElite">No chanting when pitcher is in windup.</div>
+            </div>
+
+            <div class="rulesFooterNoteElite">
+              <div class="rulesFooterLineElite"></div>
+              <div class="muted small">
+                Rules finalized: <strong>February 2026</strong>. Tournament Director reserves the right to adjust for safety,
+                field conditions, or time constraints.
+              </div>
             </div>
           </div>
-
-          <div class="ruleCard">
-            <div class="ruleTitle">Chanting</div>
-            <div class="ruleBody">No chanting when pitcher is in windup.</div>
-          </div>
-
-          <div class="rulesFooterNote">
-            <div class="rulesFooterLine"></div>
-            <div class="muted small">
-              Rules finalized: <strong>February 2026</strong>. Tournament Director reserves the right to adjust for safety,
-              field conditions, or time constraints.
-            </div>
-          </div>
-        </div>
+        </details>
 
       </div>
     </section>
 
   </main>
+
+  <script>
+    // Optional: close other accordions when one opens (more "premium")
+    const accs = Array.from(document.querySelectorAll(".rulesAcc"));
+    accs.forEach(d => {
+      d.addEventListener("toggle", () => {
+        if (!d.open) return;
+        accs.forEach(x => { if (x !== d) x.open = false; });
+      });
+    });
+  </script>
 </body>
 </html>
+
 
 
 

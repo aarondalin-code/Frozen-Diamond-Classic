@@ -2747,3 +2747,63 @@ th {
     z-index: 2147483647 !important;
   }
 }
+
+/* =========================
+   Mobile menu overlay FIX (prevents content masking + enables scroll)
+========================= */
+@media (max-width: 820px){
+
+  /* When menu is open, force everything else below it */
+  body.menuOpen .siteHeader,
+  body.menuOpen main,
+  body.menuOpen .wrap{
+    position: relative !important;
+    z-index: 0 !important;
+  }
+
+  /* The actual overlay menu layer */
+  #siteNav.open{
+    display: block !important;
+
+    position: fixed !important;
+    inset: 0 !important;
+
+    z-index: 999999 !important;        /* above countdown + everything */
+    background: rgba(2, 6, 23, 0.97) !important;
+    backdrop-filter: blur(8px) !important;
+
+    height: 100vh !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+
+    padding: 84px 18px 42px !important;
+  }
+
+  /* Make the links big, tappable, and centered */
+  #siteNav.open a{
+    display: block !important;
+    width: min(380px, 90vw) !important;
+    margin: 10px auto !important;
+    text-align: center !important;
+
+    color: #fff !important;
+    text-decoration: none !important;
+    font-size: 18px !important;
+    font-weight: 900 !important;
+
+    background: rgba(255,255,255,0.10) !important;
+    border: 1px solid rgba(255,255,255,0.18) !important;
+    border-radius: 12px !important;
+    padding: 12px 16px !important;
+  }
+
+  #siteNav.open a.active{
+    background: rgba(37,99,235,0.28) !important;
+    border-color: rgba(37,99,235,0.45) !important;
+  }
+
+  /* Keep hamburger button above the overlay so you can close it */
+  .navWrap{ z-index: 1000000 !important; }
+  .navToggle{ z-index: 1000001 !important; position: relative !important; }
+}

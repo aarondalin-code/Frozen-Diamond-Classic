@@ -3,8 +3,6 @@
 
   function lockBody() {
     scrollY = window.scrollY || 0;
-    document.body.classList.add("noScroll");
-    // iOS-friendly scroll lock:
     document.body.style.position = "fixed";
     document.body.style.top = `-${scrollY}px`;
     document.body.style.left = "0";
@@ -13,7 +11,6 @@
   }
 
   function unlockBody() {
-    document.body.classList.remove("noScroll");
     document.body.style.position = "";
     document.body.style.top = "";
     document.body.style.left = "";
@@ -29,15 +26,14 @@
 
     function setOpen(open) {
       nav.classList.toggle("open", open);
+      document.body.classList.toggle("menuOpen", open); // <-- key fix
       btn.setAttribute("aria-expanded", open ? "true" : "false");
 
       if (open) lockBody();
       else unlockBody();
     }
 
-    btn.addEventListener("click", () => {
-      setOpen(!nav.classList.contains("open"));
-    });
+    btn.addEventListener("click", () => setOpen(!nav.classList.contains("open")));
 
     nav.addEventListener("click", (e) => {
       if (e.target && e.target.tagName === "A") setOpen(false);
@@ -48,9 +44,6 @@
     });
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initNav);
-  } else {
-    initNav();
-  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initNav);
+  else initNav();
 })();

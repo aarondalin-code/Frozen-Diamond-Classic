@@ -2562,5 +2562,123 @@ th {
   text-decoration: underline;
 }
 
+/* =========================
+   Mobile Hamburger Nav (CLEAN)
+   - Does NOT affect desktop
+   - Full-screen overlay
+   - Always on top (z-index)
+========================= */
+
+/* Keep header above page content */
+.siteHeader{
+  position: relative;
+  z-index: 50;
+}
+
+/* Wrapper positioning */
+.navWrap{
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  z-index: 200; /* above brandCenter */
+}
+
+/* Toggle button (mobile only) */
+.navToggle{
+  display: none;              /* hidden by default (desktop) */
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0;
+}
+
+/* 3-line icon */
+.navToggle span{
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: #e2e8f0;
+  border-radius: 2px;
+}
+
+/* Overlay covers the whole screen */
+.navOverlay{
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 9998;
+}
+
+/* Mobile nav panel */
+#siteNav{
+  /* Desktop keeps your existing nav styling. We override on mobile only below. */
+}
+
+/* ========== MOBILE ONLY ========== */
+@media (max-width: 820px){
+
+  /* Show hamburger */
+  .navToggle{
+    display: inline-flex;
+  }
+
+  /* IMPORTANT: prevent desktop nav layout rules from applying on mobile */
+  .siteHeader .nav{
+    position: fixed !important;
+    top: 72px !important;
+    left: 14px !important;
+    right: 14px !important;
+
+    display: none; /* closed by default */
+    flex-direction: column;
+    gap: 10px;
+
+    padding: 14px;
+    border-radius: 16px;
+    background: rgba(15, 23, 42, 0.96);
+    border: 1px solid rgba(255,255,255,0.12);
+
+    z-index: 9999; /* ABOVE overlay + content */
+  }
+
+  /* Make links full-width and readable */
+  .siteHeader .nav a{
+    display: block;
+    text-align: center;
+    padding: 12px 12px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 900;
+    color: #e2e8f0;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+  }
+
+  .siteHeader .nav a.active{
+    background: rgba(37,99,235,0.35);
+    border-color: rgba(37,99,235,0.45);
+    color: #ffffff;
+  }
+
+  /* When open */
+  body.navOpen .navOverlay{
+    display: block;
+  }
+
+  body.navOpen .siteHeader .nav{
+    display: flex;
+  }
+}
 
 

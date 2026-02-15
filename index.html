@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Frozen Diamond Classic</title>
   <link rel="stylesheet" href="./styles.css" />
-  <style>
+<style>
 /* TEMP hamburger CSS test (index only) */
 .navWrap { position: relative; }
 
@@ -32,8 +32,14 @@
     z-index: 5002;
     padding: 0;
   }
+
   .navToggle span{
-    display:block; width:20px; height:2px; background:#fff; border-radius:2px; margin:2px 0;
+    display:block;
+    width:20px;
+    height:2px;
+    background:#fff;
+    border-radius:2px;
+    margin:2px 0;
   }
 
   .navOverlay{
@@ -86,8 +92,23 @@
     color:#fff;
   }
 
-  .navOpen .navOverlay{ opacity:1; pointer-events:auto; }
-  .navOpen .nav{ opacity:1; pointer-events:auto; transform:translateY(0); }
+  /* OPEN state */
+  html.navOpen, body.navOpen{
+    overflow: hidden;
+    height: 100%;
+    touch-action: none;
+  }
+
+  body.navOpen .navOverlay{
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  body.navOpen .nav{
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
 }
 </style>
 

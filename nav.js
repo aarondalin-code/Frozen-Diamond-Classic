@@ -1,24 +1,4 @@
 (function () {
-  let scrollY = 0;
-
-  function lockBody() {
-    scrollY = window.scrollY || 0;
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.left = "0";
-    document.body.style.right = "0";
-    document.body.style.width = "100%";
-  }
-
-  function unlockBody() {
-    document.body.style.position = "";
-    document.body.style.top = "";
-    document.body.style.left = "";
-    document.body.style.right = "";
-    document.body.style.width = "";
-    window.scrollTo(0, scrollY);
-  }
-
   function initNav() {
     const btn = document.querySelector(".navToggle");
     const nav = document.getElementById("siteNav");
@@ -26,11 +6,7 @@
 
     function setOpen(open) {
       nav.classList.toggle("open", open);
-      document.body.classList.toggle("menuOpen", open); // <-- key fix
       btn.setAttribute("aria-expanded", open ? "true" : "false");
-
-      if (open) lockBody();
-      else unlockBody();
     }
 
     btn.addEventListener("click", () => setOpen(!nav.classList.contains("open")));
@@ -44,6 +20,9 @@
     });
   }
 
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initNav);
-  else initNav();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initNav);
+  } else {
+    initNav();
+  }
 })();

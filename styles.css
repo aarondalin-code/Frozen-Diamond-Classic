@@ -2683,3 +2683,67 @@ th {
     border-color: rgba(37,99,235,0.35);
   }
 }
+
+/* =========================
+   HARD OVERRIDE: mobile menu must be a real overlay
+   (Fixes iOS + prevents countdown masking links)
+========================= */
+@media (max-width: 820px){
+
+  /* When closed, hide the nav */
+  .nav{
+    display: none !important;
+  }
+
+  /* When open, FORCE full-screen overlay */
+  .nav.open{
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+
+    position: fixed !important;
+    inset: 0 !important;
+
+    z-index: 2147483647 !important; /* above everything */
+    background: rgba(2, 6, 23, 0.97) !important;
+    backdrop-filter: blur(8px) !important;
+
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 84px 18px 42px !important;
+  }
+
+  /* Make each link a centered “panel” row */
+  .nav.open a{
+    display: block !important;
+    width: min(380px, 90vw) !important;
+    margin: 10px auto !important;
+    text-align: center !important;
+
+    font-size: 18px !important;
+    font-weight: 900 !important;
+
+    color: #fff !important;
+    text-decoration: none !important;
+
+    background: rgba(255,255,255,0.10) !important;
+    border: 1px solid rgba(255,255,255,0.18) !important;
+    border-radius: 12px !important;
+    padding: 12px 16px !important;
+
+    box-shadow: 0 16px 44px rgba(0,0,0,0.35) !important;
+  }
+
+  .nav.open a.active{
+    background: rgba(37,99,235,0.28) !important;
+    border-color: rgba(37,99,235,0.45) !important;
+  }
+
+  /* Keep hamburger button above overlay so you can close it */
+  .navWrap,
+  .navToggle{
+    position: relative !important;
+    z-index: 2147483647 !important;
+  }
+}

@@ -9,21 +9,24 @@
 
 <body class="watermarkPage standingsPage">
   <header class="siteHeader">
-    <div class="navWrap">
+<div class="navWrap">
   <button class="navToggle" type="button" aria-label="Open menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
-    <nav class="nav">
-      <a href="./">Home</a>
-      <a href="./schedule.html">Schedule/Scores</a>
-      <a href="./standings.html" class="active">Standings</a>
-      <a href="./stats.html">Stats</a>
-      <a href="./teams.html">Teams</a>
-      <a href="./rules.html">Rules</a>
-      <a href="./contacts.html">Contacts</a>
-      <a href="./gallery.html">Gallery</a>
-      <a href="./uploads.html">Uploads</a>
-    </nav>
+
+  <nav class="nav" id="siteNav">
+    <a href="./">Home</a>
+    <a href="./schedule.html">Schedule/Scores</a>
+    <a href="./standings.html" class="active">Standings</a>
+    <a href="./stats.html">Stats</a>
+    <a href="./teams.html">Teams</a>
+    <a href="./rules.html">Rules</a>
+    <a href="./contacts.html">Contacts</a>
+    <a href="./gallery.html">Gallery</a>
+    <a href="./uploads.html">Uploads</a>
+  </nav>
+</div>
+
 
     <div class="brandCenter">
       <img src="./logo.png" alt="Frozen Diamond Classic Logo" class="logoImage">
@@ -307,6 +310,8 @@
       msgEl.textContent = "Standings error: " + err.message;
     });
   </script>
+  
+  <script src="./nav.js"></script>
 </body>
 </html>
 

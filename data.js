@@ -20,6 +20,8 @@ window.TEAM_INFO = {
     coachName: "Aaron Dalin",
     coachEmail: "aarondalin@gmail.com",
     coachPhone: "(917) 922-9847"
+    gcName: "Westfield Blue (GameChanger)",
+    gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
 
   },
   "branchburg": {
@@ -28,6 +30,8 @@ window.TEAM_INFO = {
     coachName: "Tom Sharples",
     coachEmail: "trsjr12@gmail.com",
     coachPhone: "(908) 361-6332"
+    gcName: "Branchburg (GameChanger)",
+  gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
    
   },
   "ridge": {
@@ -36,6 +40,8 @@ window.TEAM_INFO = {
     coachName: "Greg Brunner",
     coachEmail: "gregbrunner@ridgebaseballclub.com",
     coachPhone: "(267) 475-9516"
+    gcName: "Ridge (GameChanger)",
+  gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
    
   },
   "scotch-plains-fanwood": {
@@ -44,6 +50,8 @@ window.TEAM_INFO = {
     coachName: "Ross Alpert",
     coachEmail: "ross.alpert2@gmail.com",
     coachPhone: "(732) 535-1077"
+    gcName: "Scotch Plains Fanwood (GameChanger)",
+    gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
   
   },
   "hillsborough": {
@@ -52,6 +60,8 @@ window.TEAM_INFO = {
     coachName: "Blair Dameron",
     coachEmail: "blaird@hillsboroughbaseball.org",
     coachPhone: "(215) 593-5207"
+    gcName: "Hillsborough(GameChanger)",
+  gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
     
   },
   "westfield-white": {
@@ -60,7 +70,9 @@ window.TEAM_INFO = {
     coachName: "Danny Lallis",
     coachEmail: "danny.lallis@gmail.com",
     coachPhone: "(898) 698-3012"
-   
+    gcName: "Westfield White(GameChanger)",
+  gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
+
   },
   "south-orange-maplewood": {
     name: "South Orange Maplewood",
@@ -68,6 +80,8 @@ window.TEAM_INFO = {
     coachName: "Jeremy Wintroub",
     coachEmail: "jwintroub@gmail.com",
     coachPhone: "(215) 370-8975"
+    gcName: "South Orange Maplewood GameChanger)",
+  gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
     
   },
   "watchung-hills": {
@@ -76,6 +90,8 @@ window.TEAM_INFO = {
     coachName: "Steven Freitas",
     coachEmail: "freitas.steven@gmail.com",
     coachPhone: "(201) 744-6063"
+    gcName: "Watchung Hills (GameChanger)",
+  gcUrl: "PASTE_TEAM_GAMECHANGER_URL_HERE"
    
   }
 };

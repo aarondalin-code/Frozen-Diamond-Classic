@@ -2563,25 +2563,31 @@ th {
 }
 
 /* =========================
-   Mobile Hamburger (single clean implementation)
-   - Desktop nav remains exactly as-is
-   - Mobile uses fixed toggle + overlay + panel above ALL content
+   Mobile Hamburger (site-wide, clean)
+   Scoped to .hasHamburger so non-upgraded pages are unaffected.
 ========================= */
 
-.navWrap { position: relative; }
+/* Always safe: wrapper doesn't change layout */
+.hasHamburger .navWrap { position: relative; }
 
-/* Desktop: hide hamburger pieces; keep your existing desktop nav styling */
+/* Desktop: keep your normal nav behavior; hide hamburger/overlay */
 @media (min-width: 821px){
-  .navToggle,
-  .navOverlay{
+  .hasHamburger .navToggle,
+  .hasHamburger .navOverlay{
     display: none !important;
   }
 }
 
-/* Mobile */
+/* Mobile hamburger */
 @media (max-width: 820px){
-  /* Hamburger button (always clickable, always on top) */
-  .navToggle{
+  /* Ensure header/brand don't cover the button */
+  .hasHamburger .siteHeader{
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Hamburger button stays clickable while scrolling */
+  .hasHamburger .navToggle{
     position: fixed;
     top: 12px;
     right: 12px;
@@ -2593,12 +2599,12 @@ th {
     display: grid;
     place-items: center;
     cursor: pointer;
+    z-index: 2147483646; /* above everything */
     padding: 0;
-    z-index: 2147483647; /* topmost */
   }
 
-  .navToggle span{
-    display: block;
+  .hasHamburger .navToggle span{
+    display:block;
     width: 20px;
     height: 2px;
     background: #fff;
@@ -2606,19 +2612,19 @@ th {
     margin: 3px 0;
   }
 
-  /* Overlay that blocks ALL interaction behind it */
-  .navOverlay{
+  /* Overlay blocks all interaction with page content behind */
+  .hasHamburger .navOverlay{
     position: fixed;
     inset: 0;
-    background: rgba(2, 6, 23, 0.82); /* dark enough to prevent bleed-through */
-    z-index: 2147483645;
+    background: #050914;          /* solid overlay prevents bleed-through */
+    z-index: 2147483644;
     opacity: 0;
     pointer-events: none;
     transition: opacity 180ms ease;
   }
 
   /* Menu panel */
-  .nav{
+  .hasHamburger .nav{
     position: fixed;
     top: 70px;
     left: 12px;
@@ -2630,10 +2636,10 @@ th {
 
     border-radius: 16px;
     border: 1px solid rgba(255,255,255,0.14);
-    background: #0b1220;
+    background: #0b1220;          /* solid panel */
     box-shadow: 0 18px 60px rgba(0,0,0,0.60);
 
-    z-index: 2147483646;
+    z-index: 2147483645;
 
     transform: translateY(-10px);
     opacity: 0;
@@ -2641,7 +2647,7 @@ th {
     transition: transform 180ms ease, opacity 180ms ease;
   }
 
-  .nav a{
+  .hasHamburger .nav a{
     display: block;
     text-align: center;
     font-size: 15px;
@@ -2654,20 +2660,26 @@ th {
     font-weight: 800;
   }
 
-  .nav a.active{
+  .hasHamburger .nav a.active{
     background: rgba(37,99,235,0.45);
     border-color: rgba(37,99,235,0.75);
     color: #fff;
   }
 
   /* Open state */
-  html.navOpen .navOverlay{
+  html.navOpen .hasHamburger .navOverlay{
     opacity: 1;
     pointer-events: auto;
   }
-  html.navOpen .nav{
+  html.navOpen .hasHamburger .nav{
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
+  }
+
+  /* Lock page scroll behind the overlay/menu */
+  body.navOpen{
+    overflow: hidden;
+    touch-action: none;
   }
 }

@@ -4,12 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Teams • Frozen Diamond Classic</title>
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./styles.css?v=hamburger3" />
 </head>
 
-<body class="watermarkPage teamsPage">
-  <header class="siteHeader">
-<nav class="nav">
+<body class="watermarkPage teamsPage hasHamburger">
+<header class="siteHeader">
+  <div class="navWrap">
+    <button
+      class="navToggle"
+      type="button"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="siteNav"
+    >
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="navOverlay" aria-hidden="true"></div>
+
+    <nav class="nav" id="siteNav">
       <a href="./">Home</a>
       <a href="./schedule.html">Schedule/Scores</a>
       <a href="./standings.html">Standings</a>
@@ -22,12 +35,13 @@
     </nav>
   </div>
 
-    <div class="brandCenter">
-      <img src="./logo.png" alt="Frozen Diamond Classic Logo" class="logoImage">
-      <h1>Frozen Diamond Classic</h1>
-      <div class="tagline">Tournament Central</div>
-    </div>
-  </header>
+  <div class="brandCenter">
+    <img src="./logo.png" alt="Frozen Diamond Classic Logo" class="logoImage">
+    <h1>Frozen Diamond Classic</h1>
+    <div class="tagline">Tournament Central</div>
+  </div>
+</header>
+
 
   <main class="wrap">
     <section class="docSection">
@@ -132,6 +146,7 @@
       }
     })();
   </script>
+<script src="./nav.js"></script>
 
 </body>
 </html>

@@ -1,40 +1,51 @@
-(function () {
-  const btn = document.querySelector(".hasHamburger .navToggle");
-  const overlay = document.querySelector(".hasHamburger .navOverlay");
-  const nav = document.querySelector(".hasHamburger .nav");
+(() => {
+  const toggle = document.querySelector(".navToggle");
+  const overlay = document.querySelector(".navOverlay");
+  const nav = document.getElementById("siteNav");
 
-  if (!btn || !overlay || !nav) return;
+  if (!toggle || !overlay || !nav) return;
 
   function openMenu() {
     document.documentElement.classList.add("navOpen");
-    btn.setAttribute("aria-expanded", "true");
+    toggle.setAttribute("aria-expanded", "true");
   }
 
   function closeMenu() {
     document.documentElement.classList.remove("navOpen");
-    btn.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-expanded", "false");
   }
 
-  btn.addEventListener("click", () => {
-    const open = document.documentElement.classList.contains("navOpen");
-    open ? closeMenu() : openMenu();
+  function isOpen() {
+    return document.documentElement.classList.contains("navOpen");
+  }
+
+  toggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (isOpen()) closeMenu();
+    else openMenu();
   });
 
   overlay.addEventListener("click", closeMenu);
 
+  // Close when a link is clicked
   nav.addEventListener("click", (e) => {
     const a = e.target.closest("a");
     if (a) closeMenu();
   });
 
-  // Close if user rotates / resizes into desktop width
+  // Close if user tries to scroll while open (solves the "stays open behind content" problem)
+  window.addEventListener("scroll", () => {
+    if (isOpen()) closeMenu();
+  }, { passive: true });
+
+  // Close on orientation change / resize
   window.addEventListener("resize", () => {
-    if (window.innerWidth >= 821) closeMenu();
+    if (isOpen()) closeMenu();
   });
 
-  // Esc to close (if keyboard present)
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeMenu();
+  // Escape closes (desktop testing)
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && isOpen()) closeMenu();
   });
 })();
 

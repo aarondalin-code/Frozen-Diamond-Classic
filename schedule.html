@@ -1,96 +1,92 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Schedule & Scores • Frozen Diamond Classic</title>
+  <title>Schedule/Scores • Frozen Diamond Classic</title>
   <link rel="stylesheet" href="./styles.css?v=hamburger3" />
 </head>
 
 <body class="watermarkPage schedulePage hasHamburger">
-<header class="siteHeader">
-  <div class="navWrap">
-    <button class="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
-      <span></span><span></span><span></span>
-    </button>
+  <header class="siteHeader">
+    <!-- Hamburger wrapper -->
+    <div class="navWrap">
+      <button
+        class="navToggle"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="siteNav"
+      >
+        <span></span><span></span><span></span>
+      </button>
 
-    <div class="navOverlay" aria-hidden="true"></div>
+      <div class="navOverlay" aria-hidden="true"></div>
 
-    <nav class="nav" id="siteNav">
-    <a href="./">Home</a>
-      <a href="./schedule.html" class="active">Schedule/Scores</a>
-      <a href="./standings.html">Standings</a>
-      <a href="./stats.html">Stats</a>
-      <a href="./teams.html">Teams</a>
-      <a href="./rules.html">Rules</a>
-      <a href="./contacts.html">Contacts</a>
-      <a href="./gallery.html">Gallery</a>
-      <a href="./uploads.html">Uploads</a>
-    </nav>
-  </div>
+      <nav class="nav" id="siteNav">
+        <a href="./">Home</a>
+        <a href="./schedule.html" class="active">Schedule/Scores</a>
+        <a href="./standings.html">Standings</a>
+        <a href="./stats.html">Stats</a>
+        <a href="./teams.html">Teams</a>
+        <a href="./rules.html">Rules</a>
+        <a href="./contacts.html">Contacts</a>
+        <a href="./gallery.html">Gallery</a>
+        <a href="./uploads.html">Uploads</a>
+      </nav>
+    </div>
 
-  <div class="brandCenter">
-    <img src="./logo.png" alt="Frozen Diamond Classic Logo" class="logoImage" />
-    <h1>Frozen Diamond Classic</h1>
-    <div class="tagline">Tournament Central</div>
-  </div>
-</header>
+    <div class="brandCenter">
+      <img src="./logo.png" alt="Frozen Diamond Classic Logo" class="logoImage" />
+      <h1>Frozen Diamond Classic</h1>
+      <div class="tagline">Tournament Central</div>
+    </div>
+  </header>
 
   <main class="wrap">
-
-    <!-- ESPN-style centered header block -->
+    <!-- Page intro -->
     <section class="docSection">
-      <div class="scheduleHero">
-        <h2>Schedule & Scores</h2>
-        <div class="scheduleMeta">
-          <span>📍 CenterCourt Lawrence</span>
-          <span>📅 March 21, 2026</span>
-          <span>⚾ 12 Games • 2 Fields</span>
-        </div>
-        <div class="muted small" id="lastUpdated"></div>
-      </div>
+      <h2>Schedule / Scores</h2>
+      <p class="muted">Live schedule pulled from the Google Sheet. Games update when marked <strong>Final</strong>.</p>
     </section>
 
-    <!-- Bracket stays the feature -->
+    <!-- Bracket (your script.js renders into #bracket) -->
     <section class="docSection">
-      <h2>Bracket</h2>
-      <p class="muted">Bracket updates automatically when games are marked Final.</p>
       <div id="bracket" class="bracket"></div>
     </section>
 
-    <!-- Schedule: modern cards (mobile-first) + table (desktop) -->
+    <!-- Full schedule table (your script.js renders into #scheduleTable tbody) -->
     <section class="docSection">
-      <h2>Full Schedule</h2>
-      <p class="muted">Tap a game to quickly scan teams, field, and score.</p>
+      <div class="card">
+        <div class="cardBody">
+          <div class="tableWrap">
+            <table id="scheduleTable">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Field</th>
+                  <th>Game</th>
+                  <th>Matchup</th>
+                  <th>Score</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
 
-      <!-- Cards (mobile/modern) -->
-      <div id="scheduleCards" class="scheduleCards"></div>
-
-      <!-- Table (desktop/scan) -->
-      <div class="scheduleTableWrap">
-        <table id="scheduleTable" class="scheduleTable">
-          <thead>
-            <tr>
-              <th>Time</th>
-              <th>Field</th>
-              <th>Game</th>
-              <th>Matchup</th>
-              <th>Score</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+          <div id="lastUpdated" class="muted small" style="margin-top:12px;"></div>
+        </div>
       </div>
     </section>
-
   </main>
 
+  <!-- Data + rendering -->
   <script src="./data.js"></script>
   <script src="./script.js"></script>
 
-<script src="./nav.js"></script>
-
+  <!-- Hamburger behavior -->
+  <script src="./nav.js"></script>
 </body>
 </html>
-

@@ -1,10 +1,8 @@
-(function () {
-  const root = document.querySelector(".navWrap");
-  if (!root) return;
+(() => {
+  const btn = document.querySelector(".navToggle");
+  const overlay = document.querySelector(".navOverlay");
+  const nav = document.getElementById("siteNav");
 
-  const btn = root.querySelector(".navToggle");
-  const overlay = root.querySelector(".navOverlay");
-  const nav = root.querySelector("#siteNav");
   if (!btn || !overlay || !nav) return;
 
   function openMenu() {
@@ -20,34 +18,41 @@
   }
 
   function isOpen() {
-    return document.body.classList.contains("navOpen");
+    return document.documentElement.classList.contains("navOpen");
   }
 
-  // Toggle button
-  btn.addEventListener("click", (e) => {
-    e.preventDefault();
+  btn.addEventListener("click", () => {
     if (isOpen()) closeMenu();
     else openMenu();
   });
 
-  // Click outside to close
   overlay.addEventListener("click", closeMenu);
 
-  // Close when a nav link is clicked (nice UX)
+  // Close when a link is tapped
   nav.addEventListener("click", (e) => {
     const a = e.target.closest("a");
     if (a) closeMenu();
   });
 
-  // Close on Escape
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeMenu();
+  // Close on scroll (your requirement)
+  let scrollTimeout = null;
+  window.addEventListener("scroll", () => {
+    if (!isOpen()) return;
+    // close immediately on scroll start
+    closeMenu();
+    // guard against bounce / momentum: don't reopen, just ensure closed
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => closeMenu(), 150);
+  }, { passive: true });
+
+  // Close on orientation change / resize
+  window.addEventListener("resize", () => {
+    if (isOpen()) closeMenu();
   });
 
-  // Close on scroll (so it doesn't stay open behind content)
-  window.addEventListener("scroll", () => {
-    if (isOpen()) closeMenu();
-  }, { passive: true });
+  // Escape key (desktop testing)
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && isOpen()) closeMenu();
+  });
 })();
-
 

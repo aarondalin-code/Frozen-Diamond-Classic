@@ -1,58 +1,75 @@
-(() => {
+(function () {
   const btn = document.querySelector(".navToggle");
-  const overlay = document.querySelector(".navOverlay");
   const nav = document.getElementById("siteNav");
+  const overlay = document.querySelector(".navOverlay");
 
-  if (!btn || !overlay || !nav) return;
+  if (!btn || !nav || !overlay) return;
 
-  function openMenu() {
-    document.documentElement.classList.add("navOpen");
-    document.body.classList.add("navOpen");
-    btn.setAttribute("aria-expanded", "true");
-  }
-
-  function closeMenu() {
-    document.documentElement.classList.remove("navOpen");
-    document.body.classList.remove("navOpen");
-    btn.setAttribute("aria-expanded", "false");
-  }
+  const mq = window.matchMedia("(max-width: 820px)");
 
   function isOpen() {
     return document.documentElement.classList.contains("navOpen");
   }
 
-  btn.addEventListener("click", () => {
-    if (isOpen()) closeMenu();
-    else openMenu();
+  function openMenu() {
+    if (!mq.matches) return; // only on mobile
+    document.documentElement.classList.add("navOpen");
+    btn.setAttribute("aria-expanded", "true");
+    overlay.setAttribute("aria-hidden", "false");
+  }
+
+  function closeMenu() {
+    document.documentElement.classList.remove("navOpen");
+    btn.setAttribute("aria-expanded", "false");
+    overlay.setAttribute("aria-hidden", "true");
+  }
+
+  // Toggle
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    isOpen() ? closeMenu() : openMenu();
   });
 
+  // Click overlay closes
   overlay.addEventListener("click", closeMenu);
 
-  // Close when a link is tapped
+  // Clicking a nav link closes
   nav.addEventListener("click", (e) => {
     const a = e.target.closest("a");
     if (a) closeMenu();
   });
 
-  // Close on scroll (your requirement)
-  let scrollTimeout = null;
-  window.addEventListener("scroll", () => {
-    if (!isOpen()) return;
-    // close immediately on scroll start
-    closeMenu();
-    // guard against bounce / momentum: don't reopen, just ensure closed
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => closeMenu(), 150);
-  }, { passive: true });
+  // KEY FIX: close menu when the user scrolls/touches (so it never "sticks")
+  let scrollCloseArmed = false;
 
-  // Close on orientation change / resize
+  function armScrollClose() {
+    if (scrollCloseArmed) return;
+    scrollCloseArmed = true;
+
+    // next user gesture closes it
+    const closeOnMove = () => {
+      if (isOpen()) closeMenu();
+    };
+
+    window.addEventListener("scroll", closeOnMove, { passive: true, once: true });
+    window.addEventListener("touchmove", closeOnMove, { passive: true, once: true });
+  }
+
+  // When menu opens, arm the “close on scroll”
+  const observer = new MutationObserver(() => {
+    if (isOpen()) armScrollClose();
+    else scrollCloseArmed = false;
+  });
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+
+  // Safety: if you rotate / go desktop width, close it
   window.addEventListener("resize", () => {
-    if (isOpen()) closeMenu();
+    if (!mq.matches) closeMenu();
   });
 
-  // Escape key (desktop testing)
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && isOpen()) closeMenu();
-  });
+  // Start closed
+  closeMenu();
 })();
+
 

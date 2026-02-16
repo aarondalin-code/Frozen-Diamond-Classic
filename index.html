@@ -4,42 +4,46 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Frozen Diamond Classic</title>
-<link rel="stylesheet" href="./styles.css?v=hamburger3" />
-
+  <link rel="stylesheet" href="./styles.css?v=hamburger3" />
 </head>
+
 <body class="watermarkPage hasHamburger">
-<header class="siteHeader">
-  <div class="navWrap">
-    <button class="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
-      <span></span><span></span><span></span>
-    </button>
+  <header class="siteHeader">
+    <!-- Hamburger wrapper (safe + consistent) -->
+    <div class="navWrap">
+      <button
+        class="navToggle"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="siteNav"
+      >
+        <span></span><span></span><span></span>
+      </button>
 
-    <div class="navOverlay" aria-hidden="true"></div>
+      <div class="navOverlay" aria-hidden="true"></div>
 
-    <nav class="nav" id="siteNav">
-      <a href="./" class="active">Home</a>
-      <a href="./schedule.html">Schedule/Scores</a>
-      <a href="./standings.html">Standings</a>
-      <a href="./stats.html">Stats</a>
-      <a href="./teams.html">Teams</a>
-      <a href="./rules.html">Rules</a>
-      <a href="./contacts.html">Contacts</a>
-      <a href="./gallery.html">Gallery</a>
-      <a href="./uploads.html">Uploads</a>
-    </nav>
-  </div>
+      <nav class="nav" id="siteNav">
+        <a href="./" class="active">Home</a>
+        <a href="./schedule.html">Schedule/Scores</a>
+        <a href="./standings.html">Standings</a>
+        <a href="./stats.html">Stats</a>
+        <a href="./teams.html">Teams</a>
+        <a href="./rules.html">Rules</a>
+        <a href="./contacts.html">Contacts</a>
+        <a href="./gallery.html">Gallery</a>
+        <a href="./uploads.html">Uploads</a>
+      </nav>
+    </div>
 
-  <div class="brandCenter">
-    <img src="./logo.png" alt="Frozen Diamond Classic Logo" class="logoImage" />
-    <h1>Frozen Diamond Classic</h1>
-    <div class="tagline">Tournament Central</div>
-  </div>
-</header>
- 
-
+    <div class="brandCenter">
+      <img src="./logo.png" alt="Frozen Diamond Classic Logo" class="logoImage" />
+      <h1>Frozen Diamond Classic</h1>
+      <div class="tagline">Tournament Central</div>
+    </div>
+  </header>
 
   <main class="wrap">
-
     <!-- Countdown -->
     <section class="docSection">
       <div class="countdownCard">
@@ -65,12 +69,12 @@
             <li><strong>Date:</strong> Saturday, March 21, 2026</li>
             <li><strong>Location:</strong> CenterCourt – 1080 Spruce Street, Lawrence</li>
             <li>
-              <a class="link" href="https://centercourtacademy.com/locations/lawrence/" target="_blank">
+              <a class="link" href="https://centercourtacademy.com/locations/lawrence/" target="_blank" rel="noopener">
                 CenterCourt Lawrence Venue Page
               </a>
             </li>
             <li>
-              <a class="link" href="https://docs.google.com/forms/d/e/1FAIpQLSdFvmyPqP_S-59jUxF18mxD0cQtGeV9ZeFhptzh0bym8pTPnQ/viewform" target="_blank">
+              <a class="link" href="https://docs.google.com/forms/d/e/1FAIpQLSdFvmyPqP_S-59jUxF18mxD0cQtGeV9ZeFhptzh0bym8pTPnQ/viewform" target="_blank" rel="noopener">
                 Tournament T-Shirt Order Form
               </a>
             </li>
@@ -104,10 +108,7 @@
       <h2>Directions</h2>
       <div class="card">
         <div class="cardBody">
-
-          <p class="muted small" style="margin-top:0;">
-            CenterCourt – 1080 Spruce Street, Lawrence
-          </p>
+          <p class="muted small" style="margin-top:0;">CenterCourt – 1080 Spruce Street, Lawrence</p>
 
           <div class="mapEmbed">
             <iframe
@@ -119,15 +120,10 @@
           </div>
 
           <p style="margin-bottom:0;">
-            <a
-              class="link"
-              href="https://www.google.com/maps/dir/?api=1&destination=Centercourt+Lawrence"
-              target="_blank"
-              rel="noopener">
+            <a class="link" href="https://www.google.com/maps/dir/?api=1&destination=Centercourt+Lawrence" target="_blank" rel="noopener">
               Get Directions in Google Maps
             </a>
           </p>
-
         </div>
       </div>
     </section>
@@ -158,7 +154,6 @@
         </div>
       </div>
     </section>
-
   </main>
 
   <!-- Countdown Script -->
@@ -185,8 +180,8 @@
     updateCountdown();
     setInterval(updateCountdown, 60000);
   </script>
-<script src="./nav.js"></script>
 
+  <script src="./nav.js"></script>
 </body>
 </html>
 

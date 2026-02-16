@@ -2562,3 +2562,112 @@ th {
   text-decoration: underline;
 }
 
+/* =========================
+   Mobile Hamburger (single clean implementation)
+   - Desktop nav remains exactly as-is
+   - Mobile uses fixed toggle + overlay + panel above ALL content
+========================= */
+
+.navWrap { position: relative; }
+
+/* Desktop: hide hamburger pieces; keep your existing desktop nav styling */
+@media (min-width: 821px){
+  .navToggle,
+  .navOverlay{
+    display: none !important;
+  }
+}
+
+/* Mobile */
+@media (max-width: 820px){
+  /* Hamburger button (always clickable, always on top) */
+  .navToggle{
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(15,23,42,0.95);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    padding: 0;
+    z-index: 2147483647; /* topmost */
+  }
+
+  .navToggle span{
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    margin: 3px 0;
+  }
+
+  /* Overlay that blocks ALL interaction behind it */
+  .navOverlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.82); /* dark enough to prevent bleed-through */
+    z-index: 2147483645;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+  }
+
+  /* Menu panel */
+  .nav{
+    position: fixed;
+    top: 70px;
+    left: 12px;
+    right: 12px;
+
+    display: grid;
+    gap: 10px;
+    padding: 14px;
+
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: #0b1220;
+    box-shadow: 0 18px 60px rgba(0,0,0,0.60);
+
+    z-index: 2147483646;
+
+    transform: translateY(-10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 180ms ease, opacity 180ms ease;
+  }
+
+  .nav a{
+    display: block;
+    text-align: center;
+    font-size: 15px;
+    padding: 14px 14px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #e5e7eb;
+    text-decoration: none;
+    font-weight: 800;
+  }
+
+  .nav a.active{
+    background: rgba(37,99,235,0.45);
+    border-color: rgba(37,99,235,0.75);
+    color: #fff;
+  }
+
+  /* Open state */
+  html.navOpen .navOverlay{
+    opacity: 1;
+    pointer-events: auto;
+  }
+  html.navOpen .nav{
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+}

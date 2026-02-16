@@ -1,7 +1,8 @@
-(() => {
-  const btn = document.querySelector(".navToggle");
-  const overlay = document.querySelector(".navOverlay");
-  const nav = document.getElementById("siteNav");
+(function () {
+  const btn = document.querySelector(".hasHamburger .navToggle");
+  const overlay = document.querySelector(".hasHamburger .navOverlay");
+  const nav = document.querySelector(".hasHamburger .nav");
+
   if (!btn || !overlay || !nav) return;
 
   function openMenu() {
@@ -14,40 +15,29 @@
     btn.setAttribute("aria-expanded", "false");
   }
 
-  function isOpen() {
-    return document.documentElement.classList.contains("navOpen");
-  }
-
-  // Toggle
-  btn.addEventListener("click", (e) => {
-    e.preventDefault();
-    isOpen() ? closeMenu() : openMenu();
+  btn.addEventListener("click", () => {
+    const open = document.documentElement.classList.contains("navOpen");
+    open ? closeMenu() : openMenu();
   });
 
-  // Click outside closes
   overlay.addEventListener("click", closeMenu);
 
-  // Tapping a link closes
   nav.addEventListener("click", (e) => {
     const a = e.target.closest("a");
     if (a) closeMenu();
   });
 
-  // ESC closes
+  // Close if user rotates / resizes into desktop width
+  window.addEventListener("resize", () => {
+    if (window.innerWidth >= 821) closeMenu();
+  });
+
+  // Esc to close (if keyboard present)
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeMenu();
   });
-
-  // BIG FIX: scrolling closes menu (so you never get stuck)
-  window.addEventListener("scroll", () => {
-    if (isOpen()) closeMenu();
-  }, { passive: true });
-
-  // iOS: touch scroll gesture should also close
-  window.addEventListener("touchmove", () => {
-    if (isOpen()) closeMenu();
-  }, { passive: true });
 })();
+
 
 
 

@@ -158,62 +158,54 @@
     `;
   }
 
-  function renderBracket(gamesById, teamsBySeed) {
-    if (!bracketEl) return;
+function renderBracket(gamesById, teamsBySeed) {
+  if (!bracketEl) return;
 
-    const g1 = gamesById.get(1),  g2 = gamesById.get(2),  g3 = gamesById.get(3),  g4 = gamesById.get(4);
-    const g5 = gamesById.get(5),  g6 = gamesById.get(6),  g7 = gamesById.get(7),  g8 = gamesById.get(8);
-    const g9 = gamesById.get(9),  g10 = gamesById.get(10), g11 = gamesById.get(11), g12 = gamesById.get(12);
+  const g1 = gamesById.get(1), g2 = gamesById.get(2), g3 = gamesById.get(3), g4 = gamesById.get(4);
+  const g5 = gamesById.get(5), g6 = gamesById.get(6), g7 = gamesById.get(7), g8 = gamesById.get(8);
+  const g9 = gamesById.get(9), g10 = gamesById.get(10), g11 = gamesById.get(11), g12 = gamesById.get(12);
 
-    bracketEl.innerHTML = `
-      <div class="bracketSection">
-        <h3>Championship Bracket</h3>
-        <div class="bracketGrid">
-          <div class="col">
-            <div class="colTitle">Round 1</div>
-            <div class="slot connectorRight">${gameCardHTML(g1, teamsBySeed, gamesById)}</div>
-            <div class="slot connectorRight">${gameCardHTML(g2, teamsBySeed, gamesById)}</div>
-            <div class="slot connectorRight">${gameCardHTML(g3, teamsBySeed, gamesById)}</div>
-            <div class="slot connectorRight">${gameCardHTML(g4, teamsBySeed, gamesById)}</div>
-          </div>
-
-          <div class="col">
-            <div class="colTitle">Round 2</div>
-            <div class="slot connectorMid connectorRight">${gameCardHTML(g5, teamsBySeed, gamesById)}</div>
-            <div class="slot connectorMid connectorRight">${gameCardHTML(g6, teamsBySeed, gamesById)}</div>
-          </div>
-
-          <div class="col">
-            <div class="colTitle">Championship</div>
-            <div class="slot connectorMid">${gameCardHTML(g12, teamsBySeed, gamesById)}</div>
-          </div>
+  bracketEl.innerHTML = `
+    <div class="bracketSection">
+      <h3>Championship Bracket</h3>
+      <div class="bracketGrid">
+        <div class="col">
+          <div class="colTitle">Round 1</div>
+          <div class="slot connectorRight">${gameCardHTML(g1, teamsBySeed, gamesById)}</div>
+          <div class="slot connectorRight">${gameCardHTML(g2, teamsBySeed, gamesById)}</div>
+          <div class="slot connectorRight">${gameCardHTML(g3, teamsBySeed, gamesById)}</div>
+          <div class="slot connectorRight">${gameCardHTML(g4, teamsBySeed, gamesById)}</div>
+        </div>
+        <div class="col">
+          <div class="colTitle">Semifinals</div>
+          <div class="slot connectorMid connectorRight">${gameCardHTML(g5, teamsBySeed, gamesById)}</div>
+          <div class="slot connectorMid connectorRight">${gameCardHTML(g7, teamsBySeed, gamesById)}</div>
+        </div>
+        <div class="col">
+          <div class="colTitle">Championship</div>
+          <div class="slot connectorMid">${gameCardHTML(g12, teamsBySeed, gamesById)}</div>
         </div>
       </div>
+    </div>
 
-      <div class="bracketSection">
-        <h3>Consolation + Placement</h3>
-        <div class="bracketGrid">
-          <div class="col">
-            <div class="colTitle">Round 2 (Losers)</div>
-            <div class="slot connectorRight">${gameCardHTML(g7, teamsBySeed, gamesById)}</div>
-            <div class="slot connectorRight">${gameCardHTML(g8, teamsBySeed, gamesById)}</div>
-          </div>
-
-          <div class="col">
-            <div class="colTitle">Placement</div>
-            <div class="slot connectorMid">${gameCardHTML(g9, teamsBySeed, gamesById)}</div>
-            <div class="slot connectorMid">${gameCardHTML(g10, teamsBySeed, gamesById)}</div>
-          </div>
-
-          <div class="col">
-            <div class="colTitle">Game 11</div>
-            <div class="slot connectorMid">${gameCardHTML(g11, teamsBySeed, gamesById)}</div>
-          </div>
+    <div class="bracketSection">
+      <h3>Consolation + Placement</h3>
+      <div class="bracketGrid">
+        <div class="col">
+          <div class="colTitle">Consolation</div>
+          <div class="slot connectorRight">${gameCardHTML(g6, teamsBySeed, gamesById)}</div>
+          <div class="slot connectorRight">${gameCardHTML(g8, teamsBySeed, gamesById)}</div>
+        </div>
+        <div class="col">
+          <div class="colTitle">Placement</div>
+          <div class="slot connectorMid">${gameCardHTML(g9, teamsBySeed, gamesById)}</div>
+          <div class="slot connectorMid">${gameCardHTML(g10, teamsBySeed, gamesById)}</div>
+          <div class="slot connectorMid">${gameCardHTML(g11, teamsBySeed, gamesById)}</div>
         </div>
       </div>
-    `;
-  }
-
+    </div>
+  `;
+}
   // Desktop table
   function renderScheduleTable(gameRows, teamsBySeed, gamesById) {
     if (!tbody) return;
